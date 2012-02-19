@@ -1,0 +1,20 @@
+Default: &defaults
+  database: happiage.sqlite3
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Test:
+  database: happiage_test.sqlite3
+  <<: *defaults
+
+Staging:
+  database: happiage_staging.sqlite3
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: happiage_production.sqlite3
+  poolsize: 100
+  <<: *defaults
