@@ -1,0 +1,4 @@
+dist/
+*.sqlite3
+*.aes
+static/tmp
