@@ -13,6 +13,7 @@
 
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
+        <link rel=stylesheet type=text/css href=@{StaticR css_bootstrap_css}>
         ^{pageHead pc}
 
         \<!--[if lt IE 9]>
