@@ -1,2 +1,42 @@
-<h1>_{MsgHello}
-<h2 ##{h2id}>You do not have Javascript enabled.
+<style type="text/css">
+  body {
+    padding-top: 90px;
+  }
+  .test {
+    padding-top: 30px;
+    padding-bottom: 10px; 
+    background-color: #f5f5f5;
+  }
+  .topimg{
+    padding: 30px;
+    display: block;
+    text-align: center;
+  }
+
+<div class="topbar">
+  <div class="fill">
+    <div class="container">
+      <a class="brand" href="./">Happiage
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="active">
+            <a href="./welcome.html">ウェルカム
+          <li class="">
+            <a href="./guide.html">開催案内
+          <li class="">
+            <a href="./register.html">参加登録
+          <li class="">
+            <a href="./album.html">アルバム
+          <li class="">
+            <a href="./intro.html">新郎新婦紹介
+          <li class="">
+            <a href="./organizer.html">幹事紹介
+
+<div class="container">
+  <div class="test">
+    <div class="row">
+      <h1>結婚式二次会Webページ
+  <div class="topimg">
+    <div class="row">
+      <img src="static/img/topsample.jpg">
+
