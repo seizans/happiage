@@ -15,3 +15,10 @@ getRootR = do
         h2id <- lift newIdent
         setTitle "happiage homepage"
         $(widgetFile "homepage")
+
+getGuideR :: Handler RepHtml
+getGuideR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        $(widgetFile "guide")
+

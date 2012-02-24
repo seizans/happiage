@@ -1,0 +1,63 @@
+<style type="text/css">
+  body {
+    padding-top: 90px;
+  }
+  .test {
+    padding-top: 30px;
+    padding-bottom: 10px; 
+    background-color: #f5f5f5;
+  }
+  .annai-unit{
+    padding: 30px;
+  }
+  .kaisai-unit{
+    padding: 30px;
+  }
+
+
+<div class="topbar">
+  <div class="fill">
+    <div class="container">
+      <a class="brand" href="./">Happiage
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="">
+            <a href="./">ウェルカム
+          <li class="active">
+            <a href="./guide">開催案内
+          <li class="">
+            <a href="./register">参加登録
+          <li class="">
+            <a href="./album">アルバム
+          <li class="">
+            <a href="./intro">新郎新婦紹介
+          <li class="">
+            <a href="./organizer">幹事紹介
+
+<div class="container">
+  <div class="test">
+    <div class="row">
+      <h1>ご案内
+  <div class="annai-unit">
+    <div class="row">
+      <p>
+        招待者****様<br>
+        花のたよりもにぎやかな今日この頃ですが、皆様いかがお過ごしでしょうか<br><br>
+        すでにご存知の方も多いとは思いますが、この度、****さんと****さんが、めでたく結婚の運びとなりました。<br>
+        つきましては、お二人の公私に渡りお付き合いをされている方々にお集まりいただき、を下記要領にて執り行いたいと思います。<br>
+        お忙しいとは思いますが、ぜひご出席くださいますよう、お願い申し上げます。<br><br><br>	
+        代表幹事　****<br><br> 
+        招待者****様は現在、ご出席で登録頂いてます<br>
+        ご出欠変更登録される場合は<a href="register">こちら</a>より お願いします。 	 
+  <div class="test">
+    <div class="row">
+      <h1>開催要項
+  <div class="kaisai-unit">
+    <div class="row">
+      <p>
+        開催日：2012年*月*日<br>
+        時間：**:** - **:** (受付開始 **:**)<br>
+        会費：<br>
+        会場：<br>
+        申し込み〆切：<br>
+   

@@ -5,3 +5,4 @@
 /robots.txt RobotsR GET
 
 / RootR GET
+/guide GuideR GET
