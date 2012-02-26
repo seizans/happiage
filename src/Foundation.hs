@@ -6,9 +6,10 @@ module Foundation
     , Handler
     , Widget
     , Form
-    , maybeAuth
+    , maybeAuthId
     , requireAuth
     , module Settings
+    , module Yesod.Auth
     , module Model
     ) where
 
@@ -17,8 +18,7 @@ import Yesod
 import Yesod.Static
 import Settings.StaticFiles
 import Yesod.Auth
-import Yesod.Auth.BrowserId
-import Yesod.Auth.GoogleEmail
+import Yesod.Auth.Email
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText)
@@ -35,6 +35,12 @@ import Model
 import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
+import Text.Shakespeare.Text(stext) -- This is for authEmail. Delete later
+import Text.Hamlet (shamlet)
+import Data.Maybe (isJust)
+import Control.Monad (join)
+import Network.Mail.Mime
+import Text.Blaze.Renderer.Utf8 (renderHtml)
 #if DEVELOPMENT
 import qualified Data.Text.Lazy.Encoding
 #else
@@ -143,16 +149,83 @@ instance YesodAuth Happiage where
     logoutDest _ = RootR
 
     getAuthId creds = runDB $ do
+      x <- insertBy $ User (credsIdent creds) Nothing Nothing False
+      return $ Just $
+        case x of
+          Left (Entity userid _) -> userid -- newly added user
+          Right userid -> userid -- existing user
+{-    getAuthId creds = runDB $ do
         x <- getBy $ UniqueUser $ credsIdent creds
         case x of
             Just (Entity uid _) -> return $ Just uid
             Nothing -> do
                 fmap Just $ insert $ User (credsIdent creds) Nothing
+-}
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authBrowserId, authGoogleEmail]
+    authPlugins _ = [authEmail]
 
-    authHttpManager = httpManager
+    authHttpManager = error "Email doesn't need an HTTP manager"
+
+instance YesodAuthEmail Happiage where
+    type AuthEmailId Happiage = UserId
+    addUnverified email verkey =
+      runDB $ insert $ User email Nothing (Just verkey) False
+    sendVerifyEmail email _ verurl =
+      liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
+        { mailTo = [Address Nothing email]
+        , mailHeaders = [("Subject", "Verify your email address")]
+        , mailParts = [[textPart, htmlPart]]
+        }
+      where
+        textPart = Part
+          { partType = "text/plain charset=utf-8"
+          , partEncoding = None
+          , partFilename = Nothing
+          , partContent = Data.Text.Lazy.Encoding.encodeUtf8 [stext|
+Please confirm your email address by clicking on the link below.
+
+\#{verurl}
+
+Thank you
+|]
+          , partHeaders = []
+          }
+        htmlPart = Part
+          { partType = "text/html; charset=utf-8"
+          , partEncoding = None
+          , partFilename = Nothing
+          , partContent = renderHtml [shamlet|
+<p>Please confirm your email address by clicking on the link below.
+<p>
+    <a href=#{verurl}>#{verurl}
+<p>Thank you
+|]
+          , partHeaders = []
+          }
+    getVerifyKey = runDB . fmap (join . fmap userVerkey) . get
+    setVerifyKey uid key = runDB $ update uid [UserVerkey =. Just key]
+    verifyAccount uid = runDB $ do
+      mu <- get uid
+      case mu of
+        Nothing -> return Nothing
+        Just u -> do
+          update uid [UserVerified =. True]
+          return $ Just uid
+    getPassword = runDB . fmap (join . fmap userPassword) . get
+    setPassword uid pass = runDB $ update uid [UserPassword =. Just pass]
+    getEmailCreds email = runDB $ do
+      mu <- getBy $ UniqueUser email
+      case mu of
+        Nothing -> return Nothing
+        Just (Entity uid u) -> return $ Just EmailCreds
+          { emailCredsId = uid
+          , emailCredsAuthId = Just uid
+          , emailCredsStatus = isJust $ userPassword u
+          , emailCredsVerkey = userVerkey u
+          }
+    getEmail = runDB . fmap (fmap userEmail) . get
+
 
 -- Sends off your mail. Requires sendmail in production!
 deliver :: Happiage -> L.ByteString -> IO ()

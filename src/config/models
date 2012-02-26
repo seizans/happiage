@@ -1,7 +1,9 @@
 User
-    ident Text
+    email Text
     password Text Maybe
-    UniqueUser ident
+    verkey Text Maybe
+    verified Bool
+    UniqueUser email
 Email
     email Text
     user UserId Maybe
