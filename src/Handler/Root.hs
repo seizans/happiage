@@ -23,3 +23,20 @@ getGuideR = do
         h2id <- lift newIdent
         $(widgetFile "guide")
 
+fileuploadForm :: Html -> MForm Happiage Happiage (FormResult (FileInfo, Maybe FileInfo), Widget )
+fileuploadForm = renderDivs $ (,) <$> fileAFormReq "File" <*> fileAFormOpt "Optional file"
+
+getFileuploadR :: Handler RepHtml
+getFileuploadR = do
+  ((_, widget), enctype) <- runFormPost fileuploadForm
+  defaultLayout $ do
+    $(widgetFile "fileupload")
+
+postFileuploadR :: Handler RepHtml
+postFileuploadR = do
+  ((res, widget), enctype) <- runFormPost fileuploadForm
+  defaultLayout $ case res of
+    FormSuccess x -> do
+      $(widgetFile "fileuploadPost")
+    _ -> do
+      $(widgetFile "fileupload")

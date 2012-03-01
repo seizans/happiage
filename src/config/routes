@@ -6,3 +6,4 @@
 
 / RootR GET
 /guide GuideR GET
+/fileupload FileuploadR GET POST
