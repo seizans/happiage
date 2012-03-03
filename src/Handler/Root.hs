@@ -1,6 +1,7 @@
 module Handler.Root where
 
 import Import
+import qualified Data.ByteString.Lazy as L
 
 -- This is a handler function for the GET request method on the RootR
 -- resource pattern. All of your resource patterns are defined in
@@ -23,8 +24,14 @@ getGuideR = do
         h2id <- lift newIdent
         $(widgetFile "guide")
 
-fileuploadForm :: Html -> MForm Happiage Happiage (FormResult (FileInfo, Maybe FileInfo), Widget )
-fileuploadForm = renderDivs $ (,) <$> fileAFormReq "File" <*> fileAFormOpt "Optional file"
+data Photo = Photo
+    { photoName :: Text
+    , photoFile :: FileInfo
+    }
+    deriving Show
+
+fileuploadForm :: Html -> MForm Happiage Happiage (FormResult Photo, Widget )
+fileuploadForm = renderDivs $ Photo <$> areq textField "Name" Nothing <*> fileAFormReq "File"
 
 getFileuploadR :: Handler RepHtml
 getFileuploadR = do
@@ -36,7 +43,12 @@ postFileuploadR :: Handler RepHtml
 postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
   defaultLayout $ case res of
-    FormSuccess x -> do
+    FormSuccess photo -> do
+      case fst $ splitAt 6 $ tail $ show $ fileContentType $ photoFile photo of
+        "image/" -> do
+          liftIO $ L.writeFile ((++) "photo/" $  init $ tail $ show $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+        _ -> do
+           $(widgetFile "fileupload")
       $(widgetFile "fileuploadPost")
     _ -> do
       $(widgetFile "fileupload")

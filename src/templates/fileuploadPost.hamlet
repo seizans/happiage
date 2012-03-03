@@ -1,2 +1,2 @@
 <p>
-    #{show x}
+    #{show photo}
