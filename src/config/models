@@ -1,13 +1,33 @@
-User
+UserAuth
     email Text
     password Text Maybe
     verkey Text Maybe
     verified Bool
-    UniqueUser email
-Email
-    email Text
-    user UserId Maybe
-    verkey Text Maybe
-    UniqueEmail email
+    UniqueUserAuth email
+User
+    authid UserAuthId
+    nickname Text
+    firstname Text
+    familyname Text
+    kanafirst Text
+    kanafamily Text
+    sex Sex
+    attend Attend default=Suspense
+    invitedby UserId Maybe
+    deleted Bool default=false
+    UniqueUser authid
+Message
+    user UserId
+    body Text
+    deleted Bool default=false
+Picture
+    user UserId
+    title Text
+    path Text
+    deleted Bool default=false
+Child
+    user UserId
+    name Text
+    age Int
 
- -- By default this file is used in Model.hs (which is imported by Foundation.hs)
+-- By default this file is used in Model.hs (which is imported by Foundation.hs)

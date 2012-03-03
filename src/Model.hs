@@ -12,3 +12,13 @@ import Database.Persist.Quasi
 -- http://www.yesodweb.com/book/persistent/
 share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
+
+data Sex = Male | Female
+  deriving (Show, Read, Eq, Ord, Enum, Bounded)
+
+data Attend = Suspense | Absent | Present
+  deriving (Show, Read, Eq, Ord, Enum, Bounded)
+
+derivePersistField "Sex"
+derivePersistField "Attend"
+

@@ -141,7 +141,7 @@ instance YesodPersist Happiage where
             (connPool master)
 
 instance YesodAuth Happiage where
-    type AuthId Happiage = UserId
+    type AuthId Happiage = UserAuthId
 
     -- Where to send a user after successful login
     loginDest _ = RootR
@@ -149,7 +149,7 @@ instance YesodAuth Happiage where
     logoutDest _ = RootR
 
     getAuthId creds = runDB $ do
-      x <- insertBy $ User (credsIdent creds) Nothing Nothing False
+      x <- insertBy $ UserAuth (credsIdent creds) Nothing Nothing False
       return $ Just $
         case x of
           Left (Entity userid _) -> userid -- newly added user
@@ -168,9 +168,9 @@ instance YesodAuth Happiage where
     authHttpManager = error "Email doesn't need an HTTP manager"
 
 instance YesodAuthEmail Happiage where
-    type AuthEmailId Happiage = UserId
+    type AuthEmailId Happiage = UserAuthId
     addUnverified email verkey =
-      runDB $ insert $ User email Nothing (Just verkey) False
+      runDB $ insert $ UserAuth email Nothing (Just verkey) False
     sendVerifyEmail email _ verurl =
       liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
         { mailTo = [Address Nothing email]
@@ -203,28 +203,28 @@ Thank you
 |]
           , partHeaders = []
           }
-    getVerifyKey = runDB . fmap (join . fmap userVerkey) . get
-    setVerifyKey uid key = runDB $ update uid [UserVerkey =. Just key]
+    getVerifyKey = runDB . fmap (join . fmap userAuthVerkey) . get
+    setVerifyKey uid key = runDB $ update uid [UserAuthVerkey =. Just key]
     verifyAccount uid = runDB $ do
       mu <- get uid
       case mu of
         Nothing -> return Nothing
         Just u -> do
-          update uid [UserVerified =. True]
+          update uid [UserAuthVerified =. True]
           return $ Just uid
-    getPassword = runDB . fmap (join . fmap userPassword) . get
-    setPassword uid pass = runDB $ update uid [UserPassword =. Just pass]
+    getPassword = runDB . fmap (join . fmap userAuthPassword) . get
+    setPassword uid pass = runDB $ update uid [UserAuthPassword =. Just pass]
     getEmailCreds email = runDB $ do
-      mu <- getBy $ UniqueUser email
+      mu <- getBy $ UniqueUserAuth email
       case mu of
         Nothing -> return Nothing
         Just (Entity uid u) -> return $ Just EmailCreds
           { emailCredsId = uid
           , emailCredsAuthId = Just uid
-          , emailCredsStatus = isJust $ userPassword u
-          , emailCredsVerkey = userVerkey u
+          , emailCredsStatus = isJust $ userAuthPassword u
+          , emailCredsVerkey = userAuthVerkey u
           }
-    getEmail = runDB . fmap (fmap userEmail) . get
+    getEmail = runDB . fmap (fmap userAuthEmail) . get
 
 
 -- Sends off your mail. Requires sendmail in production!
