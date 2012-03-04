@@ -1,4 +1,10 @@
-<form method=post enctype=#{enctype}>
+<style type="text/css">
+  body {
+    padding-top: 90px;
+  }
+
+<div class="container"> 
+  <form method=post enctype=#{enctype}>
     ^{widget}
     <input type=submit>
 

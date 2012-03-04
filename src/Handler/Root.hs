@@ -10,6 +10,8 @@ import qualified Data.ByteString.Lazy as L
 -- The majority of the code you will write in Yesod lives in these handler
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
+
+--トップページ
 getRootR :: Handler RepHtml
 getRootR = do
     defaultLayout $ do
@@ -17,7 +19,7 @@ getRootR = do
         setTitle "happiage homepage"
         $(widgetFile "homepage")
 
---開催案内
+--開催案内ページ
 getGuideR :: Handler RepHtml
 getGuideR = do
     defaultLayout $ do
@@ -31,21 +33,21 @@ getRegisterR = do
         h2id <- lift newIdent
         $(widgetFile "register")
 
---アルバム
+--アルバムページ
 getAlbumR :: Handler RepHtml
 getAlbumR = do
     defaultLayout $ do
         h2id <- lift newIdent
         $(widgetFile "album")
 
---新郎新婦紹介
+--新郎新婦紹介ページ
 getIntroR :: Handler RepHtml
 getIntroR = do
     defaultLayout $ do
         h2id <- lift newIdent
         $(widgetFile "intro")
 
---幹事紹介
+--幹事紹介ページ
 getOrganizerR :: Handler RepHtml
 getOrganizerR = do
     defaultLayout $ do
@@ -61,12 +63,14 @@ data Photo = Photo
 fileuploadForm :: Html -> MForm Happiage Happiage (FormResult Photo, Widget )
 fileuploadForm = renderDivs $ Photo <$> areq textField "Name" Nothing <*> fileAFormReq "File"
 
+--ファイルアップロードサンプルページ<GET>
 getFileuploadR :: Handler RepHtml
 getFileuploadR = do
   ((_, widget), enctype) <- runFormPost fileuploadForm
   defaultLayout $ do
     $(widgetFile "fileupload")
 
+--ファイルアップロードサンプルページ<POST>
 postFileuploadR :: Handler RepHtml
 postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
