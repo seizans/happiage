@@ -1,0 +1,38 @@
+<style type="text/css">
+  #maincontainer {
+    padding-top: 60px;
+  }
+  .test {
+    padding-top: 30px;
+    padding-bottom: 10px; 
+    background-color: #f5f5f5;
+  }
+  .annai-unit{
+    padding: 30px;
+  }
+  .kaisai-unit{
+    padding: 30px;
+  }
+
+
+<div class="container" id="maincontainer">
+  <div class="test">
+    <h1>新郎新婦紹介
+  <div class="annai-unit">
+    <div class="row show-grid">
+      <div class="span6">
+        <h2>新郎
+        <p>お名前：<br>
+          生年月日：<br>
+          出身地：<br>
+          メールアドレス：<br>
+      <div class="span6">
+        <h2>新婦
+        <p>お名前：<br>
+          生年月日：<br>
+          出身地：<br>
+          メールアドレス：<br>
+  <div class="test">
+    <div class="row">
+      <h1>新郎新婦へのメッセージ
+   

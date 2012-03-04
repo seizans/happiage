@@ -29,7 +29,7 @@ getIntroR :: Handler RepHtml
 getIntroR = do
     defaultLayout $ do
         h2id <- lift newIdent
-        $(widgetFile "guide")
+        $(widgetFile "intro")
 
 --幹事紹介
 getOrganizerR :: Handler RepHtml
