@@ -94,7 +94,9 @@ instance Yesod Happiage where
     -- Place the session key file in the config folder
     encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
 
+
     defaultLayout widget = do
+        maid <- maybeAuthId
         master <- getYesod
         mmsg <- getMessage
 

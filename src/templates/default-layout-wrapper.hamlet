@@ -1,9 +1,9 @@
 \<!doctype html>
-\<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-\<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-\<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+\<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="jp"> <![endif]-->
+\<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="jp"> <![endif]-->
+\<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="jp"> <![endif]-->
 \<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en"> <!--<![endif]-->
+<html class="no-js" lang="jp"> <!--<![endif]-->
     <head>
         <meta charset="UTF-8">
 
@@ -23,21 +23,32 @@
         <script>
           document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <body>
-        <div id="container">
-            <header>
-            <div id="main" role="main">
-              ^{pageBody pc}
-            <footer>
+        <div class="topbar">
+          <div class="fill">
+            <div class="container">
+              <a class="brand" href="./">Happiage
+              <div class="nav-collapse">
+                <ul class="nav">
+                  <li class="active">
+                    <a href="./">ウェルカム
+                  <li class="">
+                    <a href="./guide">開催案内
+                  <li class="">
+                    <a href="./register">参加登録
+                  <li class="">
+                    <a href="./album">アルバム
+                  <li class="">
+                    <a href="./intro">新郎新婦紹介
+                  <li class="">
+                    <a href="./organizer">幹事紹介
+                  <li>
+                    CurrentID: #{show maid}
+                  <li>
+                    $maybe _ <- maid
+                      <a href=@{AuthR LogoutR}>Logout
+                    $nothing
+                      <a href=@{AuthR LoginR}>Login
+        <div id="main" role="main">
+          ^{pageBody pc}
+        <footer>
 
-        $maybe analytics <- extraAnalytics $ appExtra $ settings master
-            <script>
-                window._gaq = [['_setAccount','#{analytics}'],['_trackPageview'],['_trackPageLoadTime']];
-                YepNope.load({
-                \  load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
-                });
-        \<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.  chromium.org/developers/how-tos/chrome-frame-getting-started -->
-        \<!--[if lt IE 7 ]>
-            <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js">
-            <script>
-                window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})
-        \<![endif]-->

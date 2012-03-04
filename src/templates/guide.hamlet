@@ -1,6 +1,6 @@
 <style type="text/css">
-  body {
-    padding-top: 90px;
+  #maincontainer {
+    padding-top: 60px;
   }
   .test {
     padding-top: 30px;
@@ -15,26 +15,7 @@
   }
 
 
-<div class="topbar">
-  <div class="fill">
-    <div class="container">
-      <a class="brand" href="./">Happiage
-      <div class="nav-collapse">
-        <ul class="nav">
-          <li class="">
-            <a href="./">ウェルカム
-          <li class="active">
-            <a href="./guide">開催案内
-          <li class="">
-            <a href="./register">参加登録
-          <li class="">
-            <a href="./album">アルバム
-          <li class="">
-            <a href="./intro">新郎新婦紹介
-          <li class="">
-            <a href="./organizer">幹事紹介
-
-<div class="container">
+<div class="container" id="maincontainer">
   <div class="test">
     <div class="row">
       <h1>ご案内

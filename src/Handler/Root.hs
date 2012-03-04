@@ -12,7 +12,6 @@ import qualified Data.ByteString.Lazy as L
 -- inclined, or create a single monolithic file.
 getRootR :: Handler RepHtml
 getRootR = do
-    maid <- maybeAuthId
     defaultLayout $ do
         h2id <- lift newIdent
         setTitle "happiage homepage"

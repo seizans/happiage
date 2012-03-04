@@ -13,33 +13,6 @@
     text-align: center;
   }
 
-<div class="topbar">
-  <div class="fill">
-    <div class="container">
-      <a class="brand" href="./">Happiage
-      <div class="nav-collapse">
-        <ul class="nav">
-          <li class="active">
-            <a href="./">ウェルカム
-          <li class="">
-            <a href="./guide">開催案内
-          <li class="">
-            <a href="./register">参加登録
-          <li class="">
-            <a href="./album">アルバム
-          <li class="">
-            <a href="./intro">新郎新婦紹介
-          <li class="">
-            <a href="./organizer">幹事紹介
-          <li>
-            CurrentID: #{show maid}
-          <li>
-            $maybe _ <- maid
-              <a href=@{AuthR LogoutR}>Logout
-            $nothing
-              <a href=@{AuthR LoginR}>Login
-
-
 <div class="container">
   <div class="test">
     <div class="row">
