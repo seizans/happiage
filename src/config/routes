@@ -6,4 +6,6 @@
 
 / RootR GET
 /guide GuideR GET
+/intro IntroR GET
+/organizer OrganizerR GET
 /fileupload FileuploadR GET POST

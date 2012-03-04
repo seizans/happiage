@@ -17,11 +17,26 @@ getRootR = do
         setTitle "happiage homepage"
         $(widgetFile "homepage")
 
+--開催案内
 getGuideR :: Handler RepHtml
 getGuideR = do
     defaultLayout $ do
         h2id <- lift newIdent
         $(widgetFile "guide")
+
+--新郎新婦紹介
+getIntroR :: Handler RepHtml
+getIntroR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        $(widgetFile "guide")
+
+--幹事紹介
+getOrganizerR :: Handler RepHtml
+getOrganizerR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        $(widgetFile "organizer")
 
 data Photo = Photo
     { photoName :: Text

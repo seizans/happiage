@@ -1,0 +1,41 @@
+<style type="text/css">
+  #maincontainer {
+    padding-top: 60px;
+  }
+  .test {
+    padding-top: 30px;
+    padding-bottom: 10px; 
+    background-color: #f5f5f5;
+  }
+  .annai-unit{
+    padding: 30px;
+  }
+  .kaisai-unit{
+    padding: 30px;
+  }
+
+
+<div class="container" id="maincontainer">
+  <div class="test">
+    <div class="row">
+      <h1>幹事のご紹介
+  <div>
+    <div class="row">
+      <h2>代表幹事
+      <p>
+        名前：＊＊　＊＊<br> 
+        性別：＊<br>
+        ご関係：＊<br>
+        メール：＊@＊＊.com<br>
+        電話番号：XX-XXXX-XXXX<br>
+    <div class="row">
+      <h2>幹事
+      <p>
+        名前：＊＊　＊＊<br> 
+        性別：＊<br>
+        ご関係：＊<br>
+      <p>
+        名前：＊＊　＊＊<br> 
+        性別：＊<br>
+        ご関係：＊<br>
+ 
