@@ -2,6 +2,10 @@ module Handler.Root where
 
 import Import
 import qualified Data.ByteString.Lazy as L
+import qualified Data.Text as T
+import Debug.Trace --printfデバッグ用
+traceD a b = trace ("TRACE DEBUG:" ++ show a) b
+printD a = putStrLn ("TRACE DEBUG:" ++ show a)
 
 -- This is a handler function for the GET request method on the RootR
 -- resource pattern. All of your resource patterns are defined in
@@ -74,13 +78,27 @@ getFileuploadR = do
 postFileuploadR :: Handler RepHtml
 postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
-  defaultLayout $ case res of
+--defaultLayout $ case res of
+  mPhoto <- case res of
     FormSuccess photo -> do
       case fst $ splitAt 6 $ tail $ show $ fileContentType $ photoFile photo of
         "image/" -> do
+          liftIO $ printD $ fileName $ photoFile photo
+          liftIO $ printD $ fileContentType $ photoFile photo
           liftIO $ L.writeFile ((++) "photo/" $  init $ tail $ show $ fileName $ photoFile photo) (fileContent $ photoFile photo)
-        _ -> do
-           $(widgetFile "fileupload")
+          return $ Just photo
+        _ -> return Nothing
+    _ -> return Nothing
+  --DB書き込み（もっと良い書き方がないものか）
+  _ <- case mPhoto of
+    Just photo -> 
+      runDB $ do
+        let fname = T.pack $ show $ fileName $ photoFile photo
+        _ <- insert $ Picture {pictureTitle=fname, picturePath=fname, pictureDeleted=False}
+        return ()
+    Nothing -> runDB $ return ()
+  defaultLayout $ case mPhoto of
+    Just photo  -> do
       $(widgetFile "fileuploadPost")
-    _ -> do
+    Nothing -> do
       $(widgetFile "fileupload")
