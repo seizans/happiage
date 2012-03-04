@@ -24,6 +24,20 @@ getGuideR = do
         h2id <- lift newIdent
         $(widgetFile "guide")
 
+--参加登録ページ
+getRegisterR :: Handler RepHtml
+getRegisterR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        $(widgetFile "register")
+
+--アルバム
+getAlbumR :: Handler RepHtml
+getAlbumR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        $(widgetFile "album")
+
 --新郎新婦紹介
 getIntroR :: Handler RepHtml
 getIntroR = do

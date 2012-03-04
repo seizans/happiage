@@ -5,6 +5,8 @@
 /robots.txt RobotsR GET
 
 / RootR GET
+/register RegisterR GET
+/album AlbumR GET
 /guide GuideR GET
 /intro IntroR GET
 /organizer OrganizerR GET
