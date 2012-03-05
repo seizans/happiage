@@ -81,22 +81,21 @@ postFileuploadR = do
 --defaultLayout $ case res of
   mPhoto <- case res of
     FormSuccess photo -> do
-      case fst $ splitAt 6 $ tail $ show $ fileContentType $ photoFile photo of
-        "image/" -> do
+      case T.isPrefixOf "image/" $ fileContentType $ photoFile photo of
+        True -> do
           liftIO $ printD $ fileName $ photoFile photo
           liftIO $ printD $ fileContentType $ photoFile photo
-          liftIO $ L.writeFile ((++) "photo/" $  init $ tail $ show $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+          liftIO $ L.writeFile ((++) "static/photo/" $  init $ tail $ show $ fileName $ photoFile photo) (fileContent $ photoFile photo)
           return $ Just photo
         _ -> return Nothing
     _ -> return Nothing
-  --DB書き込み（もっと良い書き方がないものか）
-  _ <- case mPhoto of
-    Just photo -> 
-      runDB $ do
-        let fname = T.pack $ show $ fileName $ photoFile photo
+  --DB書き込み
+  maybe (return ())
+    (\photo -> runDB $ do
+        let fname = fileName $ photoFile photo
         _ <- insert $ Picture {pictureTitle=fname, picturePath=fname, pictureDeleted=False}
         return ()
-    Nothing -> runDB $ return ()
+    ) mPhoto
   defaultLayout $ case mPhoto of
     Just photo  -> do
       $(widgetFile "fileuploadPost")
