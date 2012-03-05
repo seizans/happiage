@@ -40,6 +40,9 @@ getRegisterR = do
 --アルバムページ
 getAlbumR :: Handler RepHtml
 getAlbumR = do
+    photoEntities <- runDB $ do
+      selectList [] []
+    let photos = map (\(Entity _ p) -> picturePath p) photoEntities
     defaultLayout $ do
         h2id <- lift newIdent
         $(widgetFile "album")
@@ -78,22 +81,21 @@ getFileuploadR = do
 postFileuploadR :: Handler RepHtml
 postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
---defaultLayout $ case res of
   mPhoto <- case res of
     FormSuccess photo -> do
-      case T.isPrefixOf "image/" $ fileContentType $ photoFile photo of
-        True -> do
+      if T.isPrefixOf "image/" $ fileContentType $ photoFile photo then
+        do
           liftIO $ printD $ fileName $ photoFile photo
           liftIO $ printD $ fileContentType $ photoFile photo
-          liftIO $ L.writeFile ((++) "static/photo/" $  init $ tail $ show $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+          liftIO $ L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
           return $ Just photo
-        _ -> return Nothing
+        else return Nothing
     _ -> return Nothing
-  --DB書き込み
+  --photoあった場合にDB書き込み
   maybe (return ())
     (\photo -> runDB $ do
         let fname = fileName $ photoFile photo
-        _ <- insert $ Picture {pictureTitle=fname, picturePath=fname, pictureDeleted=False}
+        _ <- insert $ Picture {pictureTitle=fname, picturePath="static/photo/" `T.append` fname, pictureDeleted=False}
         return ()
     ) mPhoto
   defaultLayout $ case mPhoto of
