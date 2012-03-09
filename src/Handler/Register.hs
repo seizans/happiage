@@ -4,6 +4,7 @@ import Import
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 
+-- <注>この関数使ってないです
 -- 多くのページは、非ログイン時、ログインしているが参加登録していない時、参加登録済の３つに分かれる
 -- それらをcase分岐で書くと冗長なので、専用の関数を用意した
 branchR :: Handler RepHtml -> Handler RepHtml -> Handler RepHtml -> Handler RepHtml
@@ -19,7 +20,6 @@ branchR notLoginR notRegisterR mainR = do
          mainR
        Just userId -> 
          notRegisterR
- 
 
 --参加登録ページ
 getRegisterR :: Handler RepHtml
@@ -57,7 +57,7 @@ postRegisterR = do
           userFamilyname = urFamilyname userRegisterInfo, 
           userKanafirst = urKanafirst userRegisterInfo, 
           userKanafamily = urKanafamily userRegisterInfo, 
-          userSex = Male, 
+          userSex = urSex userRegisterInfo, 
           userAttend = Suspense, 
           userInvitedby = Nothing, 
           userDeleted = False
@@ -81,6 +81,7 @@ registerForm = renderDivs $
     <*> areq textField "苗字" Nothing
     <*> areq textField "名前（かな）" Nothing
     <*> areq textField "苗字（かな）" Nothing
+    <*> areq (selectFieldList (zip (map T.pack ["男性","女性"]) [Male, Female])) "性別" Nothing
 
 --これmodelからもっと華麗に作れないものか
 data UserRegisterInfo = UserRegisterInfo {
@@ -89,6 +90,7 @@ data UserRegisterInfo = UserRegisterInfo {
       , urFamilyname :: Text
       , urKanafirst :: Text
       , urKanafamily :: Text
+      , urSex :: Sex
     }
     deriving Show
 
