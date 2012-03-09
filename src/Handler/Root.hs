@@ -4,8 +4,8 @@ import Import
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 import Debug.Trace --printfデバッグ用
-traceD a b = trace ("TRACE DEBUG:" ++ show a) b
-printD a = putStrLn ("TRACE DEBUG:" ++ show a)
+traceD a b = trace ("TRACE DEBUG(D):" ++ show a) b
+printD a = putStrLn ("TRACE DEBUG(P):" ++ show a)
 
 -- This is a handler function for the GET request method on the RootR
 -- resource pattern. All of your resource patterns are defined in
@@ -146,13 +146,22 @@ postFileuploadR = do
           return $ Just photo
         else return Nothing
     _ -> return Nothing
+  maid <- maybeAuthId
+  mUserEntity <- case maid of
+    Just authId -> 
+      runDB $ do
+        mUserEntity <- selectFirst [UserAuthid ==. authId] []
+        return $ mUserEntity
+    _ -> return Nothing
+  let mUser = traceD (fmap entityKey mUserEntity) $ fmap entityKey mUserEntity
   --photoあった場合にDB書き込み
-  maybe (return ())
-    (\photo -> runDB $ do
+  case (mPhoto, mUser) of
+    (Just photo, Just user) -> runDB $ do
         let fname = fileName $ photoFile photo
-        _ <- insert $ Picture {pictureTitle=fname, picturePath="static/photo/" `T.append` fname, pictureDeleted=False}
+        _ <- insert $ Picture {pictureUser = user, pictureTitle=fname,
+           picturePath="static/photo/" `T.append` fname, pictureDeleted=False}
         return ()
-    ) mPhoto
+    _ -> return ()
   defaultLayout $ case mPhoto of
     Just photo  -> do
       $(widgetFile "fileuploadPost")

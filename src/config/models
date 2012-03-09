@@ -21,6 +21,7 @@ Message
     body Text
     deleted Bool default=false
 Picture
+    user UserId
     title Text
     path Text
     deleted Bool default=false
