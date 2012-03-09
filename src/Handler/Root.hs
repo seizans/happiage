@@ -35,10 +35,20 @@ getGuideR = do
 --参加登録ページ
 getRegisterR :: Handler RepHtml
 getRegisterR = do
-  ((_, widget), enctype) <- runFormPost registerForm
-  defaultLayout $ do
-    h2id <- lift newIdent
-    $(widgetFile "register")
+  maid <- maybeAuthId
+  muid <- maybeUserId maid
+  case maid of
+    Nothing -> --not logged in
+      defaultLayout [whamlet|<h2>参加登録をするためには、ログインをしてください|]
+    Just authId -> 
+      case muid of 
+        Just userId -> 
+          defaultLayout [whamlet|<h2>すでに参加登録済です|]
+        Nothing -> do --not registered 
+          ((_, widget), enctype) <- runFormPost registerForm
+          defaultLayout $ do
+            h2id <- lift newIdent
+            $(widgetFile "register")
 
 postRegisterR :: Handler RepHtml
 postRegisterR = do
