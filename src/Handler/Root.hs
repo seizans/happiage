@@ -115,6 +115,17 @@ data UserRegisterInfo = UserRegisterInfo {
     }
     deriving Show
 
+--user_authからuserを引いてくる
+maybeUserId :: Maybe UserAuthId -> Handler (Maybe UserId)
+maybeUserId maid = do
+  mUserEntity <- case maid of
+    Just authId -> 
+      runDB $ do
+        mUserEntity <- selectFirst [UserAuthid ==. authId] []
+        return $ mUserEntity
+    _ -> return Nothing
+  return $ fmap entityKey mUserEntity
+ 
 -- ここから写真アップロード用フォーム
 data Photo = Photo
     { photoName :: Text
@@ -140,30 +151,22 @@ postFileuploadR = do
     FormSuccess photo -> do
       if T.isPrefixOf "image/" $ fileContentType $ photoFile photo then
         do
-          liftIO $ printD $ fileName $ photoFile photo
-          liftIO $ printD $ fileContentType $ photoFile photo
           liftIO $ L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
           return $ Just photo
         else return Nothing
     _ -> return Nothing
   maid <- maybeAuthId
-  mUserEntity <- case maid of
-    Just authId -> 
-      runDB $ do
-        mUserEntity <- selectFirst [UserAuthid ==. authId] []
-        return $ mUserEntity
-    _ -> return Nothing
-  let mUser = traceD (fmap entityKey mUserEntity) $ fmap entityKey mUserEntity
+  muid <- maybeUserId maid
   --photoあった場合にDB書き込み
-  case (mPhoto, mUser) of
-    (Just photo, Just user) -> runDB $ do
+  case (mPhoto, muid) of
+    (Just photo, Just uid) -> runDB $ do
         let fname = fileName $ photoFile photo
-        _ <- insert $ Picture {pictureUser = user, pictureTitle=fname,
+        _ <- insert $ Picture {pictureUser = uid, pictureTitle=fname,
            picturePath="static/photo/" `T.append` fname, pictureDeleted=False}
         return ()
     _ -> return ()
   defaultLayout $ case mPhoto of
-    Just photo  -> do
+    Just photo -> do
       $(widgetFile "fileuploadPost")
     Nothing -> do
       $(widgetFile "fileupload")
