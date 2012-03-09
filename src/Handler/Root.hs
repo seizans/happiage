@@ -4,7 +4,9 @@ import Import
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 import Debug.Trace --printfデバッグ用
+traceD :: Show a => a -> b -> b
 traceD a b = trace ("TRACE DEBUG(D):" ++ show a) b
+printD :: Show a => a -> IO ()
 printD a = putStrLn ("TRACE DEBUG(P):" ++ show a)
 
 -- This is a handler function for the GET request method on the RootR
@@ -115,17 +117,6 @@ data UserRegisterInfo = UserRegisterInfo {
     }
     deriving Show
 
---user_authからuserを引いてくる
-maybeUserId :: Maybe UserAuthId -> Handler (Maybe UserId)
-maybeUserId maid = do
-  mUserEntity <- case maid of
-    Just authId -> 
-      runDB $ do
-        mUserEntity <- selectFirst [UserAuthid ==. authId] []
-        return $ mUserEntity
-    _ -> return Nothing
-  return $ fmap entityKey mUserEntity
- 
 -- ここから写真アップロード用フォーム
 data Photo = Photo
     { photoName :: Text
@@ -139,9 +130,19 @@ fileuploadForm = renderDivs $ Photo <$> areq textField "Name" Nothing <*> fileAF
 --ファイルアップロードサンプルページ<GET>
 getFileuploadR :: Handler RepHtml
 getFileuploadR = do
-  ((_, widget), enctype) <- runFormPost fileuploadForm
-  defaultLayout $ do
-    $(widgetFile "fileupload")
+  maid <- maybeAuthId
+  muid <- maybeUserId maid
+  case maid of
+    Nothing -> --not logged in
+      defaultLayout [whamlet|<h2>写真をアップロードするためには、ログイン(していなければ参加登録も)をしてください|]
+    Just authId -> 
+      case muid of 
+        Nothing -> --not registered
+          defaultLayout [whamlet|<h2>写真をアップロードするためには、参加登録をしてください|]
+        Just userId -> do
+          ((_, widget), enctype) <- runFormPost fileuploadForm
+          defaultLayout $ do
+            $(widgetFile "fileupload")
 
 --ファイルアップロードサンプルページ<POST>
 postFileuploadR :: Handler RepHtml
@@ -170,3 +171,4 @@ postFileuploadR = do
       $(widgetFile "fileuploadPost")
     Nothing -> do
       $(widgetFile "fileupload")
+

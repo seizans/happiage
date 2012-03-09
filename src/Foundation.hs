@@ -7,6 +7,7 @@ module Foundation
     , Widget
     , Form
     , maybeAuthId
+    , maybeUserId
     , requireAuth
     , module Settings
     , module Yesod.Auth
@@ -236,6 +237,17 @@ deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #else
 deliver _ = sendmail
 #endif
+
+--user_authからuserを引いてくる
+maybeUserId :: Maybe UserAuthId -> Handler (Maybe UserId)
+maybeUserId maid = do
+  mUserEntity <- case maid of
+    Just authId -> 
+      runDB $ do
+        mUserEntity <- selectFirst [UserAuthid ==. authId] []
+        return $ mUserEntity
+    _ -> return Nothing
+  return $ fmap entityKey mUserEntity
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
