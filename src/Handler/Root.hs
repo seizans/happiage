@@ -77,7 +77,7 @@ postRegisterR = do
 getAlbumR :: Handler RepHtml
 getAlbumR = do
     photoEntities <- runDB $ do
-      selectList [] []
+      selectList [PictureDeleted ==. False] []
     let photos = map (\(Entity _ p) -> picturePath p) photoEntities
     defaultLayout $ do
         h2id <- lift newIdent
