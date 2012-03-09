@@ -16,10 +16,5 @@
 
 
 <div class="container" id="maincontainer">
-  <div class="test">
-    <h1>参加登録
-  <div class="registerform">
-    <form method=post enctype=#{enctype}>
-      ^{widget}
-      <input type=submit>
+  <h2>参加登録が完了しました！
 

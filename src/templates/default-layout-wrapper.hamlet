@@ -23,6 +23,10 @@
         <script>
           document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <body>
+        <style type="text/css">
+          body {
+            padding-top: 90px;
+          }
         <div class="topbar">
           <div class="fill">
             <div class="container">
