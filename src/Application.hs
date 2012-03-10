@@ -25,6 +25,7 @@ import Network.HTTP.Conduit (newManager, def)
 -- Import all relevant handler modules here.
 import Handler.Root
 import Handler.Register
+import Handler.Message
 
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see

@@ -34,6 +34,7 @@ library
                      Settings.StaticFiles
                      Handler.Root
                      Handler.Register
+                     Handler.Message
 
     ghc-options:   -Wall -threaded -O0
     cpp-options:   -DDEVELOPMENT
