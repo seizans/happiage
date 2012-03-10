@@ -2,6 +2,9 @@
   #maincontainer {
     padding-top: 60px;
   }
+  .messages {
+    padding: 60px;
+  }
   .test {
     padding-top: 30px;
     padding-bottom: 10px; 
@@ -35,4 +38,8 @@
   <div class="test">
     <div class="row">
       <h1>新郎新婦へのメッセージ
-   
+  <div class="messages">
+    <div class="row">
+      $forall (mname, mtext) <- messageLines
+        <h2>#{mname}さん より：#{mtext}
+  

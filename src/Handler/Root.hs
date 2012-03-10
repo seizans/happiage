@@ -42,13 +42,6 @@ getAlbumR = do
         h2id <- lift newIdent
         $(widgetFile "album")
 
---新郎新婦紹介ページ
-getIntroR :: Handler RepHtml
-getIntroR = do
-    defaultLayout $ do
-        h2id <- lift newIdent
-        $(widgetFile "intro")
-
 --幹事紹介ページ
 getOrganizerR :: Handler RepHtml
 getOrganizerR = do
