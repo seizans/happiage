@@ -31,7 +31,7 @@ getRegisterR = do
     Just authId -> 
       case muid of 
         Just userId -> 
-          defaultLayout [whamlet|<h2>すでに参加登録済です|]
+          defaultLayout [whamlet|<h2>参加登録はすでに完了しています。<br><a href=@{MessageR}>新郎新婦へのメッセージを投稿しますか？</a>|]
         Nothing -> do --not registered 
           ((_, widget), enctype) <- runFormPost registerForm
           defaultLayout $ do
