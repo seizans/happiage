@@ -4,12 +4,6 @@ import Import
 import qualified Data.Map as Map
 import Data.Map ((!))
 
-getUsersMap :: Handler (Map.Map UserId User)
-getUsersMap = do
-  userEntities <- runDB $ do
-    selectList [UserDeleted ==. False] []
-  return $ Map.fromList $ map (\(Entity pid val) -> (pid, val)) userEntities
-
 getMessages :: Handler [(MessageId, Message)]
 getMessages = do
   messageEntities <- runDB $ do

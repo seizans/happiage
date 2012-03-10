@@ -26,3 +26,4 @@
   <div class="albummain">
     $forall photo <- photos
       <img src="#{photo}" alt="#{photo}"><br>
+ 

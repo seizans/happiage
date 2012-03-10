@@ -45,12 +45,13 @@
                     <a href="./intro">新郎新婦紹介
                   <li class="">
                     <a href="./organizer">幹事紹介
-                  <li>
-                    CurrentID: #{show maid}
-                  <li>
-                    $maybe _ <- maid
+                  $maybe _ <- maid
+                    <li class="">
+                      <a href=@{FileuploadR}>写真のアップロード
+                    <li class="">
                       <a href=@{AuthR LogoutR}>Logout
-                    $nothing
+                  $nothing
+                    <li>
                       <a href=@{AuthR LoginR}>Login
         <div id="main" role="main">
           ^{pageBody pc}

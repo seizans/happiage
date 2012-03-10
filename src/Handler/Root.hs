@@ -32,16 +32,6 @@ getGuideR = do
         h2id <- lift newIdent
         $(widgetFile "guide")
 
---アルバムページ
-getAlbumR :: Handler RepHtml
-getAlbumR = do
-    photoEntities <- runDB $ do
-      selectList [PictureDeleted ==. False] []
-    let photos = map (\(Entity _ p) -> picturePath p) photoEntities
-    defaultLayout $ do
-        h2id <- lift newIdent
-        $(widgetFile "album")
-
 --幹事紹介ページ
 getOrganizerR :: Handler RepHtml
 getOrganizerR = do

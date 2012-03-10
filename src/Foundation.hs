@@ -8,6 +8,7 @@ module Foundation
     , Form
     , maybeAuthId
     , maybeUserId
+    , getUsersMap
     , requireAuth
     , module Settings
     , module Yesod.Auth
@@ -43,6 +44,8 @@ import Control.Monad (join)
 import Network.Mail.Mime
 import Text.Blaze.Renderer.Utf8 (renderHtml)
 import qualified Data.Text.Lazy.Encoding
+import qualified Data.Map as Map
+import Data.Map ((!))
 #ifndef DEVELOPMENT
 import Network.Mail.Mime (sendmail)
 #endif
@@ -247,6 +250,13 @@ maybeUserId maid = do
         return $ mUserEntity
     _ -> return Nothing
   return $ fmap entityKey mUserEntity
+
+--全ユーザを引いてくる
+getUsersMap :: Handler (Map.Map UserId User)
+getUsersMap = do
+  userEntities <- runDB $ do
+    selectList [UserDeleted ==. False] []
+  return $ Map.fromList $ map (\(Entity pid val) -> (pid, val)) userEntities
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.

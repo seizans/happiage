@@ -27,6 +27,7 @@ import Handler.Root
 import Handler.Register
 import Handler.Message
 import Handler.Intro
+import Handler.Album
 
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see
