@@ -42,9 +42,8 @@ import Data.Maybe (isJust)
 import Control.Monad (join)
 import Network.Mail.Mime
 import Text.Blaze.Renderer.Utf8 (renderHtml)
-#if DEVELOPMENT
 import qualified Data.Text.Lazy.Encoding
-#else
+#ifndef DEVELOPMENT
 import Network.Mail.Mime (sendmail)
 #endif
 

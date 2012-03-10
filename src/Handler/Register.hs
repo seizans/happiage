@@ -1,7 +1,6 @@
 module Handler.Register where
 
 import Import
-import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 
 -- <注>この関数使ってないです
