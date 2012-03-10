@@ -6,6 +6,7 @@
 
 / RootR GET
 /register RegisterR GET POST
+/registerupdate RegupdateR GET POST
 /message MessageR GET POST
 /album AlbumR GET
 /guide GuideR GET

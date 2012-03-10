@@ -52,6 +52,7 @@ library
                 GeneralizedNewtypeDeriving
                 FlexibleContexts
                 BangPatterns
+                ScopedTypeVariables
 
 executable         happiage
     if flag(library-only)
