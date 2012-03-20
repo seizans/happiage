@@ -34,17 +34,17 @@
               <div class="nav-collapse">
                 <ul class="nav">
                   <li class="active">
-                    <a href="./">ウェルカム
+                    <a href=@{RootR}>ウェルカム
                   <li class="">
-                    <a href="./guide">開催案内
+                    <a href=@{GuideR}>開催案内
                   <li class="">
-                    <a href="./register">参加登録
+                    <a href=@{RegisterR}>参加登録
                   <li class="">
-                    <a href="./album">アルバム
+                    <a href=@{AlbumR}>アルバム
                   <li class="">
-                    <a href="./intro">新郎新婦紹介
+                    <a href=@{IntroR}>新郎新婦紹介
                   <li class="">
-                    <a href="./organizer">幹事紹介
+                    <a href=@{OrganizerR}>幹事紹介
                   $maybe _ <- maid
                     <li class="">
                       <a href=@{FileuploadR}>写真のアップロード
