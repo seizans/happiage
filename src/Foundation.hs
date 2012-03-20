@@ -31,7 +31,7 @@ import Yesod.Logger (logLazyText)
 import qualified Settings
 import qualified Data.ByteString.Lazy as L
 import qualified Database.Persist.Store
-import Database.Persist.GenericSql
+import Database.Persist.MongoDB
 import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
@@ -137,7 +137,7 @@ instance Yesod Happiage where
 
 -- How to run database actions.
 instance YesodPersist Happiage where
-    type YesodPersistBackend Happiage = SqlPersist
+    type YesodPersistBackend Happiage = Action
     runDB f = do
         master <- getYesod
         Database.Persist.Store.runPool

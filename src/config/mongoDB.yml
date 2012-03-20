@@ -1,0 +1,24 @@
+Default: &defaults
+  user: happiage
+  password: happiage
+  host: localhost
+  port: 27017
+  database: happiage
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Test:
+  database: happiage_test
+  <<: *defaults
+
+Staging:
+  database: happiage_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: happiage_production
+  poolsize: 100
+  <<: *defaults
