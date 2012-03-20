@@ -22,13 +22,14 @@
 <div class="container" id="maincontainer">
   <div class="test">
     <div class="row">
-      <h1>写真アルバム
+      <h1>写真アルバム (#{startNum}-#{endNum}枚目)
   <div class="albummain">
-    $forall photo <- photos
+    $forall (photo,user) <- photoUsers
       $if isTop == False
-        <img src="../#{photo}" alt="../#{photo}" width="400"><br><br>
+        <img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
       $else
-        <img src="#{photo}" alt="#{photo}" width="400"><br><br>
+        <img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>
+      (投稿者:#{userNickname user}さん)<br><br>
     <a href=@{AlbumPageR prevPage}>前へ</a> <a href=@{AlbumPageR nextPage}>次へ</a><br>
 
  
