@@ -9,6 +9,7 @@
 /registerupdate RegupdateR GET POST
 /message MessageR GET POST
 /album AlbumR GET
+/album/#Int AlbumPageR GET
 /guide GuideR GET
 /intro IntroR GET
 /organizer OrganizerR GET

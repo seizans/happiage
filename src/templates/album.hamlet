@@ -25,5 +25,10 @@
       <h1>写真アルバム
   <div class="albummain">
     $forall photo <- photos
-      <img src="#{photo}" alt="#{photo}"><br>
+      $if isTop == False
+        <img src="../#{photo}" alt="../#{photo}" width="400"><br><br>
+      $else
+        <img src="#{photo}" alt="#{photo}" width="400"><br><br>
+    <a href=@{AlbumPageR prevPage}>前へ</a> <a href=@{AlbumPageR nextPage}>次へ</a><br>
+
  
