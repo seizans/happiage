@@ -20,7 +20,7 @@ import Yesod
 import Yesod.Static
 import Settings.StaticFiles
 import Yesod.Auth
-import Yesod.Auth.Email
+import Yesod.Auth.Mail
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText)
@@ -168,11 +168,11 @@ instance YesodAuth Happiage where
 -}
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authEmail]
+    authPlugins _ = [authMail]
 
     authHttpManager = error "Email doesn't need an HTTP manager"
 
-instance YesodAuthEmail Happiage where
+instance YesodAuthMail Happiage where
     type AuthEmailId Happiage = UserAuthId
     addUnverified email verkey =
       runDB $ insert $ UserAuth email Nothing (Just verkey) False
