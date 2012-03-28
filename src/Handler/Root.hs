@@ -72,11 +72,13 @@ postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
   mPhoto <- case res of
     FormSuccess photo -> do
-      if T.isPrefixOf "image/" $ fileContentType $ photoFile photo then
-        do
-          liftIO $ L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
-          return $ Just photo
-        else return Nothing
+      let cType = fileContentType $ photoFile photo
+      if T.isPrefixOf "image/" cType then do --画像のとき
+        liftIO $ L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+        return $ Just photo
+        else if cType == "application/zip" then --Zipのとき
+          return Nothing
+          else return Nothing --その他
     _ -> return Nothing
   maid <- maybeAuthId
   muid <- maybeUserId maid

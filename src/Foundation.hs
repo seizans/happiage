@@ -98,6 +98,8 @@ instance Yesod Happiage where
     -- Place the session key file in the config folder
     encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
 
+    -- アップロードできるサイズ上限
+    maximumContentLength _ _ = 100 * 1024 * 1024
 
     defaultLayout widget = do
         maid <- maybeAuthId
