@@ -37,6 +37,8 @@ library
                      Handler.Message
                      Handler.Intro
                      Handler.Album
+                     Smtp.SmtpClient
+                     Smtp.SmtpProperties
 
     ghc-options:   -Wall -threaded -O0
     cpp-options:   -DDEVELOPMENT
@@ -109,3 +111,7 @@ executable         happiage
                  , http-conduit                  >= 1.2        && < 1.3
                  , blaze-html >= 0.0 && < 99
 
+                 -- for SMTP Client
+                 , old-time
+                 , network
+                 , SMTPClient

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Foundation
     ( Happiage (..)
     , Route (..)
@@ -41,14 +42,12 @@ import Text.Shakespeare.Text(stext) -- This is for authEmail. Delete later
 import Text.Hamlet (shamlet)
 import Data.Maybe (isJust)
 import Control.Monad (join)
-import Network.Mail.Mime
+import qualified Smtp.SmtpClient as SMTP
 import Text.Blaze.Renderer.Utf8 (renderHtml)
 import qualified Data.Text.Lazy.Encoding
 import qualified Data.Map as Map
 import Data.Map ((!))
-#ifndef DEVELOPMENT
-import Network.Mail.Mime (sendmail)
-#endif
+import qualified Data.Text as DT
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -176,38 +175,9 @@ instance YesodAuthMail Happiage where
     type AuthEmailId Happiage = UserAuthId
     addUnverified email verkey =
       runDB $ insert $ UserAuth email Nothing (Just verkey) False
-    sendVerifyEmail email _ verurl =
-      liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
-        { mailTo = [Address Nothing email]
-        , mailHeaders = [("Subject", "Verify your email address")]
-        , mailParts = [[textPart, htmlPart]]
-        }
-      where
-        textPart = Part
-          { partType = "text/plain charset=utf-8"
-          , partEncoding = None
-          , partFilename = Nothing
-          , partContent = Data.Text.Lazy.Encoding.encodeUtf8 [stext|
-Please confirm your email address by clicking on the link below.
-
-\#{verurl}
-
-Thank you
-|]
-          , partHeaders = []
-          }
-        htmlPart = Part
-          { partType = "text/html; charset=utf-8"
-          , partEncoding = None
-          , partFilename = Nothing
-          , partContent = renderHtml [shamlet|
-<p>Please confirm your email address by clicking on the link below.
-<p>
-    <a href=#{verurl}>#{verurl}
-<p>Thank you
-|]
-          , partHeaders = []
-          }
+    sendVerifyEmail email _ verurl = do
+      liftIO $ print verurl
+      liftIO $ SMTP.send (DT.unpack email) "subject" (DT.unpack $ "mailBody\n" `DT.append` verurl `DT.append` "\nend.")
     getVerifyKey = runDB . fmap (join . fmap userAuthVerkey) . get
     setVerifyKey uid key = runDB $ update uid [UserAuthVerkey =. Just key]
     verifyAccount uid = runDB $ do
@@ -237,7 +207,7 @@ deliver :: Happiage -> L.ByteString -> IO ()
 #ifdef DEVELOPMENT
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #else
-deliver _ = sendmail
+deliver _ _ = SMTP.send -- TODO:fix this bug.
 #endif
 
 --user_authからuserを引いてくる
