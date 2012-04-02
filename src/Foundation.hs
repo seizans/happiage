@@ -207,7 +207,8 @@ deliver :: Happiage -> L.ByteString -> IO ()
 #ifdef DEVELOPMENT
 deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
 #else
-deliver _ _ = SMTP.send -- TODO:fix this bug.
+deliver _ _ = return ()
+--deliver _ _ = SMTP.send -- TODO:fix this bug.
 #endif
 
 --user_authからuserを引いてくる
