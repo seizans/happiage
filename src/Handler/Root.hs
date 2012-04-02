@@ -94,3 +94,10 @@ postFileuploadR = do
     Nothing -> do
       $(widgetFile "fileupload")
 
+-- TODO: move to other file.
+getAdminR :: Handler RepHtml
+getAdminR = do
+    defaultLayout $ do
+        h2id <- lift newIdent
+        setTitle "happiage homepage"
+        $(widgetFile "homepage")

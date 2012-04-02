@@ -134,6 +134,16 @@ instance Yesod Happiage where
     -- Enable Javascript async loading
     yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
 
+    -- for Authorization isAuthorized :: Route a -> Bool -> GHandler s a AuthResult
+    isAuthorized AdminR _ = isAdmin
+    isAuthorized _ _ = return Authorized
+
+isAdmin = do
+    mu <- maybeAuthId
+    return $ case mu of
+        Nothing -> AuthenticationRequired
+        Just _ -> Authorized
+
 -- How to run database actions.
 instance YesodPersist Happiage where
     type YesodPersistBackend Happiage = Action
