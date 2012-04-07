@@ -31,6 +31,7 @@ library
                      Import
                      Model
                      Settings
+                     HappiageAuthMessage
                      Settings.StaticFiles
                      Handler.Root
                      Handler.Register

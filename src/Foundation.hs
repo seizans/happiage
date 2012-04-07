@@ -48,6 +48,7 @@ import qualified Data.Text.Lazy.Encoding
 import qualified Data.Map as Map
 import Data.Map ((!))
 import qualified Data.Text as DT
+import qualified HappiageAuthMessage as HAM
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -179,6 +180,7 @@ instance YesodAuth Happiage where
     -- You can add other plugins like BrowserID, email or OAuth here
     authPlugins _ = [authMail]
 
+    renderAuthMessage _ _ = HAM.happiageMessage
     authHttpManager = error "Email doesn't need an HTTP manager"
 
 instance YesodAuthMail Happiage where
