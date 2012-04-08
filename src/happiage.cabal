@@ -38,6 +38,7 @@ library
                      Handler.Message
                      Handler.Intro
                      Handler.Album
+                     Handler.Admin
                      Smtp.SmtpClient
                      Smtp.SmtpProperties
 

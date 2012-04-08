@@ -1,0 +1,60 @@
+<style type="text/css">
+  #maincontainer {
+    padding-top: 60px;
+  }
+  .test {
+    padding-top: 30px;
+    padding-bottom: 10px; 
+    background-color: #f5f5f5;
+  }
+  .usermain {
+    padding: 20px;
+    text-align: center;
+  }
+  .annai-unit{
+    padding: 30px;
+  }
+  .kaisai-unit{
+    padding: 30px;
+  }
+
+
+<div class="container" id="maincontainer">
+  <div class="test">
+    <div class="row">
+      <h1>User
+  <h2>RegisterUser
+  <table>
+    <thread>
+      <tr>
+        <th>name
+        <th>kana
+        <th>sex
+        <th>email
+        <th>attend
+    <tbody>
+      $forall userA <- userAs
+        <tr>
+          <td>
+            #{userFamilyname $ entityVal $ fst userA}
+            #{userFirstname $ entityVal $ fst userA}
+          <td>
+            #{userKanafamily $ entityVal $ fst userA}
+            #{userKanafirst $ entityVal $ fst userA}
+          <td>
+            #{show $ userSex $ entityVal $ fst userA}
+          <td>
+            #{userAuthEmail $ entityVal $ snd userA}
+          <td>
+            #{show $ userAttend $ entityVal $ fst userA}
+          <td>
+  <h2>NotRegisterUser
+  <table>
+    <thread>
+      <tr>
+        <th>email
+    <tbody>
+      $forall notRegisterUser <- notRegisterUsers
+        <tr>
+          <td>
+            #{userAuthEmail $ entityVal $ notRegisterUser}
