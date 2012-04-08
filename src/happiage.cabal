@@ -116,3 +116,5 @@ executable         happiage
                  , old-time
                  , network
                  , SMTPClient
+
+                 , zip-archive

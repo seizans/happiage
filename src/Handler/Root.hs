@@ -3,6 +3,7 @@ module Handler.Root where
 import Import
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
+import Codec.Archive.Zip
 import Debug.Trace --printfデバッグ用
 traceD :: Show a => a -> b -> b
 traceD a b = trace ("TRACE DEBUG(D):" ++ show a) b
@@ -66,36 +67,58 @@ getFileuploadR = do
           defaultLayout $ do
             $(widgetFile "fileupload")
 
+--zipファイルを解凍して、バイナリを返す
+--TODO:ファイルの正しさのチェック
+photosFromZip :: L.ByteString -> [Photo]
+photosFromZip contents =
+  let archive = toArchive contents
+      entries = filter isImageFile $ zEntries archive in
+  map photoFromEntry entries
+  where 
+    isImageFile filename = --拡張子で判断
+      or $ map ((flip T.isSuffixOf) (T.pack $ eRelativePath $ filename)) [".jpg",".jpeg",".png",".gif"]
+    photoFromEntry entry = 
+      Photo fname (FileInfo fname fname (fromEntry entry))
+      where fname = last $ T.splitOn "/" $ (T.pack $ eRelativePath entry)
+
+--画像ファイルを作成
+writePhoto :: Photo -> IO ()
+writePhoto photo = L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+
 --ファイルアップロードサンプルページ<POST>
 postFileuploadR :: Handler RepHtml
 postFileuploadR = do
   ((res, widget), enctype) <- runFormPost fileuploadForm
-  mPhoto <- case res of
+  photos <- case res of
     FormSuccess photo -> do
       let cType = fileContentType $ photoFile photo
       if T.isPrefixOf "image/" cType then do --画像のとき
-        liftIO $ L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
-        return $ Just photo
-        else if cType == "application/zip" then --Zipのとき
-          return Nothing
-          else return Nothing --その他
-    _ -> return Nothing
+        liftIO $ writePhoto photo
+        return $ [photo]
+        else if cType == "application/zip" then do --Zipのとき (複数画像をまとめてアップロード)
+          let filedata = fileContent $ photoFile photo
+              photos = photosFromZip filedata
+          liftIO $ mapM_ writePhoto photos
+          return photos
+          else return [] --その他
+    _ -> return []
   maid <- maybeAuthId
   muid <- maybeUserId maid
   --photoあった場合にDB書き込み
-  case (mPhoto, muid) of
-    (Just photo, Just uid) -> runDB $ do
-        let fname = fileName $ photoFile photo
-        _ <- insert $ Picture {pictureUser = uid, pictureTitle=fname,
-           picturePath="static/photo/" `T.append` fname, pictureDeleted=False}
+  case (photos, muid) of
+    (ps@(_:_), Just uid) -> runDB $ do --注.photosが一個以上になるように←の記法になっている
+        let fnames = map (fileName . photoFile) photos
+        mapM_ (\f->insert $ Picture {pictureUser = uid, pictureTitle=f,
+           picturePath="static/photo/" `T.append` f, pictureDeleted=False} ) fnames
         return ()
     _ -> return ()
-  defaultLayout $ case mPhoto of
-    Just photo -> do
-      $(widgetFile "fileuploadPost")
-    Nothing -> do
+  defaultLayout $ case photos of
+    [] -> do
       $(widgetFile "fileupload")
-
+    _ -> do
+      let photo = head photos 
+      $(widgetFile "fileuploadPost")
+ 
 -- TODO: move to other file.
 getAdminR :: Handler RepHtml
 getAdminR = do
