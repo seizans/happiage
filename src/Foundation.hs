@@ -49,6 +49,7 @@ import qualified Data.Map as Map
 import Data.Map ((!))
 import qualified Data.Text as DT
 import qualified HappiageAuthMessage as HAM
+import Yesod.Auth.Mail
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -137,7 +138,15 @@ instance Yesod Happiage where
 
     -- for Authorization isAuthorized :: Route a -> Bool -> GHandler s a AuthResult
     isAuthorized AdminR _ = isAdmin
-    isAuthorized _ _ = return Authorized
+    isAuthorized (AuthR LoginR) _ = return Authorized
+    isAuthorized (AuthR resetR) _ = return Authorized
+    isAuthorized _ _ = isAuthenticated
+
+isAuthenticated = do
+    mu <- maybeAuthId
+    return $ case mu of
+        Nothing -> AuthenticationRequired
+        Just _ -> Authorized
 
 isAdmin = do
     mu <- maybeAuthId
