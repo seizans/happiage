@@ -16,3 +16,4 @@
 /fileupload FileuploadR GET POST
 
 /admin AdminR GET
+/adminuser AdminuserR GET
