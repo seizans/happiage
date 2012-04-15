@@ -1,0 +1,9 @@
+<table>
+    <thread>
+      <tr>
+        <th>email
+    <tbody>
+      $forall mail <- mails
+        <tr>
+          <td>
+            #{show $ mail}

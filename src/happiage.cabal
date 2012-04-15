@@ -118,4 +118,5 @@ executable         happiage
                  , network
                  , SMTPClient
 
+                 , split
                  , zip-archive
