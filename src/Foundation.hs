@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 module Foundation
     ( Happiage (..)
     , Route (..)
@@ -19,19 +18,15 @@ module Foundation
 import Prelude
 import Yesod
 import Yesod.Static
-import Settings.StaticFiles
 import Yesod.Auth
 import Yesod.Auth.Mail
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText)
 import Network.HTTP.Conduit (Manager)
-#ifdef DEVELOPMENT
-import Yesod.Logger (logLazyText)
-#endif
 import qualified Settings
-import qualified Data.ByteString.Lazy as L
 import qualified Database.Persist.Store
+import Settings.StaticFiles
 import Database.Persist.MongoDB
 import Settings (widgetFile, Extra (..))
 import Model
@@ -95,8 +90,11 @@ type Form x = Html -> MForm Happiage Happiage (FormResult x, Widget)
 instance Yesod Happiage where
     approot = ApprootMaster $ appRoot . settings
 
-    -- Place the session key file in the config folder
-    encryptKey _ = fmap Just $ getKey "config/client_session_key.aes"
+    -- Store session data on the client in encrypted cookies,
+    -- default session idle timeout is 120 minutes
+    makeSessionBackend _ = do
+        key <- getKey "config/client_session_key.aes"
+        return . Just $ clientSessionBackend key 120
 
     -- アップロードできるサイズ上限
     maximumContentLength _ _ = 100 * 1024 * 1024
@@ -135,8 +133,8 @@ instance Yesod Happiage where
     -- users receiving stale content.
     addStaticContent = addStaticContentExternal minifym base64md5 Settings.staticDir (StaticR . flip StaticRoute [])
 
-    -- Enable Javascript async loading
-    yepnopeJs _ = Just $ Right $ StaticR js_modernizr_js
+    -- Place Javascript at bottom of the body tag so the rest of the page loads first
+    jsLoader _ = BottomOfBody
 
     -- for Authorization isAuthorized :: Route a -> Bool -> GHandler s a AuthResult
     isAuthorized AdminR _ = isAdmin
@@ -223,16 +221,6 @@ instance YesodAuthMail Happiage where
           , emailCredsVerkey = userAuthVerkey u
           }
     getEmail = runDB . fmap (fmap userAuthEmail) . get
-
-
--- Sends off your mail. Requires sendmail in production!
-deliver :: Happiage -> L.ByteString -> IO ()
-#ifdef DEVELOPMENT
-deliver y = logLazyText (getLogger y) . Data.Text.Lazy.Encoding.decodeUtf8
-#else
-deliver _ _ = return ()
---deliver _ _ = SMTP.send -- TODO:fix this bug.
-#endif
 
 --user_authからuserを引いてくる
 maybeUserId :: Maybe UserAuthId -> Handler (Maybe UserId)
