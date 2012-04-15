@@ -97,13 +97,13 @@ postRegupdateR = do
         orig <- get404 uid
         replace uid User {
           userAuthid = authid, 
-          userNickname = uuNickname userUpdateInfo,
-          userFirstname = userFirstname orig,
-          userFamilyname = userFamilyname orig,
-          userKanafirst = userKanafirst orig,
-          userKanafamily = userKanafamily orig,
-          userSex = userSex orig, 
-          userAttend = uuAttend userUpdateInfo, 
+          userNickname = urNickname userUpdateInfo,
+          userFirstname = urFirstname userUpdateInfo,
+          userFamilyname = urFamilyname userUpdateInfo,
+          userKanafirst = urKanafirst userUpdateInfo,
+          userKanafamily = urKanafamily userUpdateInfo,
+          userSex = urSex userUpdateInfo, 
+          userAttend = urAttend userUpdateInfo, 
           userInvitedby = Nothing, 
           userDeleted = False
         }
@@ -148,17 +148,14 @@ data UserRegisterInfo = UserRegisterInfo {
     deriving Show
 
 --参加登録更新用フォーム（一部項目のみ変更可能）
-updateForm :: Maybe User -> Html -> MForm Happiage Happiage (FormResult UserUpdateInfo, Widget )
+updateForm :: Maybe User -> Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
 updateForm muser = renderDivs $ 
-  UserUpdateInfo
+  UserRegisterInfo
     <$> areq textField "ニックネーム" (fmap userNickname muser)
+    <*> areq textField "苗字（かな）" (fmap userKanafamily muser)
+    <*> areq textField "名前（かな）" (fmap userKanafirst muser)
+    <*> areq textField "苗字" (fmap userFamilyname muser)
+    <*> areq textField "名前" (fmap userFirstname muser)
+    <*> areq (selectFieldList genderFieldList) "性別" (fmap userSex muser)
     <*> areq (selectFieldList attendFieldList) "ご出席" (fmap userAttend muser)
-
-data UserUpdateInfo = UserUpdateInfo {
-       uuNickname :: Text
-      , uuAttend :: Attend
-    }
-    deriving Show
-
-
-
+ 
