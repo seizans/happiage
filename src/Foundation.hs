@@ -199,6 +199,8 @@ instance YesodAuthMail Happiage where
     sendVerifyEmail email _ verurl = do
       liftIO $ print verurl
       liftIO $ SMTP.send (DT.unpack email) "subject" (DT.unpack $ "mailBody\n" `DT.append` verurl `DT.append` "\nend.")
+    sendInviteEmail = sendVerifyEmail
+    sendRegisterEmail = sendVerifyEmail
     getVerifyKey = runDB . fmap (join . fmap userAuthVerkey) . get
     setVerifyKey uid key = runDB $ update uid [UserAuthVerkey =. Just key]
     verifyAccount uid = runDB $ do
