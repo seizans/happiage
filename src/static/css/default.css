@@ -1,0 +1,209 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*初期化*/
+*{
+	margin : 0;
+	padding : 0;
+	font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+.clearfix {width: 100%;}
+.clearfix:after {
+    content: ""; 
+    display: block; 
+    clear: both;
+}
+
+/* Layouts */
+html, body {
+	height: 100%;
+}
+header {
+	width : 100%;
+	height : 60px;
+	background: url('../img/MENU-bg.gif');
+	position : fixed;
+	top : 0;
+	min-width: 1000px;
+	z-index: 2;
+}
+header h1 {
+	width : 55px;
+	height : 60px;
+	text-indent: -9999px;
+	background: url('../img/MENU-angel.gif');
+	margin-left : 62px;
+	float: left;
+}
+header ul {
+	margin : 0 ;
+	width : 100%;
+	min-width : 1000px;
+	height: 60px;
+}
+header li {
+	width : 100px;
+	height: 60px;
+	float : left;
+	text-indent: -9999px;
+	margin : 0 10px 0 10px;
+	list-style-type: none;
+}
+header li a {
+	width : 100px;
+	height: 60px;
+	display : block;
+}
+header li#MENU-welcome a {
+	background: url('../img/MENU-welcome.gif');
+}
+header li#MENU-invitation a {
+	background: url('../img/MENU-invitation.gif');
+}
+header li#MENU-album a {
+	background: url('../img/MENU-album.gif');
+}
+header li#MENU-profile a {
+	background: url('../img/MENU-profile.gif');
+}
+header li#MENU-entry a {
+	background: url('../img/MENU-entry.gif');
+}
+header li#MENU-contact a {
+	background: url('../img/MENU-contact.gif');
+}
+header li#MENU-happiage {
+	background: url('../img/MENU-happiage.gif') no-repeat right;
+	float: right;
+}
+
+li#MENU-welcome a:hover,
+li#MENU-welcome a.selected{	
+	background: url('../img/MENU-welcome1.gif');
+}
+li#MENU-invitation a:hover,
+li#MENU-invitation a.selected{	
+	background: url('../img/MENU-invitation1.gif');
+}
+li#MENU-album a:hover,
+li#MENU-album a.selected{	
+	background: url('../img/MENU-album1.gif');
+}
+li#MENU-profile a:hover,
+li#MENU-profile a.selected{	
+	background: url('../img/MENU-profile1.gif');
+}
+li#MENU-entry a:hover,
+li#MENU-entry a.selected{	
+	background: url('../img/MENU-entry1.gif');
+}
+li#MENU-contact a:hover,
+li#MENU-contact a.selected{	
+	background: url('../img/MENU-contact1.gif');
+}
+
+
+header div#MENU-green {
+	width : 106px;
+	height : 116px;
+	background: url('../img/MENU-green.png');
+	position : absolute;
+	top : -40px;
+	left: -30px;
+	z-index: 9;
+}
+
+#main_content {
+	background: url('../img/bg_left.png') no-repeat left top #F8F1E6 fixed;
+	position : relative;
+	min-width : 1000px;
+	height : 100%;
+	box-sizing : border-box ;
+	-moz-box-sizing : border-box;	
+	padding: 60px 0 35px 0;
+}
+#main {
+	background: url('../img/bg_right.png') no-repeat right top;
+	height : 100%;
+	overflow: auto;
+}
+footer {
+	width : 100%;
+	height : 35px;
+	background: url('../img/FOOT-bg.gif');
+	position : fixed;
+	bottom: 0;
+}
+
+footer ul {
+	margin : 0;
+	width : 600px;
+	margin-left : 80px;
+}
+footer li {
+	width : 80px;
+	height: 35px;
+	float : left;
+	text-indent: -9999px;
+	margin : 0 0 0 20px;
+	list-style-type: none;
+}
+footer li a {
+	width : 80px;
+	height: 35px;
+	display: block;
+}
+footer li#FOOT-welcome a {
+	background: url('../img/FOOT-welcome.gif');
+}
+footer li#FOOT-invitation a {
+	background: url('../img/FOOT-invitation.gif');
+}
+footer li#FOOT-album a {
+	background: url('../img/FOOT-album.gif');
+}
+footer li#FOOT-profile a {
+	background: url('../img/FOOT-profile.gif');
+}
+footer li#FOOT-entry a {
+	background: url('../img/FOOT-entry.gif');
+}
+footer li#FOOT-contact a {
+	background: url('../img/FOOT-contact.gif');
+}
+#FOOT-macaron {
+	width : 82px;
+	height : 52px;
+	background: url('../img/FOOT-macaron.png') no-repeat;
+	position: absolute; 
+	bottom: 12px;
+	left: -4px;
+}
+#FOOT-decoration {
+	width : 250px;
+	height : 176px;
+	background: url('../img/FOOT-decoration.png') no-repeat;
+	position: absolute; 
+	bottom: 0;
+	right: 6px;
+}
+#main article {
+	padding: 0 16px 20px;
+}
+article h3 {
+	color : #342111;
+	font-size: 1.4em ;
+	margin: 36px 0 12px 0;
+}
+div.span2 {
+	width : 50%;
+	float: left;
+}	
+
+/* basically decoration  */
+#main h2 {
+	width : 800px;
+	height: 154px;
+	text-indent: -9999px;
+	margin : 0 32px;
+}

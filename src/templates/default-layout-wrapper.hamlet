@@ -6,54 +6,64 @@
 <html class="no-js" lang="jp"> <!--<![endif]-->
     <head>
         <meta charset="UTF-8">
-
         <title>#{pageTitle pc}
         <meta name="description" content="">
-        <meta name="author" content="">
-
+        <meta name="author" content="happiage-developer">
+        <meta name="copyright" content="Copyright happiage-developer">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-
-        <link rel=stylesheet type=text/css href=@{StaticR css_bootstrap_css}>
+        <link rel=stylesheet type=text/css href=@{StaticR css_default_css}>
         ^{pageHead pc}
-
         \<!--[if lt IE 9]>
         \<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         \<![endif]-->
-
         <script>
-          document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
+            document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <body>
-        <style type="text/css">
-          body {
-            padding-top: 90px;
-          }
-        <div class="topbar">
-          <div class="fill">
-            <div class="container">
-              <a class="brand" href="./">Happiage
-              <div class="nav-collapse">
-                <ul class="nav">
-                  <li class="active">
-                    <a href=@{RootR}>ウェルカム
-                  <li class="">
-                    <a href=@{GuideR}>開催案内
-                  <li class="">
-                    <a href=@{RegisterR}>参加登録
-                  <li class="">
-                    <a href=@{AlbumR}>アルバム
-                  <li class="">
-                    <a href=@{IntroR}>新郎新婦紹介
-                  <li class="">
-                    <a href=@{OrganizerR}>幹事紹介
-                  $maybe _ <- maid
-                    <li class="">
-                      <a href=@{FileuploadR}>写真のアップロード
-                    <li class="">
-                      <a href=@{AuthR LogoutR}>Logout
-                  $nothing
-                    <li>
-                      <a href=@{AuthR LoginR}>Login
-        <div id="main" role="main">
-          ^{pageBody pc}
-        <footer>
-
+        <header>
+            <h1>angel
+            <ul>
+                <li id="MENU-welcome">
+                    <a class="selected" href=@{RootR}>
+                        ごあいさつ
+                <li id="MENU-invitation">
+                    <a href=@{GuideR}>
+                        開催案内
+                <li id="MENU-entry">
+                    <a href=@{RegisterR}>
+                        参加登録・変更
+                <li id="MENU-album">
+                    <a href=@{AlbumR}>
+                        アルバム
+                <li id="MENU-profile">
+                    <a href=@{IntroR}>
+                        新郎新婦紹介
+                <li id="MENU-contact">
+                    <a href="contact">
+                        contact
+                <li id="MENU-happiage">
+                    happiage
+            <div id="MENU-green">
+        <div id="main_content" role="main">
+            ^{pageBody pc}
+        <footer class="cleafix">
+            <div id="FOOT-macaron">
+            <ul>
+                <li id="FOOT-welcome">
+                    <a href=@{RootR}>
+                        ごあいさつ
+                <li id="FOOT-invitation">
+                    <a href=@{GuideR}>
+                        開催案内
+                <li id="FOOT-entry">
+                    <a href=@{RegisterR}>
+                        参加登録・変更
+                <li id="FOOT-album">
+                    <a href=@{AlbumR}>
+                        アルバム
+                <li id="FOOT-profile">
+                    <a href=@{IntroR}>
+                        新郎新婦紹介
+                <li id="FOOT-contact">
+                    <a href="contact">
+                        contact
+            <div id="FOOT-decoration">

@@ -1,6 +1,78 @@
-h1 {
-    text-align: center
+@charset "utf-8";
+/* CSS Document */
+
+
+/* specific decoration */ 
+#main article {
+	padding-top: 40px;
 }
-h2##{h2id} {
-    color: #990
+#main h2{
+	background: url(@{StaticR img_title_welcome_gif}) no-repeat;
+}
+
+div#welcome-menu {
+	width : 350px;
+	margin: 48px auto;
+	position: relative ;
+}
+#welcome-image {
+	width : 460px;
+	height: 350px;
+	background : #ffffff ;
+	background: -moz-linear-gradient(top, #ffffff, #f9f9f9); 
+    background: -webkit-gradient(linear, left top, right bottom, from(#ffffff), to(#f9f9f9));
+	-moz-box-shadow: 1px 1px 3px #999;
+	-webkit-box-shadow: 1px 1px 3px #999; 
+	box-shadow: 1px 1px 3px #999; 
+	position : relative;
+}
+#welcome-decoration {
+	width : 460px;
+	height: 48px;
+	margin: 0 auto ; 
+	background: url(@{StaticR img_welcome_image_decoration_png}) top center no-repeat;
+	position:absolute;
+	top : -40px;
+	display: block;
+}
+#welcome-image img {
+	width : 440px;
+	height: 330px;
+	margin: 10px;
+}
+#welcome-menu li {
+	list-style-type: none;
+	text-indent: -9999px;
+}
+#welcome-menu li#show_invitation {
+	position: absolute ;
+	width : 224px ;
+	height : 70px;
+	z-index : 4;
+}
+#welcome-menu li#show_invitation a{
+	width : 224px ;
+	height : 70px;
+	display: block;
+	background: url(@{StaticR img_show_invitation_png}) no-repeat;
+}
+#welcome-menu li#show_invitation a:hover {
+	background: url(@{StaticR img_show_invitation_hover_png}) no-repeat;
+}
+#welcome-menu li#confirm_participation {
+	position: absolute ;
+	top : 60px;
+	left: 112px;
+	width : 235px ;
+	height : 74px;
+	z-index: 3;
+}
+#welcome-menu li#confirm_participation a{
+	display: block;
+	width : 235px ;
+	height : 76px;
+	background: url('../img/confirm_participation.png') no-repeat;
+}
+#welcome-menu li#confirm_participation a:hover {
+	background: url(@{StaticR img_confirm_participation_hover_png}) no-repeat;
 }

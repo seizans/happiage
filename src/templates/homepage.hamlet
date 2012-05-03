@@ -1,23 +1,14 @@
-<style type="text/css">
-  body {
-    padding-top: 90px;
-  }
-  .test {
-    padding-top: 30px;
-    padding-bottom: 10px; 
-    background-color: #f5f5f5;
-  }
-  .topimg{
-    padding: 30px;
-    display: block;
-    text-align: center;
-  }
-
-<div class="container">
-  <div class="test">
-    <div class="row">
-      <h1>結婚式二次会Webページにようこそ！
-  <div class="topimg">
-    <div class="row">
-      <img src="static/img/topsample.jpg">
-
+<section id="main">
+    <h2>welcom to our wedding !
+    <article>
+        <div class="span2">
+            <div id="welcome-image">
+                <span id="welcome-decoration">
+                <img src=@{StaticR img_ironman3_png}>
+        <div class="span2">
+            <h3>結婚式二次会パーティのページへようこそ！
+            <p>出欠を登録したり、写真をアップロードすることができます
+            <div id="welcome-menu">
+                <ul>
+                    <li id="show_invitation"><a href=@{GuideR}>招待状を見る
+                    <li id="confirm_participation"><a href=@{RegisterR}>出欠を登録する
