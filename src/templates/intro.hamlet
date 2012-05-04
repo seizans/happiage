@@ -1,45 +1,79 @@
-<style type="text/css">
-  #maincontainer {
-    padding-top: 60px;
-  }
-  .messages {
-    padding: 60px;
-  }
-  .test {
-    padding-top: 30px;
-    padding-bottom: 10px; 
-    background-color: #f5f5f5;
-  }
-  .annai-unit{
-    padding: 30px;
-  }
-  .kaisai-unit{
-    padding: 30px;
-  }
+<section id="main">
+    <h2>Profile
+    <article>
+        <table id="profile_table">
+            <tr>
+                <td class="profile_image">
+                    <img src=@{StaticR img_ironman3_png}>
+                        <span class="profile_frame">
+                <td>
+                <td class="profile_image">
+                    <img src=@{StaticR img_ironman3_png}>
+                        <span class="profile_frame">
+            <tr>
+                <td>
+                    島崎 清山
+                <th>
+                    氏名
+                <td>
+                    佐々木 抄子
+            <tr>
+                <td>
+                    1983年2月20日
+                <th>
+                    生年月日
+                <td>
+                    1986年6月3日
+            <tr>
+                <td>
+                    @seizans
+                <th>
+                    TwitterID
+                <td>
+                    @shokos
+            <tr>
+                <td>
+                    読書
+                <th>
+                    趣味
+                <td>
+                    ぷろぐらみんぐ
+        <h3 id="hl_kanji">幹事の皆様
+        <table id="profile_kanji">
+            <tr>
+                <th>
+                <td class="kanji_image">
+                    <img src=@{StaticR img_organizer1_png}>
+                <td class="kanji_image">
+                    <img src=@{StaticR img_organizer2_png}>
+                <td class="kanji_image">
+                    <img src=@{StaticR img_organizer3_png}>
+                <td class="kanji_image">
+                    <img src=@{StaticR img_organizer4_png}>
+            <tr>
+                <th>
+                    氏名
+                <td>
+                    名前1
+                <td>
+                    名前2
+                <td>
+                    名前3
+                <td>
+                    名前4
+            <tr>
+                <th>
+                    ご関係
+                <td>
+                    新郎同僚
+                <td>
+                    新婦高校友人
+                <td>
+                    新婦高校友人
+                <td>
+                    新婦高校友人
 
-
-<div class="container" id="maincontainer">
-  <div class="test">
-    <h1>新郎新婦紹介
-  <div class="annai-unit">
-    <div class="row show-grid">
-      <div class="span6">
-        <h2>新郎
-        <p>お名前：<br>
-          生年月日：<br>
-          出身地：<br>
-          メールアドレス：<br>
-      <div class="span6">
-        <h2>新婦
-        <p>お名前：<br>
-          生年月日：<br>
-          出身地：<br>
-          メールアドレス：<br>
-  <div class="test">
+<div class="messages">
     <div class="row">
-      <h1>新郎新婦へのメッセージ
-  <div class="messages">
-    <div class="row">
-      $forall (mname, mtext) <- messageLines
-        <h2>#{mname}さん より：#{mtext}
-  
+        $forall (mname, mtext) <- messageLines
+            <h2>#{mname}さん より：#{mtext}

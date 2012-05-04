@@ -1,12 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
-
-#profile #main h2{
-	background: url('../img/title-profile.gif') no-repeat ;
+#main h2 {
+	background: url(@{StaticR img_title_profile_gif}) no-repeat;
 }
 
-#profile #main article {
+#main article {
 	margin-top: -32px;
 }
 
@@ -26,21 +25,18 @@ td {
 	padding: 6px 30px;
 	position: relative;
 }
-
 #profile_table th {
     text-align: center;
 }
 
-
 .profile_frame {
 	width : 185px;
 	height: 148px;
-	background: url('../img/profile_frame.png') no-repeat center center;
+	background: url(@{StaticR img_profile_frame_png}) no-repeat center center;
 	display: block;
 	position: absolute;
 	top: 0 ;
 	left: 25px;
-
 }
 
 .profile_image img {
@@ -54,14 +50,15 @@ td {
 #profile_kanji td {
 	padding: 0 20px;
 }
-#profile h3#hl_kanji{
+h3#hl_kanji{
 	margin : 0 auto;
 	width: 820px;
 	height: 48px;
 	text-indent: -9999px;
-	background : url('../img/profile_kanji.png') no-repeat ;
+	background : url(@{StaticR img_profile_kanji_png}) no-repeat ;
 }
 
 .kanji_image img {
 	width : 120px;
 	height: 90px;
+}
