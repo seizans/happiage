@@ -171,22 +171,29 @@ footer li#FOOT-entry a {
 footer li#FOOT-contact a {
 	background: url('../img/FOOT-contact.gif');
 }
-#FOOT-macaron {
+footer #FOOT-macaron {
 	width : 82px;
-	height : 52px;
+	height: 52px;
 	background: url('../img/FOOT-macaron.png') no-repeat;
 	position: absolute; 
 	bottom: 12px;
 	left: -4px;
 }
-#FOOT-decoration {
+footer #FOOT-decoration {
 	width : 250px;
-	height : 176px;
+	height: 176px;
 	background: url('../img/FOOT-decoration.png') no-repeat;
 	position: absolute; 
 	bottom: 0;
 	right: 6px;
 }
+footer div#copyright {
+    float: right;
+    margin: 20px 8px 0px 0px;
+    font-size: 10px;
+    color: #cccccc;
+}
+
 #main article {
 	padding: 0 16px 20px;
 }
@@ -205,5 +212,5 @@ div.span2 {
 	width : 800px;
 	height: 154px;
 	text-indent: -9999px;
-	margin : 0 32px;
+	margin: 0 32px;
 }

@@ -6,7 +6,7 @@
 <html class="no-js" lang="jp"> <!--<![endif]-->
     <head>
         <meta charset="UTF-8">
-        <title>#{pageTitle pc}
+        <title>[happiage]
         <meta name="description" content="">
         <meta name="author" content="happiage-developer">
         <meta name="copyright" content="Copyright happiage-developer">
@@ -67,3 +67,5 @@
                     <a href="contact">
                         contact
             <div id="FOOT-decoration">
+            <div id="copyright">
+                #{extraCopyright $ appExtra $ settings master}

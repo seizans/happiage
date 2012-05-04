@@ -111,7 +111,7 @@ instance Yesod Happiage where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
-            $(widgetFile "normalize")
+            -- $(widgetFile "normalize")
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
