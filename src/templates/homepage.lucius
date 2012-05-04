@@ -71,7 +71,7 @@ div#welcome-menu {
 	display: block;
 	width : 235px ;
 	height : 76px;
-	background: url('../img/confirm_participation.png') no-repeat;
+	background: url(@{StaticR img_confirm_participation_png}) no-repeat;
 }
 #welcome-menu li#confirm_participation a:hover {
 	background: url(@{StaticR img_confirm_participation_hover_png}) no-repeat;

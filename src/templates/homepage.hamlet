@@ -1,5 +1,5 @@
 <section id="main">
-    <h2>welcom to our wedding !
+    <h2>Welcome to our Wedding!
     <article>
         <div class="span2">
             <div id="welcome-image">
@@ -10,5 +10,9 @@
             <p>出欠を登録したり、写真をアップロードすることができます
             <div id="welcome-menu">
                 <ul>
-                    <li id="show_invitation"><a href=@{GuideR}>招待状を見る
-                    <li id="confirm_participation"><a href=@{RegisterR}>出欠を登録する
+                    <li id="show_invitation">
+                        <a href=@{GuideR}>
+                            招待状を見る
+                    <li id="confirm_participation">
+                        <a href=@{RegisterR}>
+                            出欠を登録する
