@@ -6,11 +6,10 @@ UserAuth
     UniqueUserAuth email
 User
     authid UserAuthId
-    nickname Text
-    firstname Text
-    familyname Text
-    kanafirst Text
-    kanafamily Text
+    name Text
+    kananame Text
+    zipcode Text
+    address Text
     sex Sex
     attend Attend default=Suspense
     invitedby UserId Maybe

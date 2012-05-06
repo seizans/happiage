@@ -37,11 +37,10 @@ postRegisterR = do
       runDB $ do --TODO:runDBのエラーチェック
         _ <- insert $ User {
           userAuthid = authid, 
-          userNickname = urNickname userRegisterInfo, 
-          userFirstname = urFirstname userRegisterInfo, 
-          userFamilyname = urFamilyname userRegisterInfo, 
-          userKanafirst = urKanafirst userRegisterInfo, 
-          userKanafamily = urKanafamily userRegisterInfo, 
+          userName = urName userRegisterInfo, 
+          userKananame = urKananame userRegisterInfo, 
+          userZipcode = urZipcode userRegisterInfo,
+          userAddress = urAddress userRegisterInfo,
           userSex = urSex userRegisterInfo, 
           userAttend = urAttend userRegisterInfo, 
           userInvitedby = Nothing, 
@@ -97,11 +96,10 @@ postRegupdateR = do
         orig <- get404 uid
         replace uid User {
           userAuthid = authid, 
-          userNickname = urNickname userUpdateInfo,
-          userFirstname = urFirstname userUpdateInfo,
-          userFamilyname = urFamilyname userUpdateInfo,
-          userKanafirst = urKanafirst userUpdateInfo,
-          userKanafamily = urKanafamily userUpdateInfo,
+          userName = urName userUpdateInfo,
+          userKananame = urKananame userUpdateInfo,
+          userZipcode = urZipcode userUpdateInfo,
+          userAddress = urAddress userUpdateInfo,
           userSex = urSex userUpdateInfo, 
           userAttend = urAttend userUpdateInfo, 
           userInvitedby = Nothing, 
@@ -125,37 +123,33 @@ attendFieldList :: [(Text, Attend)]
 attendFieldList = (zip (map T.pack ["保留","欠席","出席"]) [Suspense, Absent, Present])
 
 --参加登録用フォーム
-registerForm :: Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
+registerForm :: Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget)
 registerForm = renderDivs $ 
   UserRegisterInfo
-    <$> areq textField "ニックネーム" Nothing 
-    <*> areq textField "苗字（かな）" Nothing
-    <*> areq textField "名前（かな）" Nothing
-    <*> areq textField "苗字" Nothing
-    <*> areq textField "名前" Nothing
+    <$> areq textField "名前" Nothing
+    <*> areq textField "名前かな" Nothing
+    <*> areq textField "郵便番号" Nothing
+    <*> areq textField "住所" Nothing
     <*> areq (selectFieldList genderFieldList) "性別" Nothing
     <*> areq (selectFieldList attendFieldList) "ご出席" Nothing
 
-data UserRegisterInfo = UserRegisterInfo {
-       urNickname :: Text
-      , urKanafamily :: Text
-      , urKanafirst :: Text
-      , urFamilyname :: Text
-      , urFirstname :: Text
+data UserRegisterInfo = UserRegisterInfo
+      { urName :: Text
+      , urKananame :: Text
+      , urZipcode :: Text
+      , urAddress :: Text
       , urSex :: Sex
       , urAttend :: Attend
-    }
+      }
     deriving Show
 
 --参加登録更新用フォーム（一部項目のみ変更可能）
 updateForm :: Maybe User -> Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
 updateForm muser = renderDivs $ 
   UserRegisterInfo
-    <$> areq textField "ニックネーム" (fmap userNickname muser)
-    <*> areq textField "苗字（かな）" (fmap userKanafamily muser)
-    <*> areq textField "名前（かな）" (fmap userKanafirst muser)
-    <*> areq textField "苗字" (fmap userFamilyname muser)
-    <*> areq textField "名前" (fmap userFirstname muser)
+    <$> areq textField "名前" (fmap userName muser)
+    <*> areq textField "名前かな" (fmap userKananame muser)
+    <*> areq textField "郵便番号" (fmap userZipcode muser)
+    <*> areq textField "住所" (fmap userAddress muser)
     <*> areq (selectFieldList genderFieldList) "性別" (fmap userSex muser)
     <*> areq (selectFieldList attendFieldList) "ご出席" (fmap userAttend muser)
- 

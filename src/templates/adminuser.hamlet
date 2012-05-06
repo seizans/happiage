@@ -29,6 +29,8 @@
       <tr>
         <th>name
         <th>kana
+        <th>zipcode
+        <th>address
         <th>sex
         <th>email
         <th>attend
@@ -36,11 +38,13 @@
       $forall userA <- userAs
         <tr>
           <td>
-            #{userFamilyname $ entityVal $ fst userA}
-            #{userFirstname $ entityVal $ fst userA}
+            #{userName $ entityVal $ fst userA}
           <td>
-            #{userKanafamily $ entityVal $ fst userA}
-            #{userKanafirst $ entityVal $ fst userA}
+            #{userKananame $ entityVal $ fst userA}
+          <td>
+            #{userZipcode $ entityVal $ fst userA}
+          <td>
+            #{userAddress $ entityVal $ fst userA}
           <td>
             #{show $ userSex $ entityVal $ fst userA}
           <td>

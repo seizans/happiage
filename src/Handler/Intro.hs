@@ -19,7 +19,7 @@ composeMessageLine usersMap !messages@((mid, m):ms) =
   else 
     composeMessageLine usersMap ms
   where messageText = messageBody m
-        messageUserName = userFamilyname $ usersMap ! (messageUser m)
+        messageUserName = userName $ usersMap ! (messageUser m)
 
 --新郎新婦紹介ページ
 getIntroR :: Handler RepHtml
