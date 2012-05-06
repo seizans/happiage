@@ -4,3 +4,6 @@ h1 {
 h2##{h2id} {
     color: #990
 }
+h3 {
+    text-align: center
+}

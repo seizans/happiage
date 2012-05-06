@@ -5,6 +5,8 @@ import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 import Codec.Archive.Zip
 import Debug.Trace --printfデバッグ用
+import Handler.Album
+
 traceD :: Show a => a -> b -> b
 traceD a b = trace ("TRACE DEBUG(D):" ++ show a) b
 printD :: Show a => a -> IO ()
@@ -112,12 +114,10 @@ postFileuploadR = do
            picturePath="static/photo/" `T.append` f, pictureDeleted=False} ) fnames
         return ()
     _ -> return ()
-  defaultLayout $ case photos of
-    [] -> do
+  case photos of
+   [] -> defaultLayout 
       $(widgetFile "fileupload")
-    _ -> do
-      let photo = head photos 
-      $(widgetFile "fileuploadPost")
+   _ -> getAlbumPageMainR True 0 "アップロードしました"
  
 -- TODO: move to other file.
 getAdminR :: Handler RepHtml

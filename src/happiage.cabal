@@ -124,3 +124,4 @@ executable         happiage
 
                  , split
                  , zip-archive
+                 , utf8-string

@@ -22,6 +22,7 @@
 <div class="container" id="maincontainer">
   <div class="test">
     <div class="row">
+      <h3>#{message}
       <h1>写真アルバム (#{startNum}-#{endNum}枚目)
   <div class="albummain">
     $forall (photo,user) <- photoUsers

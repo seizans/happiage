@@ -6,14 +6,14 @@ import Data.Map ((!))
 
 
 getAlbumR :: Handler RepHtml
-getAlbumR = getAlbumPageMainR True 0
+getAlbumR = getAlbumPageMainR True 0 ""
 
 --アルバムページ
 getAlbumPageR :: Int -> Handler RepHtml
-getAlbumPageR pageNumber = getAlbumPageMainR False pageNumber
+getAlbumPageR pageNumber = getAlbumPageMainR False pageNumber ""
 
-getAlbumPageMainR :: Bool -> Int -> Handler RepHtml
-getAlbumPageMainR isTop pageNumber = do
+getAlbumPageMainR :: Bool -> Int -> String -> Handler RepHtml
+getAlbumPageMainR isTop pageNumber message = do
   maid <- maybeAuthId
   muid <- maybeUserId maid
   usersMap <- getUsersMap
@@ -23,7 +23,7 @@ getAlbumPageMainR isTop pageNumber = do
   let endNum   = (pageNumber+1)*resultsPerPage
   photoEntities <- runDB $ do
     selectList [PictureDeleted ==. False]
-                [OffsetBy $ (startNum-1)
+                [Desc PictureId, OffsetBy $ (startNum-1)
                 ,LimitTo resultsPerPage]
   let photos = map (\(Entity _ p) -> p) photoEntities
   let photoUsers = map (\photo->(photo, usersMap ! (pictureUser photo))) photos
