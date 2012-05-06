@@ -31,7 +31,7 @@ getGuideR :: Handler RepHtml
 getGuideR = do
     defaultLayout $ do
         h2id <- lift newIdent
-        $(widgetFile "guide")
+        $(widgetFile "invitation")
 
 --幹事紹介ページ
 getOrganizerR :: Handler RepHtml

@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main h2 {
+	background: url(@{StaticR img_title_invitation_png}) no-repeat ;
+}
+
+#main article {
+	margin: 0 auto;
+	width : 70%;
+
+}
+#main article#letter {
+	background: rgba(249,240,215,0.6);
+	-moz-box-shadow: 0 0  6px #AEA086;
+	-webkit-box-shadow: 0 0  6px #AEA086;
+	padding: 16px 36px;
+}
+
+#main h3 {
+	font-size: 1em;
+	margin: 24px 24px;
+}
+#main h4 {
+	margin: 24px 36px;
+}
+	
+#main p { 
+	padding : 8px 48px;
+	font-size: 0.8em;
+}
+#main table {
+	font-size: 0.8em;
+	margin: 0 auto;
+}
+#main table th {
+	font-weight : bold;
+	width : 5em;
+	text-align: right;
+	clear: left;
+	float: left;
+	padding: 3px 6px;
+	margin: 0 auto;
+}
+#main table td {
+	float: left;
+	padding : 3px 6px;
+	margin: 0 auto;
+}
+p#confirm_participation {
+	width : 235px ;
+	height : 74px;
+	text-indent: -9999px;
+	margin: 12px auto;
+}
+p#confirm_participation a{
+	display: block;
+	width : 235px ;
+	height : 76px;
+	background: url(@{StaticR img_confirm_participation_png}) no-repeat;
+}
+p#confirm_participation a:hover {
+	background: url(@{StaticR img_confirm_participation_hover_png}) no-repeat;
+}
