@@ -8,12 +8,11 @@
 /register RegisterR GET POST
 /registerupdate RegupdateR GET POST
 /message MessageR GET POST
-/album AlbumR GET
-/album/#Int AlbumPageR GET
+/album AlbumR GET POST
+/album/#Int AlbumPageR GET POST
 /guide GuideR GET
 /intro IntroR GET
 /organizer OrganizerR GET
-/fileupload FileuploadR GET POST
 
 /admin AdminR GET
 /adminuser AdminuserR GET
