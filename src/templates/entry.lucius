@@ -1,0 +1,69 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main h2 {
+	background: url(@{StaticR img_title_entry_png}) no-repeat ;
+}
+#main article {
+	margin: 0 auto;
+	width : 62%;
+}
+#main article#letter {
+	background: rgba(249,240,215,0.6);
+	-moz-box-shadow: 0 0  6px #AEA086;
+	-webkit-box-shadow: 0 0  6px #AEA086;
+	padding: 16px 36px;
+}
+#main h3 {
+	font-size: 1em;
+	margin: 24px 24px;
+}
+#main h4 {
+	margin: 24px 36px;
+}
+#main p { 
+	padding : 8px 48px;
+	font-size: 0.8em;
+}
+label {
+	margin : 0 24px;
+}
+input, textarea {
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+	-o-transition: border linear 0.2s, box-shadow linear 0.2s;
+	transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+textarea, .uneditable-input {
+	display: inline-block;
+	width :210px;
+	height: 18px;
+	padding: 4px;
+	margin-bottom: 9px;
+	font-size: 13px;
+	line-height: 18px;
+	color: #555;
+	border: 1px solid #CCC;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+#letter textarea {
+	width : 400px;
+	height: 120px;
+}
+p#submit-entry input {
+	text-indent: -9999px;
+	display: block;
+	width : 169px ;
+	height: 40px;
+	margin: 0 auto;
+	background: url(@{StaticR img_btn_entry_png}) no-repeat;
+}
+p#submit-entry a:hover {
+	background: url(@{StaticR img_btn_entry_hover_png}) no-repeat;
+}

@@ -1,0 +1,10 @@
+<section id="main">
+    <h2>Welcome to our Wedding!
+    <article id="letter">
+        <h3>出欠のご確認
+        <p class="center">
+            5月20日までに こちらのページからお返事いただけますようお願い致します
+        <form method=post enctype=#{enctype}>
+            ^{widget}
+            <p id="submit-entry" class="center">
+                <input type="submit" value="この内容で登録する">

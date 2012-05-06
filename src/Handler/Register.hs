@@ -22,7 +22,7 @@ getRegisterR = do
           defaultLayout $ do
             h2id <- lift newIdent
             let title = T.pack "参加登録"
-            $(widgetFile "register")
+            $(widgetFile "entry")
 
 postRegisterR :: Handler RepHtml
 postRegisterR = do
@@ -55,7 +55,7 @@ postRegisterR = do
     _ -> do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
-      $(widgetFile "register")
+      $(widgetFile "entry")
 
 --参加登録更新ページ
 getRegupdateR :: Handler RepHtml
@@ -72,14 +72,14 @@ getRegupdateR = do
           defaultLayout $ do
             h2id <- lift newIdent
             let title = T.pack "参加登録"
-            $(widgetFile "register")
+            $(widgetFile "entry")
         Just userId -> do
           user <- runDB $ get404 userId
           ((_, widget), enctype) <- runFormPost (updateForm $ Just user)
           defaultLayout $ do
             h2id <- lift newIdent
             let title = T.pack "参加登録情報更新"
-            $(widgetFile "register")
+            $(widgetFile "entry")
 
 --参加登録更新ページ
 postRegupdateR :: Handler RepHtml
@@ -115,7 +115,7 @@ postRegupdateR = do
     _ -> do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
-      $(widgetFile "register")
+      $(widgetFile "entry")
 
 --フォームの選択要素
 genderFieldList :: [(Text, Sex)]
