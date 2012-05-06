@@ -7,7 +7,6 @@ import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 import Codec.Archive.Zip
 
-
 getAlbumR :: Handler RepHtml
 getAlbumR = getAlbumPageMainR True 0 ""
 
@@ -47,13 +46,6 @@ data Photo = Photo
 
 fileuploadForm :: Html -> MForm Happiage Happiage (FormResult Photo, Widget )
 fileuploadForm = renderDivs $ Photo <$> areq textField "Name" Nothing <*> fileAFormReq "File"
-
---ファイルアップロードサンプルページ<GET>
-getFileuploadR :: Handler RepHtml
-getFileuploadR = do
-    ((_, widget), enctype) <- runFormPost fileuploadForm
-    defaultLayout $ do
-      $(widgetFile "fileupload")
 
 --zipファイルを解凍して、バイナリを返す
 --TODO:ファイルの正しさのチェック
@@ -101,6 +93,6 @@ postAlbumR = do
         return ()
     _ -> return ()
   case photos of
-   [] -> defaultLayout 
-      $(widgetFile "fileupload")
-   _ -> getAlbumPageMainR True 0 "アップロードしました"
+    [] -> defaultLayout 
+        $(widgetFile "homepage")
+    _ -> getAlbumPageMainR True 0 "アップロードしました"

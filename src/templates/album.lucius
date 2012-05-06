@@ -1,9 +1,85 @@
-h1 {
-    text-align: center
+@charset "utf-8";
+/* CSS Document */
+
+#main h2 {
+	background: url(@{StaticR img_title_album_png}) no-repeat ;
 }
-h2##{h2id} {
-    color: #990
+#main article {
+	margin: -40px auto 0;
+	width : 720px;
+
 }
-h3 {
-    text-align: center
+#main article #letter {
+	background: rgba(249,240,215,0.6);
+	-moz-box-shadow: 0 0  6px #AEA086;
+	-webkit-box-shadow: 0 0  6px #AEA086;
+	padding: 16px 36px;
+}
+#main h4 {
+	font-size: 1em;
+	margin: 0 0 16px;
+}
+#main h4.upload {
+	cursor: pointer;
+}
+#upload-image {
+	line-height: 31px;
+}
+#upload-image > * {
+	vertical-align : middle;
+}
+
+ul.pager {
+	margin: 24px 0 8px;
+}
+.pager li {
+	float: left;
+	margin-left: 3px;
+	font-size: 0.8em;
+	list-style-type: none;
+	height: 16px;
+	line-height: 16px;
+}
+.pager li > a {
+	display: block;
+	padding : 0 4px;
+	color : #822243;
+}
+.pager li > a:hover {
+	text-decoration : underline;
+}
+.pager .current-page {
+	background : #822243;
+	border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+	padding : 0 4px;
+	color: white;
+	line-height: 16px;
+}
+#album-image {
+	width : 660px;
+	padding-left: 10px;
+	margin : 0 auto;
+}
+#album-image #image-list li {
+	float: left;
+	width : 118px;
+	height: 118px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	list-style-type: none;
+	text-align: center;
+	position: relative;
+	background: #ffffff;
+	-moz-box-shadow: 0 0  6px #AEA086;
+	-webkit-box-shadow: 0 0  6px #AEA086;
+}
+#image-list li > img {
+	width: 120px;
+	height: 120px;
+	position : absolute;
+	top: 0;
+	left: 0;
+	clip: rect(5px 113px 113px 5px);
 }

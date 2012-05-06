@@ -1,39 +1,40 @@
-<style type="text/css">
-  #maincontainer {
-    padding-top: 60px;
-  }
-  .test {
-    padding-top: 30px;
-    padding-bottom: 10px; 
-    background-color: #f5f5f5;
-  }
-  .albummain {
-    padding: 20px;
-    text-align: center;
-  }
-  .annai-unit{
-    padding: 30px;
-  }
-  .kaisai-unit{
-    padding: 30px;
-  }
+<section id="main">
+    <h2>Album Page
+    <h3>#{message}
 
-
-<div class="container" id="maincontainer">
-  <form method=post enctype=#{enctype}>
-    ^{widget}
-    <input type=submit>
- <div class="test">
-    <div class="row">
-      <h3>#{message}
-      <h1>写真アルバム (#{startNum}-#{endNum}枚目)
-  <div class="albummain">
+    <h1>写真アルバム (#{startNum}-#{endNum}枚目)
+    <div class="albummain">
     $forall (photo,user) <- photoUsers
       $if not isTop
         <img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
       $else
         <img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>
       (投稿者:#{userName user}さん)<br><br>
-    <a href=@{AlbumPageR prevPage}>前へ</a> <a href=@{AlbumPageR nextPage}>次へ</a><br>
+    <a href=@{AlbumPageR prevPage}>
+        前へ
+    <a href=@{AlbumPageR nextPage}>
+        次へ
 
- 
+    <article>
+        <div id="letter"> 
+            <h4 class="upload">写真のアップロードはこちらから
+            <form name="uploadimage" id="upload-image" method=post enctype=#{enctype}>
+                ^{widget}
+                <input type=submit>
+            <form name="uploadimage" id="upload-image">
+                <input type="file" name="fileName" size="60" accept="image/jpeg,image/png">
+                <input type="image" src=@{StaticR img_btn_upload_png} alt="アップロード" class="block-right" />
+        <div id="album-image">
+            <ul class="pager clearfix">
+                <li class="current-page">1
+                <li>
+                    <a href="#">2
+                <li>
+                    <a href="#">3
+                <li>
+                    <a href="#">次のページへ
+            <ul id="image-list" class="clearfix">
+                <li><img src="img/ironman3-small.png" />
+                <li><img src="img/topsample-small.jpg" />
+                <li><img src="img/ironman3-small.png" />
+                <li><img src="img/topsample-small.jpg" />

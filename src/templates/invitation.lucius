@@ -4,10 +4,9 @@
 #main h2 {
 	background: url(@{StaticR img_title_invitation_png}) no-repeat ;
 }
-
 #main article {
 	margin: 0 auto;
-	width : 70%;
+	width : 648px;
 
 }
 #main article#letter {
@@ -16,7 +15,6 @@
 	-webkit-box-shadow: 0 0  6px #AEA086;
 	padding: 16px 36px;
 }
-
 #main h3 {
 	font-size: 1em;
 	margin: 24px 24px;
@@ -24,7 +22,6 @@
 #main h4 {
 	margin: 24px 36px;
 }
-	
 #main p { 
 	padding : 8px 48px;
 	font-size: 0.8em;

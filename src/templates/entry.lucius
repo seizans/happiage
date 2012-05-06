@@ -6,7 +6,7 @@
 }
 #main article {
 	margin: 0 auto;
-	width : 62%;
+	width : 648px;
 }
 #main article#letter {
 	background: rgba(249,240,215,0.6);
@@ -63,7 +63,9 @@ p#submit-entry input {
 	height: 40px;
 	margin: 0 auto;
 	background: url(@{StaticR img_btn_entry_png}) no-repeat;
+    border: none;
+    cursor: pointer;
 }
-p#submit-entry a:hover {
+p#submit-entry input:hover {
 	background: url(@{StaticR img_btn_entry_hover_png}) no-repeat;
 }
