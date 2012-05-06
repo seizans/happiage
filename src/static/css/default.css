@@ -214,3 +214,23 @@ div.span2 {
 	text-indent: -9999px;
 	margin: 0 32px;
 }
+a {
+	text-decoration: none;
+}
+strong {
+	color: #DA2803;
+	font-weight: normal;
+}
+.right {
+	text-align: right;
+}
+.block-right {
+	float: right ;
+}
+.center {
+	text-align: center;
+}
+.regard {
+	font-size: 0.6em;
+	color: 	#777777;
+}
