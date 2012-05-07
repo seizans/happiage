@@ -1,3 +1,4 @@
+{-# LANGUAGE TypeFamilies, TemplateHaskell, OverloadedStrings, FlexibleContexts, GADTs #-}
 module Model where
 
 import Prelude
