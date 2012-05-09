@@ -8,7 +8,7 @@ import qualified Data.Text as T
 import Codec.Archive.Zip
 
 getAlbumR :: Handler RepHtml
-getAlbumR = getAlbumPageMainR True 0 ""
+getAlbumR = getAlbumPageMainR True 1 ""
 
 --アルバムページ
 getAlbumPageR :: Int -> Handler RepHtml
@@ -19,23 +19,25 @@ postAlbumPageR _ = postAlbumR
 
 getAlbumPageMainR :: Bool -> Int -> String -> Handler RepHtml
 getAlbumPageMainR isTop pageNumber message = do
-  maid <- maybeAuthId
-  muid <- maybeUserId maid
-  usersMap <- getUsersMap
-  let resultsPerPage = 5
-  let (prevPage, nextPage) = (pageNumber-1, pageNumber+1)
-  let startNum = pageNumber*resultsPerPage + 1
-  let endNum   = (pageNumber+1)*resultsPerPage
-  photoEntities <- runDB $ do
-    selectList [PictureDeleted ==. False]
-                [Desc PictureId, OffsetBy $ (startNum-1)
-                ,LimitTo resultsPerPage]
-  let photos = map (\(Entity _ p) -> p) photoEntities
-  let photoUsers = map (\photo->(photo, usersMap ! (pictureUser photo))) photos
-  ((_, widget), enctype) <- runFormPost fileuploadForm
-  defaultLayout $ do
-    h2id <- lift newIdent
-    $(widgetFile "album")
+    if pageNumber <= 0
+      then defaultLayout $ $(widgetFile "homepage")
+      else do
+        maid <- maybeAuthId
+        muid <- maybeUserId maid
+        usersMap <- getUsersMap
+        let picPerPage = 3
+            (prevPage, nextPage) = (pageNumber - 1, pageNumber + 1)
+            startNum = picPerPage * (pageNumber - 1) + 1
+            endNum   = picPerPage * pageNumber
+        photoEntities <- runDB $ selectList [PictureDeleted ==. False] [Desc PictureId, OffsetBy $ (startNum - 1), LimitTo picPerPage]
+        numOfPic <- runDB $ count [PictureDeleted ==. False]
+        let photos = map (\(Entity _ p) -> p) photoEntities
+            photoUsers = map (\photo->(photo, usersMap ! (pictureUser photo))) photos
+            maxpage = numOfPic `div` picPerPage + 1
+            pagenums = [1..maxpage]
+        (widget, enctype) <- generateFormPost fileuploadForm
+        defaultLayout $ do
+            $(widgetFile "album")
 
 -- ここから写真アップロード用フォーム
 data Photo = Photo
@@ -56,7 +58,7 @@ photosFromZip contents =
   map photoFromEntry entries
   where 
     isImageFile filename = --拡張子で判断
-      or $ map ((flip T.isSuffixOf) (T.pack $ eRelativePath $ filename)) [".jpg",".jpeg",".png",".gif"]
+      or $ map ((flip T.isSuffixOf) (T.toLower $ T.pack $ eRelativePath $ filename)) [".jpg",".jpeg",".png",".gif"]
     photoFromEntry entry = 
       Photo fname (FileInfo fname fname (fromEntry entry))
       where fname = last $ T.splitOn "/" $ (T.pack $ eRelativePath entry)
@@ -65,34 +67,66 @@ photosFromZip contents =
 writePhoto :: Photo -> IO ()
 writePhoto photo = L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
 
---ファイルアップロードサンプルページ<POST>
 postAlbumR :: Handler RepHtml
 postAlbumR = do
-  ((res, widget), enctype) <- runFormPost fileuploadForm
-  photos <- case res of
-    FormSuccess photo -> do
-      let cType = fileContentType $ photoFile photo
-      if T.isPrefixOf "image/" cType then do --画像のとき
-        liftIO $ writePhoto photo
-        return $ [photo]
-        else if cType == "application/zip" then do --Zipのとき (複数画像をまとめてアップロード)
-          let filedata = fileContent $ photoFile photo
-              photos = photosFromZip filedata
-          liftIO $ mapM_ writePhoto photos
-          return photos
-          else return [] --その他
-    _ -> return []
-  maid <- maybeAuthId
-  muid <- maybeUserId maid
-  --photoあった場合にDB書き込み
-  case (photos, muid) of
-    (ps@(_:_), Just uid) -> runDB $ do --注.photosが一個以上になるように←の記法になっている
-        let fnames = map (fileName . photoFile) photos
-        mapM_ (\f->insert $ Picture {pictureUser = uid, pictureTitle=f,
-           picturePath="static/photo/" `T.append` f, pictureDeleted=False} ) fnames
-        return ()
-    _ -> return ()
-  case photos of
-    [] -> defaultLayout 
-        $(widgetFile "homepage")
-    _ -> getAlbumPageMainR True 0 "アップロードしました"
+    ((result, widget), enctype) <- runFormPost fileuploadForm
+    photos <- case result of
+      FormSuccess photo -> do
+        let cType = fileContentType $ photoFile photo
+        liftIO $ print cType
+        if T.isPrefixOf "image/" cType
+          then do --画像のとき
+            liftIO $ writePhoto photo
+            return $ [photo]
+          else
+            if cType == "application/zip"
+              then do --Zipのとき (複数画像をまとめてアップロード)
+                let filedata = fileContent $ photoFile photo
+                    photos = photosFromZip filedata
+                liftIO $ mapM_ writePhoto photos
+                return photos
+              else return [] --その他
+      _ -> return []
+    maid <- maybeAuthId
+    muid <- maybeUserId maid
+    --photoあった場合にDB書き込み
+    case (photos, muid) of
+        (ps@(_:_), Just uid) -> runDB $ do --注.photosが一個以上になるように←の記法になっている
+            let fnames = map (fileName . photoFile) photos
+            mapM_ (\f -> insert $ Picture {pictureUser = uid, pictureTitle=f,
+               picturePath="static/photo/" `mappend` f, pictureDeleted=False} ) fnames
+            return ()
+        _ -> return ()
+    case photos of
+        [] -> defaultLayout $(widgetFile "homepage")
+        _ -> getAlbumPageMainR True 0 "アップロードしました"
+{- 上を書きなおそうとして途中のコード片
+    maid <- maybeAuthId
+    muid <- maybeUserId maid
+    if muid == Nothing
+      then
+        return() -- ここは即エラー
+      else
+        return()
+    let uid = fromJust muid
+    ((result, widget), enctype) <- runFormPost fileuploadForm
+    case result of
+        FormSuccess photo -> do
+            let contType = fileContentType $ photoFile photo
+            if contType == "application/zip"
+              then do
+                let filedata = fileContent $ photoFile photo
+                    photos = photosFromZip filedata
+                liftIO $ mapM_ writePhoto photos
+                defaultLayout $(widgetFile "album")
+              else do
+                    if T.isPrefixOf "image/" contType
+                      then do
+                        liftIO $ writePhoto photo
+                        let fname = fileName $ photoFile photo
+                        _ <- runDB $ insert $ Picture {pictureUser = uid, pictureTitle = fname , picturePath = "static/photo/" `mappend` fname, pictureDeleted = False}
+                        getAlbumPageMainR True 0 "アップロードしました"
+                      else
+                        defaultLayout $(widgetFile "album")
+        _ -> defaultLayout $(widgetFile "album")
+-}

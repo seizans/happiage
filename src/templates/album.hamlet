@@ -1,40 +1,31 @@
 <section id="main">
     <h2>Album Page
     <h3>#{message}
-
-    <h1>写真アルバム (#{startNum}-#{endNum}枚目)
-    <div class="albummain">
-    $forall (photo,user) <- photoUsers
-      $if not isTop
-        <img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
-      $else
-        <img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>
-      (投稿者:#{userName user}さん)<br><br>
-    <a href=@{AlbumPageR prevPage}>
-        前へ
-    <a href=@{AlbumPageR nextPage}>
-        次へ
-
     <article>
         <div id="letter"> 
             <h4 class="upload">写真のアップロードはこちらから
-            <form name="uploadimage" id="upload-image" method=post enctype=#{enctype}>
+            <form name="uploadimage" id="upload-image" action=@{AlbumR} method=post enctype=#{enctype}>
                 ^{widget}
-                <input type=submit>
-            <form name="uploadimage" id="upload-image">
-                <input type="file" name="fileName" size="60" accept="image/jpeg,image/png">
-                <input type="image" src=@{StaticR img_btn_upload_png} alt="アップロード" class="block-right" />
+                <p id="submit">
+                    <input type=submit>
         <div id="album-image">
             <ul class="pager clearfix">
-                <li class="current-page">1
-                <li>
-                    <a href="#">2
-                <li>
-                    <a href="#">3
-                <li>
-                    <a href="#">次のページへ
+                $if (/=) pageNumber 1
+                  <li>
+                    <a href=@{AlbumPageR prevPage}> 前へ
+                $forall n <- pagenums
+                  $if (==) n pageNumber
+                    <li class="current-page"> #{n}
+                  $else
+                    <li>
+                      <a href=@{AlbumPageR n}>#{n}
+                $if (/=) pageNumber endNum
+                  <li>
+                    <a href=@{AlbumPageR nextPage}> 次へ
             <ul id="image-list" class="clearfix">
-                <li><img src="img/ironman3-small.png" />
-                <li><img src="img/topsample-small.jpg" />
-                <li><img src="img/ironman3-small.png" />
-                <li><img src="img/topsample-small.jpg" />
+              $forall (photo,user) <- photoUsers
+                <li>
+                  $if not isTop
+                    <img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
+                  $else
+                    <img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>
