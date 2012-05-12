@@ -238,9 +238,8 @@ maybeUserId maid = do
 --全ユーザを引いてくる
 getUsersMap :: Handler (Map.Map UserId User)
 getUsersMap = do
-  userEntities <- runDB $ do
-    selectList [UserDeleted ==. False] []
-  return $ Map.fromList $ map (\(Entity pid val) -> (pid, val)) userEntities
+    userEntities <- runDB $ selectList [UserDeleted ==. False] []
+    return $ Map.fromList $ map (\(Entity pid val) -> (pid, val)) userEntities
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
