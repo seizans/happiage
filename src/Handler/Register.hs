@@ -35,7 +35,7 @@ postRegisterR = do
   case (mUserRegisterInfo, maid) of
     (Just userRegisterInfo, Just authid) ->
       runDB $ do --TODO:runDBのエラーチェック
-        _ <- insert $ User {
+        _ <- insertUnique $ User {
           userAuthid = authid, 
           userName = urName userRegisterInfo, 
           userKananame = urKananame userRegisterInfo, 
@@ -48,10 +48,10 @@ postRegisterR = do
         }
         return ()
     _ -> return ()
-  defaultLayout $ case (mUserRegisterInfo, maid) of
+  case (mUserRegisterInfo, maid) of
     (Just _, Just _) -> do
-      [whamlet|<h2>参加登録が完了しました！|]
-    _ -> do
+      redirect RootR
+    _ -> defaultLayout $ do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
       $(widgetFile "entry")
@@ -107,10 +107,10 @@ postRegupdateR = do
         }
         return ()
     _ -> return ()
-  defaultLayout $ case (mUserUpdateInfo, maid) of
-    (Just _, Just _) -> do
-      [whamlet|<h2>参加登録情報を変更しました！|]
-    _ -> do
+  case (mUserUpdateInfo, maid) of
+    (Just _, Just _) ->
+      redirect RootR
+    _ -> defaultLayout $ do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
       $(widgetFile "entry")
@@ -131,7 +131,7 @@ registerForm = renderDivs $
     <*> areq textField "郵便番号" Nothing
     <*> areq textField "住所" Nothing
     <*> areq (selectFieldList genderFieldList) "性別" Nothing
-    <*> areq (selectFieldList attendFieldList) "ご出席" Nothing
+    <*> areq (selectFieldList attendFieldList) "ご出席" (Just Present)
 
 data UserRegisterInfo = UserRegisterInfo
       { urName :: Text

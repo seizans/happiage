@@ -32,17 +32,17 @@ postMessageR = do
   case (mMessageInfo, muid) of
     (Just messageInfo, Just uid) ->
       runDB $ do --TODO:runDBのエラーチェック
-        _ <- insert $ Message {
+        _ <- insertUnique $ Message {
           messageUser = uid, 
           messageBody = messageInfoBody messageInfo,
           messageDeleted = False
         }
         return ()
     _ -> return ()
-  defaultLayout $ case (mMessageInfo, muid) of
+  case (mMessageInfo, muid) of
     (Just messageInfo, Just uid) ->
-      [whamlet|<h2>メッセージを投稿しました！|]
-    _ -> do
+      redirect RootR
+    _ -> defaultLayout $ do
       h2id <- lift newIdent
       $(widgetFile "message")
 
