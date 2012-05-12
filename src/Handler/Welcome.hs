@@ -2,18 +2,18 @@ module Handler.Welcome where
 
 import Import
 
---トップページ
+-- WelcomePage(ごあいさつ)
 getRootR :: Handler RepHtml
 getRootR = do
     defaultLayout $ do
         h2id <- lift newIdent
-        setTitle "happiage homepage"
-        $(widgetFile "homepage")
+        setTitle "happiage"
+        $(widgetFile "welcome")
 
 -- TODO: move to other file.
 getAdminR :: Handler RepHtml
 getAdminR = do
     defaultLayout $ do
         h2id <- lift newIdent
-        setTitle "happiage homepage"
-        $(widgetFile "homepage")
+        setTitle "happiage"
+        $(widgetFile "welcome")

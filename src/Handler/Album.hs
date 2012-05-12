@@ -20,7 +20,7 @@ postAlbumPageR _ = postAlbumR
 getAlbumPageMainR :: Bool -> Int -> String -> Handler RepHtml
 getAlbumPageMainR isTop pageNumber message = do
     if pageNumber <= 0
-      then defaultLayout $ $(widgetFile "homepage")
+      then defaultLayout $ $(widgetFile "welcome")
       else do
         maid <- maybeAuthId
         muid <- maybeUserId maid
@@ -98,7 +98,7 @@ postAlbumR = do
             return ()
         _ -> return ()
     case photos of
-        [] -> defaultLayout $(widgetFile "homepage")
+        [] -> defaultLayout $(widgetFile "welcome")
         _ -> getAlbumPageMainR True 0 "アップロードしました"
 {- 上を書きなおそうとして途中のコード片
     maid <- maybeAuthId

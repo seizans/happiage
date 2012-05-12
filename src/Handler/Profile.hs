@@ -29,4 +29,4 @@ getProfileR = do
   let messageLines = composeMessageLine usersMap messages
   defaultLayout $ do
     h2id <- lift newIdent
-    $(widgetFile "intro")
+    $(widgetFile "profile")
