@@ -11,8 +11,8 @@
             <div id="welcome-menu">
                 <ul>
                     <li id="show_invitation">
-                        <a href=@{GuideR}>
+                        <a href=@{InvitationR}>
                             招待状を見る
                     <li id="confirm_participation">
-                        <a href=@{RegisterR}>
+                        <a href=@{EntryR}>
                             出欠を登録する

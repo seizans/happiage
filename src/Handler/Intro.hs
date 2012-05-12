@@ -22,8 +22,8 @@ composeMessageLine usersMap !messages@((mid, m):ms) =
         messageUserName = userName $ usersMap ! (messageUser m)
 
 --新郎新婦紹介ページ
-getIntroR :: Handler RepHtml
-getIntroR = do
+getProfileR :: Handler RepHtml
+getProfileR = do
   usersMap <- getUsersMap
   messages <- getMessages
   let messageLines = composeMessageLine usersMap messages

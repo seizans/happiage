@@ -4,8 +4,8 @@ import Import
 import qualified Data.Text as T
 
 --参加登録ページ
-getRegisterR :: Handler RepHtml
-getRegisterR = do
+getEntryR :: Handler RepHtml
+getEntryR = do
   maid <- maybeAuthId
   muid <- maybeUserId maid
   case maid of
@@ -16,7 +16,7 @@ getRegisterR = do
         Just _ -> 
           defaultLayout [whamlet|<h2>参加登録はすでに完了しています。<br>
             <a href=@{MessageR}>新郎新婦へのメッセージを投稿しますか？</a><br>
-            <a href=@{RegupdateR}>または、参加登録を変更しますか？</a>|]
+            <a href=@{EntryupdateR}>または、参加登録を変更しますか？</a>|]
         Nothing -> do --not registered 
           ((_, widget), enctype) <- runFormPost registerForm
           defaultLayout $ do
@@ -24,8 +24,8 @@ getRegisterR = do
             let title = T.pack "参加登録"
             $(widgetFile "entry")
 
-postRegisterR :: Handler RepHtml
-postRegisterR = do
+postEntryR :: Handler RepHtml
+postEntryR = do
   ((res, widget), enctype) <- runFormPost registerForm
   mUserRegisterInfo <- case res of
     FormSuccess userRegisterInfo -> return $ Just userRegisterInfo
@@ -57,8 +57,8 @@ postRegisterR = do
       $(widgetFile "entry")
 
 --参加登録更新ページ
-getRegupdateR :: Handler RepHtml
-getRegupdateR = do 
+getEntryupdateR :: Handler RepHtml
+getEntryupdateR = do 
   maid <- maybeAuthId
   muid <- maybeUserId maid
   case maid of
@@ -81,8 +81,8 @@ getRegupdateR = do
             $(widgetFile "entry")
 
 --参加登録更新ページ
-postRegupdateR :: Handler RepHtml
-postRegupdateR = do
+postEntryupdateR :: Handler RepHtml
+postEntryupdateR = do
   ((res, widget), enctype) <- runFormPost $ updateForm Nothing
   mUserUpdateInfo <- case res of
     FormSuccess userUpdateInfo -> return $ Just userUpdateInfo

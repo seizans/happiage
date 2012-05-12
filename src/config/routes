@@ -4,15 +4,15 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
-/ RootR GET
-/register RegisterR GET POST
-/registerupdate RegupdateR GET POST
-/message MessageR GET POST
-/album AlbumR GET POST
-/album/#Int AlbumPageR GET POST
-/guide GuideR GET
-/intro IntroR GET
-/organizer OrganizerR GET
+/            RootR        GET
+/invitation  InvitationR  GET
+/entry       EntryR       GET POST
+/entryupdate EntryupdateR GET POST
+/message     MessageR     GET POST
+/album       AlbumR       GET POST
+/album/#Int  AlbumPageR   GET POST
+/profile     ProfileR     GET
+/organizer   OrganizerR   GET
 
 /admin AdminR GET
 /adminuser AdminuserR GET

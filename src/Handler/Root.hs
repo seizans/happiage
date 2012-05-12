@@ -25,8 +25,8 @@ getRootR = do
         $(widgetFile "homepage")
 
 --開催案内ページ
-getGuideR :: Handler RepHtml
-getGuideR = do
+getInvitationR :: Handler RepHtml
+getInvitationR = do
     defaultLayout $ do
         h2id <- lift newIdent
         $(widgetFile "invitation")
