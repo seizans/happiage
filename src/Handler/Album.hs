@@ -99,7 +99,7 @@ postAlbumR = do
         _ -> return ()
     case photos of
         [] -> defaultLayout $(widgetFile "welcome")
-        _ -> getAlbumPageMainR True 0 "アップロードしました"
+        _ -> getAlbumPageMainR True 1 "アップロードしました."
 {- 上を書きなおそうとして途中のコード片
     maid <- maybeAuthId
     muid <- maybeUserId maid
