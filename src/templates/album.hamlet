@@ -4,7 +4,7 @@
     <article>
         <div id="letter"> 
             <h4 class="upload">写真のアップロードはこちらから
-            <form name="uploadimage" id="upload-image" action=@{AlbumR} method=post enctype=#{enctype}>
+            <form action=@{AlbumR} method=post enctype=#{enctype}>
                 ^{widget}
                 <p id="submit">
                     <input type=submit>
