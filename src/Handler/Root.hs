@@ -17,13 +17,6 @@ getInvitationR = do
         h2id <- lift newIdent
         $(widgetFile "invitation")
 
---幹事紹介ページ
-getOrganizerR :: Handler RepHtml
-getOrganizerR = do
-    defaultLayout $ do
-        h2id <- lift newIdent
-        $(widgetFile "organizer")
-
 -- TODO: move to other file.
 getAdminR :: Handler RepHtml
 getAdminR = do
