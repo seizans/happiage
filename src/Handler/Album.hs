@@ -33,7 +33,7 @@ getAlbumPageMainR isTop pageNumber message = do
         numOfPic <- runDB $ count [PictureDeleted ==. False]
         let photos = map (\(Entity _ p) -> p) photoEntities
             photoUsers = map (\photo->(photo, usersMap ! (pictureUser photo))) photos
-            maxpage = numOfPic `div` picPerPage + 1
+            maxpage = (numOfPic + picPerPage - 1) `div` picPerPage
             pagenums = [1..maxpage]
         (widget, enctype) <- generateFormPost fileuploadForm
         defaultLayout $ do
