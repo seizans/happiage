@@ -34,6 +34,7 @@ library
                      HappiageAuthMessage
                      Settings.StaticFiles
                      Handler.Root
+                     Handler.Invitation
                      Handler.Register
                      Handler.Message
                      Handler.Intro

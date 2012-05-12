@@ -22,6 +22,7 @@ import Network.HTTP.Conduit (newManager, def)
 
 -- Import all relevant handler modules here.
 import Handler.Root
+import Handler.Invitation
 import Handler.Register
 import Handler.Message
 import Handler.Intro
