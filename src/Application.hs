@@ -21,12 +21,12 @@ import qualified Database.Persist.Store
 import Network.HTTP.Conduit (newManager, def)
 
 -- Import all relevant handler modules here.
-import Handler.Root
+import Handler.Welcome
 import Handler.Invitation
-import Handler.Register
+import Handler.Entry
 import Handler.Message
-import Handler.Intro
 import Handler.Album
+import Handler.Profile
 import Handler.Admin
 
 -- This line actually creates our YesodSite instance. It is the second half

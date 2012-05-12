@@ -1,4 +1,4 @@
-module Handler.Register where
+module Handler.Entry where
 
 import Import
 import qualified Data.Text as T

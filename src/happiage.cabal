@@ -33,12 +33,12 @@ library
                      Settings
                      HappiageAuthMessage
                      Settings.StaticFiles
-                     Handler.Root
+                     Handler.Welcome
                      Handler.Invitation
-                     Handler.Register
-                     Handler.Message
-                     Handler.Intro
+                     Handler.Entry
                      Handler.Album
+                     Handler.Profile
+                     Handler.Message
                      Handler.Admin
                      Smtp.SmtpClient
                      Smtp.SmtpProperties

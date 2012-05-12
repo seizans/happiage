@@ -1,4 +1,4 @@
-module Handler.Intro where
+module Handler.Profile where
 
 import Import
 import qualified Data.Map as Map

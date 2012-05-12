@@ -1,4 +1,4 @@
-module Handler.Root where
+module Handler.Welcome where
 
 import Import
 
