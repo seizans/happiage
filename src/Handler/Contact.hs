@@ -1,10 +1,12 @@
 module Handler.Contact where
 
 import Import
+import Data.Maybe (fromJust)
 
 -- ContactPage (お問い合わせページ)
 getContactR :: Handler RepHtml
 getContactR = do
+    _ <- maybeAuthId
     (formWidget, formEnctype) <- generateFormPost contactForm
     let submission = Nothing
     defaultLayout $
@@ -12,10 +14,13 @@ getContactR = do
 
 postContactR :: Handler RepHtml
 postContactR = do
+    maid <- maybeAuthId
     ((result, formWidget), formEnctype) <- runFormPost contactForm
-    let submission = case result of
-            FormSuccess res -> Just res
-            _ -> Nothing
+    submission <- case result of
+        FormSuccess (formContact, formName) -> do
+            _ <- runDB $ insert Contact {contactAuthid = fromJust maid, contactContent = formContact, contactName = formName}
+            return (Just (formContact, formName))
+        _ -> return Nothing
     defaultLayout $
         $(widgetFile "contact")
 

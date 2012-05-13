@@ -1,3 +1,4 @@
+-- Transactional Data
 UserAuth
     email Text
     password Text Maybe
@@ -28,6 +29,12 @@ Child
     user UserId
     name Text
     age Int
+Contact
+    authid  UserAuthId
+    content Text
+    name    Text
+
+-- Master Data
 Profile
     question Text
     groom Text
