@@ -8,21 +8,15 @@ getEntryR :: Handler RepHtml
 getEntryR = do
   maid <- maybeAuthId
   muid <- maybeUserId maid
-  case maid of
-    Nothing -> --not logged in
-      defaultLayout [whamlet|<h2>参加登録をするためには、ログインをしてください|]
-    Just authId -> 
-      case muid of 
-        Just _ -> 
-          defaultLayout [whamlet|<h2>参加登録はすでに完了しています。<br>
-            <a href=@{MessageR}>新郎新婦へのメッセージを投稿しますか？</a><br>
-            <a href=@{EntryupdateR}>または、参加登録を変更しますか？</a>|]
-        Nothing -> do --not registered 
-          ((_, widget), enctype) <- runFormPost registerForm
-          defaultLayout $ do
-            h2id <- lift newIdent
-            let title = T.pack "参加登録"
-            $(widgetFile "entry")
+  case muid of 
+    Just _ -> 
+      redirect EntryupdateR        
+    Nothing -> do
+      ((_, widget), enctype) <- runFormPost registerForm
+      defaultLayout $ do
+        h2id <- lift newIdent
+        let title = T.pack "参加登録"
+        $(widgetFile "entry")
 
 postEntryR :: Handler RepHtml
 postEntryR = do
@@ -74,7 +68,11 @@ getEntryupdateR = do
             $(widgetFile "entry")
         Just userId -> do
           user <- runDB $ get404 userId
-          ((_, widget), enctype) <- runFormPost (updateForm $ Just user)
+          messages <- runDB $ selectList [MessageUser ==. userId] []
+          message <- case messages of
+            [] -> return Nothing
+            _ -> return $ Just $ (\(Entity id val) -> val) (messages !! 0)
+          ((_, widget), enctype) <- runFormPost (updateForm (Just user) (message))
           defaultLayout $ do
             h2id <- lift newIdent
             let title = T.pack "参加登録情報更新"
@@ -83,7 +81,7 @@ getEntryupdateR = do
 --参加登録更新ページ
 postEntryupdateR :: Handler RepHtml
 postEntryupdateR = do
-  ((res, widget), enctype) <- runFormPost $ updateForm Nothing
+  ((res, widget), enctype) <- runFormPost $ updateForm Nothing Nothing
   mUserUpdateInfo <- case res of
     FormSuccess userUpdateInfo -> return $ Just userUpdateInfo
     _ -> return Nothing
@@ -93,7 +91,7 @@ postEntryupdateR = do
   case (mUserUpdateInfo, maid, muid) of
     (Just userUpdateInfo, Just authid, Just uid) ->
       runDB $ do --TODO:runDBのエラーチェック
-        orig <- get404 uid
+        _ <- get404 uid
         replace uid User {
           userAuthid = authid, 
           userName = urName userUpdateInfo,
@@ -132,6 +130,7 @@ registerForm = renderDivs $
     <*> areq textField "住所" Nothing
     <*> areq (selectFieldList genderFieldList) "性別" Nothing
     <*> areq (selectFieldList attendFieldList) "ご出席" (Just Present)
+    <*> aopt  textField "メッセージ(任意)" Nothing
 
 data UserRegisterInfo = UserRegisterInfo
       { urName :: Text
@@ -140,12 +139,13 @@ data UserRegisterInfo = UserRegisterInfo
       , urAddress :: Text
       , urSex :: Sex
       , urAttend :: Attend
+      , urMessage :: Maybe Text
       }
     deriving Show
 
 --参加登録更新用フォーム（一部項目のみ変更可能）
-updateForm :: Maybe User -> Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
-updateForm muser = renderDivs $ 
+updateForm :: Maybe User -> Maybe Message -> Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
+updateForm muser mmessage = renderDivs $ 
   UserRegisterInfo
     <$> areq textField "名前" (fmap userName muser)
     <*> areq textField "名前かな" (fmap userKananame muser)
@@ -153,3 +153,7 @@ updateForm muser = renderDivs $
     <*> areq textField "住所" (fmap userAddress muser)
     <*> areq (selectFieldList genderFieldList) "性別" (fmap userSex muser)
     <*> areq (selectFieldList attendFieldList) "ご出席" (fmap userAttend muser)
+    <*> aopt textField "メッセージ(任意)" (body mmessage)
+    where
+        body (Just m) = Just (Just $ messageBody m)
+        body Nothing = Nothing
