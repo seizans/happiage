@@ -17,9 +17,10 @@ User
     deleted Bool default=false
     UniqueUser authid
 Message
-    user UserId
-    body Text
+    user    UserId
+    body    Text
     deleted Bool default=false
+    UniqueMessage user
 Picture
     user UserId
     title Text

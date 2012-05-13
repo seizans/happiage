@@ -2,7 +2,7 @@ module Handler.Entry where
 
 import Import
 import qualified Data.Text as T
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust, fromMaybe)
 
 -- EntryPage (参加登録ページ)
 getEntryR :: Handler RepHtml
@@ -24,10 +24,11 @@ postEntryR = do
         FormSuccess userRegisterInfo -> return $ Just userRegisterInfo
         _ -> return Nothing
     maid <- maybeAuthId
-    --ログイン時、postデータがあった場合に、書き込み
     case (mUserRegisterInfo, maid) of
         (Just userRegisterInfo, Just authid) -> do
-            _ <- runDB $ insertUnique $ User {
+            -- User を作成した場合、Message も同時に作成されることを保証する.
+            _ <- runDB $ do
+                muid <- insertUnique $ User {
                     userAuthid = authid, 
                     userName = urName userRegisterInfo, 
                     userKananame = urKananame userRegisterInfo, 
@@ -37,6 +38,11 @@ postEntryR = do
                     userAttend = urAttend userRegisterInfo, 
                     userInvitedby = Nothing, 
                     userDeleted = False
+                  }
+                insertUnique $ Message
+                  { messageUser = fromJust muid
+                  , messageBody = fromMaybe "" (urMessage userRegisterInfo)
+                  , messageDeleted = False
                   }
             redirect WelcomeR
         _ ->
@@ -86,6 +92,11 @@ postEntryupdateR = do
             , userInvitedby = Nothing
             , userDeleted = False
             }
+        case urMessage userUpdateInfo of
+          Nothing -> return ()
+          Just message -> do
+            _ <- runDB $ updateWhere [MessageUser ==. uid] [MessageBody =. message]
+            return ()
         defaultLayout $ do
             let title = T.pack "参加登録"
             $(widgetFile "entry")
