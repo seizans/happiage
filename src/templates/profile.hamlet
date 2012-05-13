@@ -10,6 +10,11 @@
                 <td class="profile_image">
                     <img src=@{StaticR img_ironman3_png}>
                         <span class="profile_frame">
+            $forall profile <- profiles
+              <tr>
+                <td>#{profileGroom profile}
+                <th>#{profileQuestion profile}
+                <id>#{profileBride profile}
             <tr>
                 <td>
                     島崎 清山
