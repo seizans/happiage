@@ -72,8 +72,3 @@
                     新婦高校友人
                 <td>
                     新婦高校友人
-
-<div class="messages">
-    <div class="row">
-        $forall (mname, mtext) <- messageLines
-            <h2>#{mname}さん より：#{mtext}

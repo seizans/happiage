@@ -43,5 +43,8 @@
                     出欠を登録する
     <article id="messages">
         <h3>皆様から寄せられたメッセージ
+        $forall (msgtext, username) <- messages
+          <p>
+            #{msgtext} <br> #{username}
         <p class="right regard">
                 ※参加登録時に寄せられたメッセージをランダムに表示しています
