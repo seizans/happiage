@@ -5,9 +5,11 @@
 <link rel="stylesheet" type="text/css" href=@{StaticR js_jquery_ui_1_8_20_custom_css_ui_lightness_jquery_ui_1_8_20_custom_css}>
 <section id="main">
     <h2>Album Page
-    <h3>#{message}
     <article>
-        <div id="letter"> 
+        $maybe msg <- mmsg
+          <div class="letter">
+            <h4>#{msg}
+        <div class="letter"> 
             <h4 class="upload">写真のアップロードはこちらから
             <form id="upload-image" action=@{AlbumR} method=post enctype=#{enctype}>
                 ^{widget}

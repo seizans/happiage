@@ -8,7 +8,7 @@
 	margin: -40px auto 0;
 	width : 720px;
 }
-#main article #letter {
+#main article .letter {
 	background: rgba(249,240,215,0.6);
 	-moz-box-shadow: 0 0  6px #AEA086;
     box-shadow: 0 0 6px #AEA086;

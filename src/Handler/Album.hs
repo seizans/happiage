@@ -8,24 +8,21 @@ import qualified Data.Text as T
 import Codec.Archive.Zip
 
 getAlbumR :: Handler RepHtml
-getAlbumR = do
-    mmsg <- lookupGetParam "msg"
-    case mmsg of
-        Just message -> getAlbumPageMainR True 1 message
-        Nothing -> getAlbumPageMainR True 1 ""
+getAlbumR = getAlbumPageMainR True 1
 
 --アルバムページ
 getAlbumPageR :: Int -> Handler RepHtml
-getAlbumPageR pageNumber = getAlbumPageMainR False pageNumber ""
+getAlbumPageR pageNumber = getAlbumPageMainR False pageNumber
 
 postAlbumPageR :: Int -> Handler RepHtml
 postAlbumPageR _ = postAlbumR
 
-getAlbumPageMainR :: Bool -> Int -> Text -> Handler RepHtml
-getAlbumPageMainR isTop pageNumber message = do
+getAlbumPageMainR :: Bool -> Int -> Handler RepHtml
+getAlbumPageMainR isTop pageNumber = do
     if pageNumber <= 0
       then redirect WelcomeR
       else do
+        mmsg <- lookupGetParam "msg"
         maid <- maybeAuthId
         muid <- maybeUserId maid
         usersMap <- getUsersMap
