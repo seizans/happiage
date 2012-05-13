@@ -1,0 +1,6 @@
+<section id="main">
+    <h2>Contact (お問い合わせ)
+    <article id="letter">
+        <form method=post enctype=#{formEnctype}>
+            ^{formWidget}
+            <input type="submit" value="送信">

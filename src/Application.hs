@@ -27,6 +27,7 @@ import Handler.Entry
 import Handler.Message
 import Handler.Album
 import Handler.Profile
+import Handler.Contact
 import Handler.Admin
 
 -- This line actually creates our YesodSite instance. It is the second half

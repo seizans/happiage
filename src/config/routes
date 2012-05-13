@@ -12,6 +12,7 @@
 /album       AlbumR       GET POST
 /album/#Int  AlbumPageR   GET POST
 /profile     ProfileR     GET
+/contact     ContactR     GET POST
 
 /admin AdminR GET
 /adminuser AdminuserR GET

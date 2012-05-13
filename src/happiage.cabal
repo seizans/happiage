@@ -38,6 +38,7 @@ library
                      Handler.Entry
                      Handler.Album
                      Handler.Profile
+                     Handler.Contact
                      Handler.Message
                      Handler.Admin
                      Smtp.SmtpClient
