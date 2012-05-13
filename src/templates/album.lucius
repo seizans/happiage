@@ -86,6 +86,8 @@ ul.pager {
 	background: #fff;
 }
 #image-list li img {
+    width : 120px;
+    height: 120px;
 	position : absolute;
 	top: 0;
 	left: 0;
