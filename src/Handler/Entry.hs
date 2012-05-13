@@ -6,112 +6,106 @@ import qualified Data.Text as T
 --参加登録ページ
 getEntryR :: Handler RepHtml
 getEntryR = do
-  maid <- maybeAuthId
-  muid <- maybeUserId maid
-  case muid of 
-    Just _ -> 
-      redirect EntryupdateR        
-    Nothing -> do
-      ((_, widget), enctype) <- runFormPost registerForm
-      defaultLayout $ do
-        h2id <- lift newIdent
-        let title = T.pack "参加登録"
-        $(widgetFile "entry")
+    maid <- maybeAuthId
+    muid <- maybeUserId maid
+    case muid of 
+        Just _ -> redirect EntryupdateR        
+        Nothing -> do
+            ((_, widget), enctype) <- runFormPost registerForm
+            defaultLayout $ do
+                let title = T.pack "参加登録"
+                $(widgetFile "entry")
 
 postEntryR :: Handler RepHtml
 postEntryR = do
-  ((res, widget), enctype) <- runFormPost registerForm
-  mUserRegisterInfo <- case res of
-    FormSuccess userRegisterInfo -> return $ Just userRegisterInfo
-    _ -> return Nothing
-  maid <- maybeAuthId
-  --ログイン時、postデータがあった場合に、書き込み
-  case (mUserRegisterInfo, maid) of
-    (Just userRegisterInfo, Just authid) ->
-      runDB $ do --TODO:runDBのエラーチェック
-        _ <- insertUnique $ User {
-          userAuthid = authid, 
-          userName = urName userRegisterInfo, 
-          userKananame = urKananame userRegisterInfo, 
-          userZipcode = urZipcode userRegisterInfo,
-          userAddress = urAddress userRegisterInfo,
-          userSex = urSex userRegisterInfo, 
-          userAttend = urAttend userRegisterInfo, 
-          userInvitedby = Nothing, 
-          userDeleted = False
-        }
-        return ()
-    _ -> return ()
-  case (mUserRegisterInfo, maid) of
-    (Just _, Just _) -> do
-      redirect WelcomeR
-    _ -> defaultLayout $ do
-      h2id <- lift newIdent
-      let title = T.pack "参加登録"
-      $(widgetFile "entry")
+    ((res, widget), enctype) <- runFormPost registerForm
+    mUserRegisterInfo <- case res of
+        FormSuccess userRegisterInfo -> return $ Just userRegisterInfo
+        _ -> return Nothing
+    maid <- maybeAuthId
+    --ログイン時、postデータがあった場合に、書き込み
+    case (mUserRegisterInfo, maid) of
+        (Just userRegisterInfo, Just authid) ->
+            runDB $ do --TODO:runDBのエラーチェック
+                _ <- insertUnique $ User {
+                    userAuthid = authid, 
+                    userName = urName userRegisterInfo, 
+                    userKananame = urKananame userRegisterInfo, 
+                    userZipcode = urZipcode userRegisterInfo,
+                    userAddress = urAddress userRegisterInfo,
+                    userSex = urSex userRegisterInfo, 
+                    userAttend = urAttend userRegisterInfo, 
+                    userInvitedby = Nothing, 
+                    userDeleted = False
+                  }
+                return ()
+        _ -> return ()
+    case (mUserRegisterInfo, maid) of
+        (Just _, Just _) -> do
+            redirect WelcomeR
+        _ -> defaultLayout $ do
+            let title = T.pack "参加登録"
+            $(widgetFile "entry")
 
 --参加登録更新ページ
 getEntryupdateR :: Handler RepHtml
 getEntryupdateR = do 
-  maid <- maybeAuthId
-  muid <- maybeUserId maid
-  case maid of
-    Nothing -> --not logged in
-      defaultLayout [whamlet|<h2>参加登録情報の変更には、ログインをしてください|]
-    Just authId -> 
-      case muid of 
-        Nothing -> do --not registered 
-          ((_, widget), enctype) <- runFormPost registerForm
-          defaultLayout $ do
-            h2id <- lift newIdent
-            let title = T.pack "参加登録"
-            $(widgetFile "entry")
-        Just userId -> do
-          user <- runDB $ get404 userId
-          messages <- runDB $ selectList [MessageUser ==. userId] []
-          message <- case messages of
-            [] -> return Nothing
-            _ -> return $ Just $ (\(Entity id val) -> val) (messages !! 0)
-          ((_, widget), enctype) <- runFormPost (updateForm (Just user) (message))
-          defaultLayout $ do
-            h2id <- lift newIdent
-            let title = T.pack "参加登録情報更新"
-            $(widgetFile "entry")
+    maid <- maybeAuthId
+    muid <- maybeUserId maid
+    case maid of
+        Nothing -> --not logged in
+            defaultLayout [whamlet|<h2>参加登録情報の変更には、ログインをしてください|]
+        Just authId -> 
+            case muid of 
+                Nothing -> do --not registered 
+                    ((_, widget), enctype) <- runFormPost registerForm
+                    defaultLayout $ do
+                        let title = T.pack "参加登録"
+                        $(widgetFile "entry")
+                Just userId -> do
+                    user <- runDB $ get404 userId
+                    messages <- runDB $ selectList [MessageUser ==. userId] []
+                    message <- case messages of
+                        [] -> return Nothing
+                        _ -> return $ Just $ (\(Entity id val) -> val) (messages !! 0)
+                    ((_, widget), enctype) <- runFormPost (updateForm (Just user) (message))
+                    defaultLayout $ do
+                        let title = T.pack "参加登録情報更新"
+                        $(widgetFile "entry")
 
 --参加登録更新ページ
 postEntryupdateR :: Handler RepHtml
 postEntryupdateR = do
-  ((res, widget), enctype) <- runFormPost $ updateForm Nothing Nothing
-  mUserUpdateInfo <- case res of
-    FormSuccess userUpdateInfo -> return $ Just userUpdateInfo
-    _ -> return Nothing
-  maid <- maybeAuthId
-  muid <- maybeUserId maid
-  --ログイン時、postデータがあった場合->ユーザ登録
-  case (mUserUpdateInfo, maid, muid) of
-    (Just userUpdateInfo, Just authid, Just uid) ->
-      runDB $ do --TODO:runDBのエラーチェック
-        _ <- get404 uid
-        replace uid User {
-          userAuthid = authid, 
-          userName = urName userUpdateInfo,
-          userKananame = urKananame userUpdateInfo,
-          userZipcode = urZipcode userUpdateInfo,
-          userAddress = urAddress userUpdateInfo,
-          userSex = urSex userUpdateInfo, 
-          userAttend = urAttend userUpdateInfo, 
-          userInvitedby = Nothing, 
-          userDeleted = False
-        }
-        return ()
-    _ -> return ()
-  case (mUserUpdateInfo, maid) of
-    (Just _, Just _) ->
-      redirect WelcomeR
-    _ -> defaultLayout $ do
-      h2id <- lift newIdent
-      let title = T.pack "参加登録"
-      $(widgetFile "entry")
+    ((res, widget), enctype) <- runFormPost $ updateForm Nothing Nothing
+    mUserUpdateInfo <- case res of
+        FormSuccess userUpdateInfo -> return $ Just userUpdateInfo
+        _ -> return Nothing
+    maid <- maybeAuthId
+    muid <- maybeUserId maid
+    --ログイン時、postデータがあった場合->ユーザ登録
+    case (mUserUpdateInfo, maid, muid) of
+        (Just userUpdateInfo, Just authid, Just uid) ->
+          runDB $ do --TODO:runDBのエラーチェック
+              _ <- get404 uid
+              replace uid User
+                { userAuthid = authid
+                , userName = urName userUpdateInfo
+                , userKananame = urKananame userUpdateInfo
+                , userZipcode = urZipcode userUpdateInfo
+                , userAddress = urAddress userUpdateInfo
+                , userSex = urSex userUpdateInfo
+                , userAttend = urAttend userUpdateInfo
+                , userInvitedby = Nothing
+                , userDeleted = False
+                }
+              return ()
+        _ -> return ()
+    case (mUserUpdateInfo, maid) of
+        (Just _, Just _) ->
+            redirect WelcomeR
+        _ -> defaultLayout $ do
+            let title = T.pack "参加登録"
+            $(widgetFile "entry")
 
 --フォームの選択要素
 genderFieldList :: [(Text, Sex)]
@@ -122,8 +116,7 @@ attendFieldList = (zip (map T.pack ["保留","欠席","出席"]) [Suspense, Abse
 
 --参加登録用フォーム
 registerForm :: Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget)
-registerForm = renderDivs $ 
-  UserRegisterInfo
+registerForm = renderDivs $ UserRegisterInfo
     <$> areq textField "名前" Nothing
     <*> areq textField "名前かな" Nothing
     <*> areq textField "郵便番号" Nothing
@@ -145,8 +138,7 @@ data UserRegisterInfo = UserRegisterInfo
 
 --参加登録更新用フォーム（一部項目のみ変更可能）
 updateForm :: Maybe User -> Maybe Message -> Html -> MForm Happiage Happiage (FormResult UserRegisterInfo, Widget )
-updateForm muser mmessage = renderDivs $ 
-  UserRegisterInfo
+updateForm muser mmessage = renderDivs $ UserRegisterInfo
     <$> areq textField "名前" (fmap userName muser)
     <*> areq textField "名前かな" (fmap userKananame muser)
     <*> areq textField "郵便番号" (fmap userZipcode muser)
@@ -154,6 +146,6 @@ updateForm muser mmessage = renderDivs $
     <*> areq (selectFieldList genderFieldList) "性別" (fmap userSex muser)
     <*> areq (selectFieldList attendFieldList) "ご出席" (fmap userAttend muser)
     <*> aopt textField "メッセージ(任意)" (body mmessage)
-    where
-        body (Just m) = Just (Just $ messageBody m)
-        body Nothing = Nothing
+  where
+    body (Just m) = Just (Just $ messageBody m)
+    body Nothing = Nothing
