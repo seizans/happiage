@@ -24,7 +24,6 @@ import Network.HTTP.Conduit (newManager, def)
 import Handler.Welcome
 import Handler.Invitation
 import Handler.Entry
-import Handler.Message
 import Handler.Album
 import Handler.Profile
 import Handler.Contact

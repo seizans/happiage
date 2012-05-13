@@ -8,7 +8,6 @@
 /invitation  InvitationR  GET
 /entry       EntryR       GET POST
 /entryupdate EntryupdateR GET POST
-/message     MessageR     GET POST
 /album       AlbumR       GET POST
 /album/#Int  AlbumPageR   GET POST
 /profile     ProfileR     GET

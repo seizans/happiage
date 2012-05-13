@@ -39,7 +39,6 @@ library
                      Handler.Album
                      Handler.Profile
                      Handler.Contact
-                     Handler.Message
                      Handler.Admin
                      Smtp.SmtpClient
                      Smtp.SmtpProperties
