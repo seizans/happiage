@@ -41,7 +41,7 @@ postMessageR = do
     _ -> return ()
   case (mMessageInfo, muid) of
     (Just messageInfo, Just uid) ->
-      redirect RootR
+      redirect WelcomeR
     _ -> defaultLayout $ do
       h2id <- lift newIdent
       $(widgetFile "message")

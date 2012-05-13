@@ -3,8 +3,8 @@ module Handler.Welcome where
 import Import
 
 -- WelcomePage(ごあいさつ)
-getRootR :: Handler RepHtml
-getRootR = do
+getWelcomeR :: Handler RepHtml
+getWelcomeR = do
     defaultLayout $ do
         h2id <- lift newIdent
         setTitle "happiage"

@@ -169,9 +169,9 @@ instance YesodAuth Happiage where
     type AuthId Happiage = UserAuthId
 
     -- Where to send a user after successful login
-    loginDest _ = RootR
+    loginDest _ = WelcomeR
     -- Where to send a user after logout
-    logoutDest _ = RootR
+    logoutDest _ = WelcomeR
 
     getAuthId creds = runDB $ do
       x <- insertBy $ UserAuth (credsIdent creds) Nothing Nothing False

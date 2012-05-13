@@ -23,7 +23,7 @@
             <h1>angel
             <ul>
                 <li id="MENU-welcome">
-                    <a class="selected" href=@{RootR}>
+                    <a class="selected" href=@{WelcomeR}>
                         ごあいさつ
                 <li id="MENU-invitation">
                     <a href=@{InvitationR}>
@@ -49,7 +49,7 @@
             <div id="FOOT-macaron">
             <ul>
                 <li id="FOOT-welcome">
-                    <a href=@{RootR}>
+                    <a href=@{WelcomeR}>
                         ごあいさつ
                 <li id="FOOT-invitation">
                     <a href=@{InvitationR}>

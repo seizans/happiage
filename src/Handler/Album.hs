@@ -24,7 +24,7 @@ postAlbumPageR _ = postAlbumR
 getAlbumPageMainR :: Bool -> Int -> Text -> Handler RepHtml
 getAlbumPageMainR isTop pageNumber message = do
     if pageNumber <= 0
-      then redirect RootR
+      then redirect WelcomeR
       else do
         maid <- maybeAuthId
         muid <- maybeUserId maid
@@ -102,7 +102,7 @@ postAlbumR = do
             return ()
         _ -> return ()
     case photos of
-        [] -> redirect RootR
+        [] -> redirect WelcomeR
         _ -> redirect (AlbumR, [("msg", "アップロードしました.")])
 {- 上を書きなおそうとして途中のコード片
     maid <- maybeAuthId

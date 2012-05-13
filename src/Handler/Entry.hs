@@ -50,7 +50,7 @@ postEntryR = do
     _ -> return ()
   case (mUserRegisterInfo, maid) of
     (Just _, Just _) -> do
-      redirect RootR
+      redirect WelcomeR
     _ -> defaultLayout $ do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
@@ -109,7 +109,7 @@ postEntryupdateR = do
     _ -> return ()
   case (mUserUpdateInfo, maid) of
     (Just _, Just _) ->
-      redirect RootR
+      redirect WelcomeR
     _ -> defaultLayout $ do
       h2id <- lift newIdent
       let title = T.pack "参加登録"
