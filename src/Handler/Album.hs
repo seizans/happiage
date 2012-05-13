@@ -8,7 +8,11 @@ import qualified Data.Text as T
 import Codec.Archive.Zip
 
 getAlbumR :: Handler RepHtml
-getAlbumR = getAlbumPageMainR True 1 ""
+getAlbumR = do
+    mmsg <- lookupGetParam "msg"
+    case mmsg of
+        Just message -> getAlbumPageMainR True 1 message
+        Nothing -> getAlbumPageMainR True 1 ""
 
 --アルバムページ
 getAlbumPageR :: Int -> Handler RepHtml
@@ -17,10 +21,10 @@ getAlbumPageR pageNumber = getAlbumPageMainR False pageNumber ""
 postAlbumPageR :: Int -> Handler RepHtml
 postAlbumPageR _ = postAlbumR
 
-getAlbumPageMainR :: Bool -> Int -> String -> Handler RepHtml
+getAlbumPageMainR :: Bool -> Int -> Text -> Handler RepHtml
 getAlbumPageMainR isTop pageNumber message = do
     if pageNumber <= 0
-      then defaultLayout $ $(widgetFile "welcome")
+      then redirect RootR
       else do
         maid <- maybeAuthId
         muid <- maybeUserId maid
@@ -93,13 +97,13 @@ postAlbumR = do
     case (photos, muid) of
         (ps@(_:_), Just uid) -> runDB $ do --注.photosが一個以上になるように←の記法になっている
             let fnames = map (fileName . photoFile) photos
-            mapM_ (\f -> insert $ Picture {pictureUser = uid, pictureTitle=f,
+            mapM_ (\f -> insertUnique $ Picture {pictureUser = uid, pictureTitle=f,
                picturePath="static/photo/" `mappend` f, pictureDeleted=False} ) fnames
             return ()
         _ -> return ()
     case photos of
-        [] -> defaultLayout $(widgetFile "welcome")
-        _ -> getAlbumPageMainR True 1 "アップロードしました."
+        [] -> redirect RootR
+        _ -> redirect (AlbumR, [("msg", "アップロードしました.")])
 {- 上を書きなおそうとして途中のコード片
     maid <- maybeAuthId
     muid <- maybeUserId maid
