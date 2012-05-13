@@ -6,7 +6,6 @@ import Import
 getWelcomeR :: Handler RepHtml
 getWelcomeR = do
     defaultLayout $ do
-        h2id <- lift newIdent
         setTitle "happiage"
         $(widgetFile "welcome")
 
@@ -14,6 +13,5 @@ getWelcomeR = do
 getAdminR :: Handler RepHtml
 getAdminR = do
     defaultLayout $ do
-        h2id <- lift newIdent
         setTitle "happiage"
         $(widgetFile "welcome")
