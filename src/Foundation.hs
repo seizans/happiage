@@ -179,13 +179,6 @@ instance YesodAuth Happiage where
         case x of
           Left (Entity userid _) -> userid -- newly added user
           Right userid -> userid -- existing user
-{-    getAuthId creds = runDB $ do
-        x <- getBy $ UniqueUser $ credsIdent creds
-        case x of
-            Just (Entity uid _) -> return $ Just uid
-            Nothing -> do
-                fmap Just $ insert $ User (credsIdent creds) Nothing
--}
 
     -- You can add other plugins like BrowserID, email or OAuth here
     authPlugins _ = [authMail]
