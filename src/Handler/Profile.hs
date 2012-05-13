@@ -6,8 +6,7 @@ import Data.Map ((!))
 
 getMessages :: Handler [(MessageId, Message)]
 getMessages = do
-  messageEntities <- runDB $ do
-    selectList [MessageDeleted ==. False] []
+  messageEntities <- runDB $ selectList [MessageDeleted ==. False] []
   return $ map (\(Entity pid val) -> (pid, val)) messageEntities
 
 -- メッセージ投稿者、メッセージ本文のリストにする
