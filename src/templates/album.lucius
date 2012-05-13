@@ -7,22 +7,23 @@
 #main article {
 	margin: -40px auto 0;
 	width : 720px;
-
 }
 #main article #letter {
 	background: rgba(249,240,215,0.6);
 	-moz-box-shadow: 0 0  6px #AEA086;
+    box-shadow: 0 0 6px #AEA086;
 	-webkit-box-shadow: 0 0  6px #AEA086;
 	padding: 16px 36px;
 }
 #main h4 {
-	font-size: 1em;
-	margin: 0 0 16px;
+	font-size: 0.8em;
 }
 #main h4.upload {
 	cursor: pointer;
+    font-weight: normal;
 }
 #upload-image {
+    margin: 16px 0 0;
 	line-height: 31px;
 }
 #upload-image > * {
@@ -65,16 +66,34 @@ ul.pager {
 #album-image #image-list li {
 	float: left;
 	width : 118px;
-	height: 118px;
+	height: 128px;
 	margin-right: 10px;
 	margin-bottom: 10px;
 	list-style-type: none;
 	text-align: center;
 	position: relative;
-	background: #ffffff;
+	background: rgba(136, 43, 42, 0.1);
 	-moz-box-shadow: 0 0  6px #AEA086;
 	-webkit-box-shadow: 0 0  6px #AEA086;
+    box-shadow: 0 0 6px #AEA086;
 }
+#album-image #image-list li a {
+	width : 118px;
+	height: 128px;
+	display:block;
+}
+#album-image #image-list li a:hover {
+	background: #fff;
+}
+#image-list li img {
+	width: 120px;
+	height: 120px;
+	position : absolute;
+	top: 0;
+	left: 0;
+	clip: rect(5px 113px 113px 5px);
+}
+/*
 #image-list li > img {
 	width: 120px;
 	height: 120px;
@@ -93,3 +112,4 @@ p#submit input {
     border: none;
     cursor: pointer;
 }
+*/

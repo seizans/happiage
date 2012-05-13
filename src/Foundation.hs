@@ -112,6 +112,7 @@ instance Yesod Happiage where
 
         pc <- widgetToPageContent $ do
             -- $(widgetFile "normalize")
+            -- addScript $ StaticR js_jquery_1_7_1_min_js
             $(widgetFile "default-layout")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 

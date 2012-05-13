@@ -1,10 +1,15 @@
+<script type="text/javascript" src=@{StaticR js_jquery_1_7_1_min_js}>
+<script type="text/javascript" src=@{StaticR js_jquery_ui_1_8_20_custom_js_jquery_ui_1_8_20_custom_min_js}>
+<script type="text/javascript" src=@{StaticR js_jquery_lightbox_0_5_min_js}>
+<link rel="stylesheet" type="text/css" href=@{StaticR css_jquery_lightbox_0_5_css} media="screen">
+<link rel="stylesheet" type="text/css" href=@{StaticR js_jquery_ui_1_8_20_custom_css_ui_lightness_jquery_ui_1_8_20_custom_css}>
 <section id="main">
     <h2>Album Page
     <h3>#{message}
     <article>
         <div id="letter"> 
             <h4 class="upload">写真のアップロードはこちらから
-            <form action=@{AlbumR} method=post enctype=#{enctype}>
+            <form id="upload-image" action=@{AlbumR} method=post enctype=#{enctype}>
                 ^{widget}
                 <p id="submit">
                     <input type=submit>
@@ -26,6 +31,6 @@
               $forall (photo,user) <- photoUsers
                 <li>
                   $if not isTop
-                    <img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
+                    <a href="../#{picturePath photo}"><img src="../#{picturePath photo}" alt="../#{picturePath photo}" width="400"><br>
                   $else
-                    <img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>
+                    <a href="#{picturePath photo}"><img src="#{picturePath photo}" alt="#{picturePath photo}" width="400"><br>

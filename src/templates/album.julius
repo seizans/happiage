@@ -1,0 +1,11 @@
+$(document).ready(function(){
+	jQuery('form#upload-image').hide();
+	
+	//アップロードのアコーディオン
+	$('.upload').click(function(){
+		$('#upload-image').toggle('blind',200);
+	})
+
+	//light box
+	$('#image-list a').lightBox(); // Select all links in object with gallery ID
+})
