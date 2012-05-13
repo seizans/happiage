@@ -86,30 +86,8 @@ ul.pager {
 	background: #fff;
 }
 #image-list li img {
-	width: 120px;
-	height: 120px;
 	position : absolute;
 	top: 0;
 	left: 0;
 	clip: rect(5px 113px 113px 5px);
 }
-/*
-#image-list li > img {
-	width: 120px;
-	height: 120px;
-	position : absolute;
-	top: 0;
-	left: 0;
-	clip: rect(5px 113px 113px 5px);
-}
-p#submit input {
-    text-indent: -9999px;
-    display: block;
-    width : 169px;
-    height: 40px;
-    margin: 0 auto;
-    background: url(@{StaticR img_btn_upload_png}) no-repeat;
-    border: none;
-    cursor: pointer;
-}
-*/
