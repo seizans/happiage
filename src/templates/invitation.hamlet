@@ -45,6 +45,6 @@
         <h3>皆様から寄せられたメッセージ
         $forall (msgtext, username) <- messages
           <p>
-            #{msgtext} <br> #{username}
+            #{msgtext} <br> (#{username} さんより)
         <p class="right regard">
                 ※参加登録時に寄せられたメッセージをランダムに表示しています
