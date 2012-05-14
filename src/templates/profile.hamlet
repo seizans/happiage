@@ -4,11 +4,11 @@
         <table id="profile_table">
             <tr>
                 <td class="profile_image">
-                    <img src=@{StaticR img_ironman3_png}>
+                    <img src=@{StaticR img_mst_profile_groom_png}>
                         <span class="profile_frame">
                 <td>
                 <td class="profile_image">
-                    <img src=@{StaticR img_ironman3_png}>
+                    <img src=@{StaticR img_mst_profile_bride_png}>
                         <span class="profile_frame">
             $forall profile <- profiles
               <tr>
@@ -48,13 +48,13 @@
             <tr>
                 <th>
                 <td class="kanji_image">
-                    <img src=@{StaticR img_organizer1_png}>
+                    <img src=@{StaticR img_mst_profile_organizer1_png}>
                 <td class="kanji_image">
-                    <img src=@{StaticR img_organizer2_png}>
+                    <img src=@{StaticR img_mst_profile_organizer2_png}>
                 <td class="kanji_image">
-                    <img src=@{StaticR img_organizer3_png}>
+                    <img src=@{StaticR img_mst_profile_organizer3_png}>
                 <td class="kanji_image">
-                    <img src=@{StaticR img_organizer4_png}>
+                    <img src=@{StaticR img_mst_profile_organizer4_png}>
             <tr>
                 <th>
                     氏名

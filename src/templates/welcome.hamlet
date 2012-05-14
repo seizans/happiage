@@ -4,7 +4,7 @@
         <div class="span2">
             <div id="welcome-image">
                 <span id="welcome-decoration">
-                <img src=@{StaticR img_ironman3_png}>
+                <img src=@{StaticR img_mst_welcome_png}>
         <div class="span2">
             <h3>結婚式二次会パーティのページへようこそ！
             <p>出欠を登録したり、写真をアップロードすることができます
