@@ -6,6 +6,7 @@ import Data.Map ((!))
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Text as T
 import Codec.Archive.Zip
+import Codec.Binary.UTF8.String as S
 
 getAlbumR :: Handler RepHtml
 getAlbumR = getAlbumPageMainR True 1
@@ -66,7 +67,7 @@ photosFromZip contents =
 
 --画像ファイルを作成
 writePhoto :: Photo -> IO ()
-writePhoto photo = L.writeFile ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo) (fileContent $ photoFile photo)
+writePhoto photo = L.writeFile (S.encodeString ((++) "static/photo/" $  T.unpack $ fileName $ photoFile photo)) (fileContent $ photoFile photo)
 
 postAlbumR :: Handler RepHtml
 postAlbumR = do
