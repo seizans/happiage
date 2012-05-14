@@ -14,7 +14,7 @@ getInvitationR = do
 
 getMessages :: Handler [(MessageId, Message)]
 getMessages = do
-    messageEntities <- runDB $ selectList [MessageDeleted ==. False] []
+    messageEntities <- runDB $ selectList [MessageDeleted ==. False] [Desc MessageCreated]
     return $ map (\(Entity ident val) -> (ident, val)) messageEntities
 
 mkUsrAndMsg :: Map UserId User -> (MessageId, Message) -> (Text, Text)

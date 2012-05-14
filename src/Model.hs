@@ -4,6 +4,7 @@ module Model where
 import Prelude
 import Yesod
 import Data.Text (Text)
+import Data.Time (UTCTime)
 import Database.Persist.Quasi
 import Database.Persist.MongoDB
 import Language.Haskell.TH.Syntax

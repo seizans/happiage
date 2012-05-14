@@ -19,6 +19,7 @@ User
 Message
     user    UserId
     body    Text
+    created UTCTime default=now()
     deleted Bool default=false
     UniqueMessage user
 Picture

@@ -3,6 +3,7 @@ module Handler.Entry where
 import Import
 import qualified Data.Text as T
 import Data.Maybe (fromJust, fromMaybe)
+import Data.Time (getCurrentTime)
 
 -- EntryPage (参加登録ページ)
 getEntryR :: Handler RepHtml
@@ -39,9 +40,11 @@ postEntryR = do
                     userInvitedby = Nothing, 
                     userDeleted = False
                   }
+                time <- liftIO  getCurrentTime
                 insertUnique $ Message
                   { messageUser = fromJust muid
                   , messageBody = fromMaybe "" (urMessage userRegisterInfo)
+                  , messageCreated = time
                   , messageDeleted = False
                   }
             redirect WelcomeR
@@ -95,7 +98,8 @@ postEntryupdateR = do
         case urMessage userUpdateInfo of
           Nothing -> return ()
           Just message -> do
-            _ <- runDB $ updateWhere [MessageUser ==. uid] [MessageBody =. message]
+            time <- liftIO getCurrentTime
+            _ <- runDB $ updateWhere [MessageUser ==. uid] [MessageBody =. message, MessageCreated =. time]
             return ()
         defaultLayout $ do
             let title = T.pack "参加登録"

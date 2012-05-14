@@ -117,6 +117,7 @@ executable         happiage
                  , directory                     >= 1.1        && < 1.2
                  , warp                          >= 1.2        && < 1.3
                  , blaze-html >= 0.0 && < 99
+                 , time
 
                  -- for SMTP Client
                  , old-time
