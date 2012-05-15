@@ -45,6 +45,7 @@ import Data.Map ((!))
 import qualified Data.Text as DT
 import qualified HappiageAuthMessage as HAM
 import Yesod.Auth.Mail
+import Codec.Binary.UTF8.String as UTF8S
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -190,9 +191,11 @@ instance YesodAuthMail Happiage where
     type AuthEmailId Happiage = UserAuthId
     addUnverified email verkey =
       runDB $ insert $ UserAuth email Nothing (Just verkey) False
-    sendVerifyEmail email _ verurl = do
-      liftIO $ print verurl
-      liftIO $ SMTP.send (DT.unpack email) "subject" (DT.unpack $ "mailBody\n" `DT.append` verurl `DT.append` "\nend.")
+    sendAdminEmail email _ verurl = 
+        liftIO $ SMTP.send "seizans@gmail.com" "subject" (UTF8S.encodeString $ DT.unpack $ email `DT.append` "\n" `DT.append` verurl `DT.append` "\nend.")
+    sendVerifyEmail email _ verurl = 
+        liftIO $ SMTP.send (DT.unpack email) "subject"
+          (DT.unpack $ "以下のURLでパスワードの再設定を行なってください.\n" `DT.append` verurl `DT.append` "\n\nFrom Happiage.")
     sendInviteEmail = sendVerifyEmail
     sendRegisterEmail = sendVerifyEmail
     getVerifyKey = runDB . fmap (join . fmap userAuthVerkey) . get

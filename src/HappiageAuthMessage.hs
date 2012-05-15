@@ -18,8 +18,8 @@ happiageMessage EnterEmail = "確認メールをお送りしますので、登�
     `mappend` "\n(未登録メールアドレスにはメールが送信されません)"
 happiageMessage ConfirmationEmailSentTitle = "招待した人にメールを送信しました."
 happiageMessage (ConfirmationEmailSent email) =
-    "次のメールアドレス宛に招待メールを送りました: " `mappend` email `mappend` "."
-      `mappend` "\nメールが届いていない場合、メールアドレスがまだ登録されていません."
+    "ログイン用のメールを後ほど、次のアドレスにお送り致します。<br>" `mappend` email
+      `mappend` "<br><br>もし一日以内にメールが届かない場合はお手数ですが、<br>seizans@gmail.com<br>までご連絡いただけますと幸いです."
 happiageMessage AddressVerified = "パスワードを設定し、ログインしてください."
 happiageMessage InvalidKeyTitle = "Invalid verification key"
 happiageMessage InvalidKey = "I'm sorry, but that was an invalid verification key."
