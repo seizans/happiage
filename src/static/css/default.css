@@ -195,7 +195,9 @@ footer div#copyright {
 }
 
 #main article {
-	padding: 0 16px 20px;
+    width: 1000px;
+	padding: 0 0 128px;
+    margin: 0 auto;
 }
 article h3 {
 	color : #342111;
