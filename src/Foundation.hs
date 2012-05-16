@@ -35,7 +35,7 @@ import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
 import Text.Shakespeare.Text(stext) -- This is for authEmail. Delete later
 import Text.Hamlet (shamlet)
-import Data.Maybe (isJust)
+import Data.Maybe (isNothing, isJust)
 import Control.Monad (join)
 import qualified Smtp.SmtpClient as SMTP
 import Text.Blaze.Renderer.Utf8 (renderHtml)
@@ -140,21 +140,33 @@ instance Yesod Happiage where
 
     -- for Authorization isAuthorized :: Route a -> Bool -> GHandler s a AuthResult
     isAuthorized AdminR _ = isAdmin
+    isAuthorized AdminuserR _ = isAdmin
+    isAuthorized AdminimportR _ = isAdmin
     isAuthorized (AuthR LoginR) _ = return Authorized
-    isAuthorized (AuthR resetR) _ = return Authorized
+--    isAuthorized (AuthR CheckR) _ = return Authorized
+--    isAuthorized FaviconR _ = return Authorized
+    isAuthorized (AuthR loginR) _ = return Authorized
+--    isAuthorized (AuthR (PluginR "mail" ["login"]) ) _ = return Authorized
+--    isAuthorized (AuthR (PluginR "mail" ["verify"]) ) _ = return Authorized
+--    isAuthorized (AuthR (PluginR "mail" ["password"]) ) _ = return Authorized
+    isAuthorized (AuthR (PluginR "mail" ["reset"]) ) _ = return Authorized
+    isAuthorized (AuthR (PluginR "mail" ["emailregister"]) ) _ = isAdmin
+    isAuthorized (AuthR _) _ = return $ Unauthorized "Untouchable Resource."
     isAuthorized _ _ = isAuthenticated
 
 isAuthenticated = do
-    mu <- maybeAuthId
-    return $ case mu of
-        Nothing -> AuthenticationRequired
-        Just _ -> Authorized
+    maid <- maybeAuthId
+    if isNothing maid
+      then return AuthenticationRequired
+      else return Authorized
 
 isAdmin = do
-    mu <- maybeAuthId
-    return $ case mu of
-        Nothing -> AuthenticationRequired
-        Just _ -> Authorized
+    authEntity <- requireAuth
+    let auth = (\(Entity authid auth) -> auth) authEntity
+    return $ case userAuthEmail auth of
+        "seizans@gmail.com" -> Authorized
+        "sasaki0609shoko@gmail.com" -> Authorized
+        _ -> Unauthorized "You must be admin."
 
 -- How to run database actions.
 instance YesodPersist Happiage where
@@ -224,13 +236,16 @@ instance YesodAuthMail Happiage where
 --user_authからuserを引いてくる
 maybeUserId :: Maybe UserAuthId -> Handler (Maybe UserId)
 maybeUserId maid = do
-  mUserEntity <- case maid of
-    Just authId -> 
-      runDB $ do
-        mUserEntity <- selectFirst [UserAuthid ==. authId] []
-        return $ mUserEntity
-    _ -> return Nothing
-  return $ fmap entityKey mUserEntity
+    mUserEntity <- case maid of
+        Just authId -> runDB $ selectFirst [UserAuthid ==. authId] []
+        _ -> return Nothing
+    return $ fmap entityKey mUserEntity
+
+-- auth_id から user を引く
+maybeUser :: UserAuthId -> Handler (Maybe User)
+maybeUser authid = do
+    mUserEntity <- runDB $ selectFirst [UserAuthid ==. authid] []
+    return $ fmap (\(Entity _ user) -> user) mUserEntity
 
 --全ユーザを引いてくる
 getUsersMap :: Handler (Map.Map UserId User)
