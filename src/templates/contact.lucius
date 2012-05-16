@@ -2,7 +2,7 @@
 /* CSS Document */
 
 #main h2 {
-	background: url(@{StaticR img_title_entry_png}) no-repeat ;
+	background: url(@{StaticR img_title_contact_png}) no-repeat ;
 }
 #main article {
 	margin: 0 auto;

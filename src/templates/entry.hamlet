@@ -1,9 +1,9 @@
 <section id="main">
     <h2>Entry
     <article id="letter">
-        <h3>出欠のご確認
+        <h3>出欠のご登録
         <p class="center">
-            5月20日までに こちらのページからお返事いただけますようお願い致します
+            5月22日（火）までに こちらのページからお返事いただけますようお願い致します
         <form method=post enctype=#{enctype}>
             ^{widget}
             <p id="submit-entry" class="center">

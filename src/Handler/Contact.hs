@@ -18,13 +18,13 @@ postContactR = do
     ((result, formWidget), formEnctype) <- runFormPost contactForm
     submission <- case result of
         FormSuccess (formContact, formName) -> do
-            _ <- runDB $ insert Contact {contactAuthid = fromJust maid, contactContent = formContact, contactName = formName}
+            _ <- runDB $ insert Contact {contactAuthid = fromJust maid, contactContent = unTextarea formContact, contactName = formName}
             return (Just (formContact, formName))
         _ -> return Nothing
     defaultLayout $
         $(widgetFile "contact")
 
-contactForm :: Form (Text, Text)
+contactForm :: Form (Textarea, Text)
 contactForm = renderDivs $ (,)
-    <$> areq textField "お問い合わせ内容：" Nothing
+    <$> areq textareaField "お問い合わせ内容：" Nothing
     <*> areq textField "お名前：" Nothing
