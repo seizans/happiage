@@ -10,11 +10,15 @@
           <div class="letter">
             <h4>#{msg}
         <div class="letter"> 
-            <h4 class="upload">写真のアップロードはこちらから
+          $maybe uid <- muid
+            <h4 class="upload">写真のアップロードはこちらから.
             <form id="upload-image" action=@{AlbumR} method=post enctype=#{enctype}>
                 ^{widget}
                 <p id="submit">
                     <input type=submit>
+          $nothing
+            <p>
+                参加登録の後、よろしければ写真をアップロードください.
         <div id="album-image">
             <ul class="pager clearfix">
                 $if (/=) pageNumber 1
