@@ -38,11 +38,39 @@
                     @shokos
             <tr>
                 <td>
-                    読書
+                    ヒルベルト空間論
                 <th>
-                    趣味
+                    好きな科目
                 <td>
-                    ぷろぐらみんぐ
+                    電算機演習
+            <tr>
+                <td>
+                    いちごみるく
+                <th>
+                    好きな食べ物
+                <td>
+                    ブルーチーズ
+            <tr>
+                <td>
+                    同右
+                <th>
+                    出会った場所
+                <td>
+                    青山(日本オラクル)
+            <tr>
+                <td>
+                    シータ(とロムスカ)
+                <th>
+                    好きなキャラ
+                <td>
+                    ローマイヤ先輩
+            <tr>
+                <td>
+                    Haskell
+                <th>
+                    好きな言語
+                <td>
+                    Haskell
         <h3 id="hl_kanji">幹事の皆様
         <table id="profile_kanji">
             <tr>
@@ -55,6 +83,8 @@
                     <img src=@{StaticR img_mst_profile_organizer3_png}>
                 <td class="kanji_image">
                     <img src=@{StaticR img_mst_profile_organizer4_png}>
+                <td class="kanji_image">
+                    <img src=@{StaticR img_mst_profile_organizer5_png}>
             <tr>
                 <th>
                     氏名
@@ -66,14 +96,31 @@
                     名前3
                 <td>
                     名前4
+                <td>
+                    名前5
             <tr>
                 <th>
                     ご関係
                 <td>
-                    新郎同僚
+                    新郎会社同僚
                 <td>
-                    新婦高校友人
+                    新婦大学友人
                 <td>
-                    新婦高校友人
+                    新婦大学友人
                 <td>
-                    新婦高校友人
+                    新婦大学友人
+                <td>
+                    新郎腐れエン
+            <tr>
+                <th>
+                    ひとこと
+                <td>
+                    UXエンジニアらしく二次会も素晴らしいユーザー体験を提供できるように頑張ります。
+                <td>
+                    素敵な結婚式のお手伝いができて嬉しいです！しょっぴー＆せーざんさんおめでとう！
+                <td>
+                    清山さん＆しょっぴぃの素敵な思い出になるよう頑張ります♡
+                <td>
+                    しょっぴーの手料理、毎日食べたい
+                <td>
+                    皆様の射幸心を煽れるように頑張ります。
