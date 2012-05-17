@@ -59,10 +59,10 @@
                         新郎新婦紹介
                 <li id="MENU-contact">
                   $if (==) (fmap toMaster subroute) (Just ContactR)
-                    <a class="selected" href="contact">
+                    <a class="selected" href=@{ContactR}>
                         contact
                   $else
-                    <a href="contact">
+                    <a href=@{ContactR}>
                         contact
                 <li id="MENU-happiage">
                     happiage
@@ -88,7 +88,7 @@
                     <a href=@{ProfileR}>
                         新郎新婦紹介
                 <li id="FOOT-contact">
-                    <a href="contact">
+                    <a href=@{ContactR}>
                         contact
             <div id="FOOT-decoration">
             <div id="copyright">
