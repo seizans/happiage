@@ -14,12 +14,11 @@ happiageMessage Email = "メールアドレス"
 happiageMessage Password = "パスワード"
 happiageMessage Register = "登録"
 happiageMessage RegisterLong = "Register a new account"
-happiageMessage EnterEmail = "確認メールをお送りしますので、登録済みメールアドレスを入力してください."
-    `mappend` "\n(未登録メールアドレスにはメールが送信されません)"
+happiageMessage EnterEmail = "確認メールをお送りしますので、メールアドレスをご入力ください."
 happiageMessage ConfirmationEmailSentTitle = "招待した人にメールを送信しました."
 happiageMessage (ConfirmationEmailSent email) =
-    "ログイン用のメールを後ほど、次のアドレスにお送り致します。<br>" `mappend` email
-      `mappend` "<br><br>もし一日以内にメールが届かない場合はお手数ですが、<br>seizans@gmail.com<br>までご連絡いただけますと幸いです."
+    "ログイン用のメールを後ほど、次のアドレスにお送り致します。\n" `mappend` email
+      `mappend` "\n\nもし一日以内にメールが届かない場合はお手数ですが、\nseizans@gmail.com\nまでご連絡いただけますと幸いです."
 happiageMessage AddressVerified = "パスワードを設定し、ログインしてください."
 happiageMessage InvalidKeyTitle = "Invalid verification key"
 happiageMessage InvalidKey = "I'm sorry, but that was an invalid verification key."
