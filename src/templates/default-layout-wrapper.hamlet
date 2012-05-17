@@ -23,21 +23,45 @@
             <h1>angel
             <ul>
                 <li id="MENU-welcome">
+                  $if (==) (fmap toMaster subroute) (Just WelcomeR)
                     <a class="selected" href=@{WelcomeR}>
                         ごあいさつ
+                  $else
+                    <a href=@{WelcomeR}>
+                        ごあいさつ
                 <li id="MENU-invitation">
+                  $if (==) (fmap toMaster subroute) (Just InvitationR)
+                    <a class="selected" href=@{InvitationR}>
+                        開催案内
+                  $else
                     <a href=@{InvitationR}>
                         開催案内
                 <li id="MENU-entry">
+                  $if (==) (fmap toMaster subroute) (Just EntryR)
+                    <a class="selected" href=@{EntryR}>
+                        参加登録・変更
+                  $else
                     <a href=@{EntryR}>
                         参加登録・変更
                 <li id="MENU-album">
+                  $if (==) (fmap toMaster subroute) (Just AlbumR)
+                    <a class="selected" href=@{AlbumR}>
+                        アルバム
+                  $else
                     <a href=@{AlbumR}>
                         アルバム
                 <li id="MENU-profile">
+                  $if (==) (fmap toMaster subroute) (Just ProfileR)
+                    <a class="selected" href=@{ProfileR}>
+                        新郎新婦紹介
+                  $else
                     <a href=@{ProfileR}>
                         新郎新婦紹介
                 <li id="MENU-contact">
+                  $if (==) (fmap toMaster subroute) (Just ContactR)
+                    <a class="selected" href="contact">
+                        contact
+                  $else
                     <a href="contact">
                         contact
                 <li id="MENU-happiage">

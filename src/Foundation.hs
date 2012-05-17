@@ -104,7 +104,8 @@ instance Yesod Happiage where
         maid <- maybeAuthId
         master <- getYesod
         mmsg <- getMessage
-
+        subroute <- getCurrentRoute
+        toMaster <- getRouteToMaster
         -- We break up the default layout into two components:
         -- default-layout is the contents of the body tag, and
         -- default-layout-wrapper is the entire page. Since the final
