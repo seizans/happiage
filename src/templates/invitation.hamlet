@@ -46,7 +46,8 @@
     <article id="messages">
         <h3>皆様から寄せられたメッセージ
         $forall (msgtext, username) <- messages
-          <p>
-            #{msgtext} <br> (#{username} さんより)
+          $if (/=) msgtext ""
+            <p>
+              #{msgtext} <br> (#{username} さんより)
         <p class="right regard">
                 ※参加登録時に寄せられたメッセージを表示しています
