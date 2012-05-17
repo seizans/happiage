@@ -43,7 +43,7 @@ postEntryR = do
                 time <- liftIO  getCurrentTime
                 insertUnique $ Message
                   { messageUser = fromJust muid
-                  , messageBody = fromMaybe "" (urMessage userRegisterInfo)
+                  , messageBody = unTextarea $ fromMaybe (Textarea "") (urMessage userRegisterInfo)
                   , messageCreated = time
                   , messageDeleted = False
                   }
@@ -64,8 +64,8 @@ getEntryupdateR = do
     messages <- runDB $ selectList [MessageUser ==. userId] []
     message <- case messages of
         [] -> return Nothing
-        _ -> return $ Just $ (\(Entity id val) -> val) (messages !! 0)
-    ((_, widget), enctype) <- runFormPost (updateForm (Just user) (message))
+        _ -> return $ Just $ (\(Entity id val) -> val) (head messages)
+    ((_, widget), enctype) <- runFormPost (updateForm (Just user) message)
     defaultLayout $ do
         let title = T.pack "参加登録情報更新"
         $(widgetFile "entry")
@@ -99,7 +99,7 @@ postEntryupdateR = do
           Nothing -> return ()
           Just message -> do
             time <- liftIO getCurrentTime
-            _ <- runDB $ updateWhere [MessageUser ==. uid] [MessageBody =. message, MessageCreated =. time]
+            _ <- runDB $ updateWhere [MessageUser ==. uid] [MessageBody =. unTextarea message, MessageCreated =. time]
             return ()
         defaultLayout $ do
             let title = T.pack "参加登録"
@@ -121,7 +121,7 @@ registerForm = renderDivs $ UserRegisterInfo
     <*> areq textField "住所" Nothing
     <*> areq (selectFieldList genderFieldList) "性別" Nothing
     <*> areq (selectFieldList attendFieldList) "ご出席" (Just Present)
-    <*> aopt  textField "メッセージ(任意)" Nothing
+    <*> aopt textareaField "メッセージ(任意)" Nothing
 
 data UserRegisterInfo = UserRegisterInfo
       { urName :: Text
@@ -130,7 +130,7 @@ data UserRegisterInfo = UserRegisterInfo
       , urAddress :: Text
       , urSex :: Sex
       , urAttend :: Attend
-      , urMessage :: Maybe Text
+      , urMessage :: Maybe Textarea
       }
     deriving Show
 
@@ -143,7 +143,4 @@ updateForm muser mmessage = renderDivs $ UserRegisterInfo
     <*> areq textField "住所" (fmap userAddress muser)
     <*> areq (selectFieldList genderFieldList) "性別" (fmap userSex muser)
     <*> areq (selectFieldList attendFieldList) "ご出席" (fmap userAttend muser)
-    <*> aopt textField "メッセージ(任意)" (body mmessage)
-  where
-    body (Just m) = Just (Just $ messageBody m)
-    body Nothing = Nothing
+    <*> aopt textareaField "メッセージ(任意)" (fmap Just (fmap Textarea (fmap messageBody mmessage)))
