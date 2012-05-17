@@ -204,8 +204,10 @@ instance YesodAuthMail Happiage where
     type AuthEmailId Happiage = UserAuthId
     addUnverified email verkey =
       runDB $ insert $ UserAuth email Nothing (Just verkey) False
-    sendAdminEmail email _ verurl = 
-        liftIO $ SMTP.send "seizans@gmail.com" "subject" (UTF8S.encodeString $ DT.unpack $ email `DT.append` "\n" `DT.append` verurl `DT.append` "\nend.")
+    sendAdminEmail email _ verurl = do
+        authEntity <- requireAuth
+        let emailTo = (\(Entity authid auth) -> userAuthEmail auth) authEntity
+        liftIO $ SMTP.send (DT.unpack emailTo) "subject" (UTF8S.encodeString $ DT.unpack $ email `DT.append` "\n" `DT.append` verurl `DT.append` "\nend.")
     sendVerifyEmail email _ verurl = 
         liftIO $ SMTP.send (DT.unpack email) "subject"
           (UTF8S.encodeString $ DT.unpack $ "以下のURLでパスワードの再設定を行なってください.\n" `DT.append` verurl `DT.append` "\n\nFrom Happiage.")
