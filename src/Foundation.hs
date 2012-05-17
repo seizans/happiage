@@ -208,7 +208,7 @@ instance YesodAuthMail Happiage where
         liftIO $ SMTP.send "seizans@gmail.com" "subject" (UTF8S.encodeString $ DT.unpack $ email `DT.append` "\n" `DT.append` verurl `DT.append` "\nend.")
     sendVerifyEmail email _ verurl = 
         liftIO $ SMTP.send (DT.unpack email) "subject"
-          (DT.unpack $ "以下のURLでパスワードの再設定を行なってください.\n" `DT.append` verurl `DT.append` "\n\nFrom Happiage.")
+          (UTF8S.encodeString $ DT.unpack $ "以下のURLでパスワードの再設定を行なってください.\n" `DT.append` verurl `DT.append` "\n\nFrom Happiage.")
     sendInviteEmail = sendVerifyEmail
     sendRegisterEmail = sendVerifyEmail
     getVerifyKey = runDB . fmap (join . fmap userAuthVerkey) . get
