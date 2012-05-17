@@ -166,7 +166,7 @@ isAdmin = do
     let auth = (\(Entity authid auth) -> auth) authEntity
     return $ case userAuthEmail auth of
         "seizans@gmail.com" -> Authorized
-        "sasaki0609shoko@gmail.com" -> Authorized
+        "sasaki0603shoko@gmail.com" -> Authorized
         _ -> Unauthorized "You must be admin."
 
 -- How to run database actions.
