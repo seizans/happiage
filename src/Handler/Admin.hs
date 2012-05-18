@@ -5,6 +5,7 @@ import Import
 import qualified Data.Text as DT
 import Data.ByteString.Lazy.Char8 (unpack)
 import Data.List.Split
+import Data.Maybe (fromMaybe)
 -- アップロード用フォーム
 data Email = Email
     {
@@ -45,10 +46,8 @@ getAdminuserR = do
     let userAs = zipJoin users userAuths []
     let notRegisterUsers = filter (\x -> notElem (entityKey $ x) $ map (\y -> userAuthid $ entityVal $ y) users) userAuths
     defaultLayout $ do
-      h2id <- lift newIdent
       $(widgetFile "adminuser")
       where
         zipJoin [] _ acc = acc
         zipJoin _ [] acc = acc
         zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, (filter (\y -> (userAuthid $ entityVal $ x) == (entityKey $ y)) ys) !! 0) : acc
-
