@@ -15,3 +15,9 @@ getAdminR = do
     defaultLayout $ do
         setTitle "happiage"
         $(widgetFile "welcome")
+
+getRootR :: Handler RepHtml
+getRootR = redirect WelcomeR
+
+getFaviconR :: Handler RepHtml
+getFaviconR = redirect WelcomeR

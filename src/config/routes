@@ -4,6 +4,7 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
+/            RootR        GET
 /welcome     WelcomeR     GET
 /invitation  InvitationR  GET
 /entry       EntryR       GET POST

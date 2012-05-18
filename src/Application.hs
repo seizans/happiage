@@ -9,7 +9,7 @@ import Settings
 import Yesod.Auth
 import Yesod.Default.Config
 import Yesod.Default.Main
-import Yesod.Default.Handlers
+import Yesod.Default.Handlers (getRobotsR)
 #if DEVELOPMENT
 import Yesod.Logger (Logger, logBS)
 import Network.Wai.Middleware.RequestLogger (logCallbackDev)
