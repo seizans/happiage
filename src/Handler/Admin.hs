@@ -20,23 +20,21 @@ emailForm = renderDivs $ Email <$> fileAFormReq "File"
 getAdminimportR :: Handler RepHtml
 getAdminimportR = do
     ((_, widget), enctype) <- runFormPost emailForm
-    defaultLayout $ do
-      $(widgetFile "adminimport")
+    defaultLayout $
+        $(widgetFile "adminimport")
 
 --インポート受け取り
 postAdminimportR :: Handler RepHtml
 postAdminimportR = do
     ((res, widget), enctype) <- runFormPost emailForm
     defaultLayout $ case res of
-      FormSuccess email -> do
+      FormSuccess email ->
         case DT.unpack $ fileContentType $ emailFile email of
           "text/csv" -> do
             let mails = splitOn "\n" $ unpack $ fileContent $ emailFile email
             $(widgetFile "adminimportPost")
-          _ -> do
-            $(widgetFile "adminimport")
-      _ -> do
-        $(widgetFile "adminimport")
+          _ -> $(widgetFile "adminimport")
+      _ -> $(widgetFile "adminimport")
 
 --ユーザー管理ページ
 getAdminuserR :: Handler RepHtml
@@ -49,21 +47,16 @@ getAdminuserR = do
         options = case sort of
           "UserAuthid" -> [Asc UserAuthid]
           _ -> [Desc UserAuthid]
-    msort <- lookupGetParam "sort"
-    let sort_past = fromMaybe "UserAuthid" msort
-        options_past = case sort of
-          "UserAuthid" -> [Asc UserAuthid]
-          _ -> [Desc UserAuthid]
     users <- runDB $ selectList [] options
     userAuths <- runDB $ selectList [] [Asc UserAuthId]
     let userAs = zipJoin users userAuths []
-    let notRegisterUsers = filter (\x -> notElem (entityKey $ x) $ map (\y -> userAuthid $ entityVal $ y) users) userAuths
+        notRegisterUsers = filter (\x -> notElem (entityKey x) $ map (userAuthid . entityVal) users) userAuths
     defaultLayout $ 
         $(widgetFile "adminuser")
   where
     zipJoin [] _ acc = acc
     zipJoin _ [] acc = acc
-    zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, (filter (\y -> (userAuthid $ entityVal $ x) == (entityKey $ y)) ys) !! 0) : acc
+    zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, head (filter (\y -> userAuthid (entityVal x) == entityKey y) ys) ) : acc
 
 sortFieldList :: [(Text, Text)]
 sortFieldList = zip ["A", "B"] ["kana", "sex"]
