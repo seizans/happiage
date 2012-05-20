@@ -3,6 +3,9 @@
     <div class="row">
       <h1>User
   <h2>RegisterUser
+  <form method=GET>
+    ^{formWidget}
+    <input type="submit">
   <table>
     <thread>
       <tr>

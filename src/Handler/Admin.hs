@@ -41,13 +41,36 @@ postAdminimportR = do
 --ユーザー管理ページ
 getAdminuserR :: Handler RepHtml
 getAdminuserR = do
-    users <- runDB $ selectList [] [Asc UserAuthid]
+    ((result, formWidget), formEnctype) <- runFormGet sortForm
+    let submission = case result of
+          FormSuccess res -> Just res
+          _ -> Nothing
+        sort = maybe "UserAuthid" fst submission
+        options = case sort of
+          "UserAuthid" -> [Asc UserAuthid]
+          _ -> [Desc UserAuthid]
+    msort <- lookupGetParam "sort"
+    let sort_past = fromMaybe "UserAuthid" msort
+        options_past = case sort of
+          "UserAuthid" -> [Asc UserAuthid]
+          _ -> [Desc UserAuthid]
+    users <- runDB $ selectList [] options
     userAuths <- runDB $ selectList [] [Asc UserAuthId]
     let userAs = zipJoin users userAuths []
     let notRegisterUsers = filter (\x -> notElem (entityKey $ x) $ map (\y -> userAuthid $ entityVal $ y) users) userAuths
-    defaultLayout $ do
-      $(widgetFile "adminuser")
-      where
-        zipJoin [] _ acc = acc
-        zipJoin _ [] acc = acc
-        zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, (filter (\y -> (userAuthid $ entityVal $ x) == (entityKey $ y)) ys) !! 0) : acc
+    defaultLayout $ 
+        $(widgetFile "adminuser")
+  where
+    zipJoin [] _ acc = acc
+    zipJoin _ [] acc = acc
+    zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, (filter (\y -> (userAuthid $ entityVal $ x) == (entityKey $ y)) ys) !! 0) : acc
+
+sortFieldList :: [(Text, Text)]
+sortFieldList = zip ["A", "B"] ["kana", "sex"]
+ascFieldList :: [(Text, Text)]
+ascFieldList = zip ["C", "D"] ["Asc", "Desc"]
+
+sortForm :: Form (Text, Text)
+sortForm = renderDivs $ (,)
+    <$> areq (selectFieldList sortFieldList) "ソート順" Nothing
+    <*> areq (selectFieldList ascFieldList) "AscOrDesc" Nothing
