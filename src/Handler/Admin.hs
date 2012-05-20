@@ -41,12 +41,14 @@ getAdminuserR :: Handler RepHtml
 getAdminuserR = do
     ((result, formWidget), formEnctype) <- runFormGet sortForm
     let submission = case result of
-          FormSuccess res -> Just res
-          _ -> Nothing
+            FormSuccess res -> Just res
+            _ -> Nothing
         sort = maybe "UserAuthid" fst submission
         options = case sort of
-          "UserAuthid" -> [Asc UserAuthid]
-          _ -> [Desc UserAuthid]
+            "UserAuthid" -> [Asc UserAuthid]
+            "UserKananame" -> [Asc UserKananame]
+            "UserSex" -> [Asc UserSex]
+            _ -> [Desc UserAuthid]
     users <- runDB $ selectList [] options
     userAuths <- runDB $ selectList [] [Asc UserAuthId]
     let userAs = zipJoin users userAuths []
@@ -59,7 +61,7 @@ getAdminuserR = do
     zipJoin (x:xs) ys acc = zipJoin xs ys $ (x, head (filter (\y -> userAuthid (entityVal x) == entityKey y) ys) ) : acc
 
 sortFieldList :: [(Text, Text)]
-sortFieldList = zip ["A", "B"] ["kana", "sex"]
+sortFieldList = zip ["A", "B"] ["UserKananame", "UserSex"]
 ascFieldList :: [(Text, Text)]
 ascFieldList = zip ["C", "D"] ["Asc", "Desc"]
 
