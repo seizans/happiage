@@ -126,6 +126,7 @@ header div#MENU-green {
 	background: url('../img/bg_right.png') no-repeat right top;
 	height : 100%;
 	overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 footer {
 	width : 100%;
